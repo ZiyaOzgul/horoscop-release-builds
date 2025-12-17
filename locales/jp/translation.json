@@ -1,0 +1,720 @@
+{
+  "common": {
+    "back": "戻る",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "continue": "続ける",
+    "done": "完了"
+  },
+  "language": {
+    "title": "言語",
+    "select": "言語を選択",
+    "english": "English",
+    "turkish": "Türkçe",
+    "japanese": "日本語",
+    "russian": "Русский",
+    "info": "現在の言語：日本語",
+    "active": "選択中",
+    "success": {
+      "title": "言語変更が完了しました",
+      "message": "言語が正常に変更されました！"
+    }
+  },
+  "plans": {
+    "processing": "購入処理中...",
+    "restore": {
+      "button": "購入を復元",
+      "success": "成功しました！",
+      "restored": "サブスクリプションが復元されました",
+      "notFound": "サブスクリプションなし",
+      "noSubscription": "有効なサブスクリプションが見つかりません"
+    },
+    "errors": {
+      "notSignedIn": "ログインしていません",
+      "signInFirst": "購入するにはログインしてください",
+      "noOfferings": "プランがありません",
+      "tryAgain": "後でもう一度お試しください",
+      "purchaseFailed": "購入に失敗しました",
+      "restoreFailed": "復元に失敗しました"
+    },
+    "success": {
+      "title": "プレミアムへようこそ！🎉",
+      "message": "すべてのプレミアム機能にアクセスできるようになりました",
+      "ok": "始めましょう！",
+      "alreadyActive": "すでにアクティブなプレミアムサブスクリプションがあります！",
+      "subscriptionFound": "サブスクリプションが見つかりましたが、プレミアム機能はアクティブではありません。購入を復元してみてください。"
+    },
+    "downgrade": {
+      "title": "無料プランに変更",
+      "message": "サブスクリプションは請求期間の終了時にキャンセルされます"
+    },
+    "title": "プランを選択",
+    "subtitle": "あなたに最適なプランをお選びください",
+    "currentPlan": "現在のプラン",
+    "free": {
+      "name": "無料プラン",
+      "price": "$0",
+      "period": "永久無料"
+    },
+    "premium": {
+      "name": "プレミアムプラン",
+      "price": "$9.99",
+      "period": "月額",
+      "badge": "プレミアム"
+    },
+    "features": {
+      "horoscope": "無料ホロスコープ",
+      "dream": "無料夢占い",
+      "palmistry": "無料手相占い",
+      "unlimited": "無制限の閲覧",
+      "tracking": "過去のデータ追跡",
+      "adFree": "広告なし"
+    },
+    "notes": {
+      "ads": "広告が含まれます",
+      "cancel": "いつでもキャンセル可能"
+    },
+    "buttons": {
+      "upgrade": "プレミアムにアップグレード",
+      "downgrade": "無料プランにダウングレード"
+    }
+  },
+  "home": {
+    "welcome": "ようこそ",
+    "goodMorning": "おはようございます",
+    "goodAfternoon": "こんにちは",
+    "goodEvening": "こんばんは"
+  },
+  "bottomBar": {
+    "horoscope": "ホロスコープ",
+    "loveMatch": "相性占い",
+    "palmistry": "手相",
+    "dream": "夢占い",
+    "profile": "プロフィール"
+  },
+  "changePassword": {
+    "title": "パスワード変更",
+    "back": "戻る",
+    "labels": {
+      "currentPassword": "現在のパスワード",
+      "newPassword": "新しいパスワード",
+      "confirmPassword": "新しいパスワード（確認）"
+    },
+    "placeholders": {
+      "currentPassword": "現在のパスワードを入力",
+      "newPassword": "新しいパスワードを入力",
+      "confirmPassword": "新しいパスワードを確認"
+    },
+    "buttons": {
+      "change": "パスワードを変更",
+      "changing": "変更中..."
+    },
+    "alerts": {
+      "userNotFound": "エラー：ユーザーが見つかりません",
+      "passwordsDoNotMatch": "エラー：新しいパスワードが一致しません",
+      "passwordTooShort": "エラー：パスワードは8文字以上である必要があります",
+      "changeSuccess": "パスワードが正常に変更されました！",
+      "changeFailed": "パスワードの変更に失敗しました",
+      "currentIncorrect": "現在のパスワードが正しくありません",
+      "pwned": "このパスワードは侵害されています。別のパスワードを選択してください",
+      "validationFailed": "パスワードが要件を満たしていません"
+    },
+    "requirements": {
+      "title": "パスワードの要件：",
+      "items": [
+        "8文字以上",
+        "文字と数字を含む必要があります",
+        "一般的なパスワードは避けてください"
+      ]
+    },
+    "validation": {
+      "requiredCurrent": "現在のパスワードは必須です",
+      "requiredNew": "新しいパスワードは必須です",
+      "minLengthNew": "パスワードは8文字以上である必要があります",
+      "confirmRequired": "新しいパスワードを確認してください",
+      "confirmMismatch": "パスワードが一致しません"
+    }
+  },
+  "dream": {
+    "title": "夢占い",
+    "placeholder": "どんな夢を見ましたか...",
+    "button": "占う",
+    "description": "できるだけ鮮明に覚えている夢を書いてください。イメージ、感情、シンボル、珍しい出来事などの重要な詳細を含めてください。より多くの情報を提供いただくほど、潜在意識の隠された意味をよりよく解き明かすことができます。",
+    "frequent": "よく見られる夢：",
+    "categories": [
+      {
+        "category": "自然と要素",
+        "items": [
+          "水",
+          "海",
+          "川",
+          "雨",
+          "湖",
+          "滝",
+          "木",
+          "花",
+          "茂み",
+          "森",
+          "庭",
+          "雲",
+          "太陽",
+          "月",
+          "星",
+          "虹"
+        ]
+      },
+      {
+        "category": "建物と構造物",
+        "items": [
+          "家",
+          "自宅",
+          "アパート",
+          "小屋",
+          "城",
+          "高層ビル",
+          "ドア",
+          "窓",
+          "門",
+          "橋",
+          "トンネル",
+          "寝室",
+          "キッチン",
+          "ホール",
+          "屋根裏"
+        ]
+      },
+      {
+        "category": "時間と移動",
+        "items": [
+          "時計",
+          "腕時計",
+          "カレンダー",
+          "車",
+          "自転車",
+          "電車",
+          "飛行機",
+          "船",
+          "バス"
+        ]
+      },
+      {
+        "category": "道具と日用品",
+        "items": [
+          "鍵",
+          "錠",
+          "ドアベル",
+          "鏡",
+          "ガラス",
+          "本",
+          "手紙",
+          "新聞",
+          "日記"
+        ]
+      },
+      {
+        "category": "抽象的・象徴的",
+        "items": [
+          "火",
+          "ろうそく",
+          "ランプ",
+          "火花",
+          "階段",
+          "はしご",
+          "エスカレーター",
+          "お金",
+          "コイン",
+          "宝石"
+        ]
+      },
+      {
+        "category": "生き物",
+        "items": [
+          "蛇",
+          "犬",
+          "猫",
+          "鳥",
+          "ライオン",
+          "魚",
+          "見知らぬ人",
+          "友人",
+          "家族",
+          "有名人"
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "title": "設定",
+    "account": "アカウント",
+    "language": "言語",
+    "notifications": "通知",
+    "privacy": "プライバシー",
+    "terms": "利用規約",
+    "logout": "ログアウト",
+    "change": "パスワード変更",
+    "social": "ソーシャル",
+    "plans": "プラン"
+  },
+  "confirmPhoto": {
+    "notFound": "写真が見つかりません！",
+    "back": "戻る",
+    "check": "写真を確認",
+    "inst": "手が枠内にはっきりと写っていることを確認してください。最適な手相占いの結果を得るには、手全体が見えるようにしてください。",
+    "retake": "撮り直す",
+    "submit": "送信して続ける"
+  },
+  "authIndex": {
+    "title": "ログイン",
+    "enterWith": {
+      "facebook": "Facebookでログイン",
+      "google": "Googleでログイン",
+      "apple": "Appleでログイン"
+    },
+    "or": "または",
+    "buttons": {
+      "login": "ログイン",
+      "signup": "新規登録"
+    },
+    "noAccount": "アカウントをお持ちでないですか？"
+  },
+  "loading": {
+    "welcome": {
+      "welcome": "ようこそ",
+      "horoscope": "ホロスコープへ"
+    },
+    "loadingLoveMatch": {
+      "calc": "あなたの",
+      "loveM": "相性を計算中..."
+    },
+    "loadingDreams": {
+      "catch": "あなたの",
+      "dreams": "夢をキャッチ中..."
+    },
+    "loadingProfile": {
+      "loading": "あなたの",
+      "profile": "プロフィールを読み込み中..."
+    }
+  },
+  "opening": {
+    "or": "または",
+    "slides": [
+      {
+        "title": "宇宙の旅と自己発見",
+        "text": "ホロスコープアプリへようこそ — 私たちはあなたを宇宙の旅と自己発見と悟りへと導きます。",
+        "buttonText": "ホロスコープを見る"
+      },
+      {
+        "title": "運命の相手を見つける",
+        "text": "今月あなたと最も相性の良い星座を照合します。ホロスコープがあなたの将来のパートナーを見つけるお手伝いをします。",
+        "buttonText": "恋愛を探す"
+      },
+      {
+        "title": "あなたの未来を発見",
+        "text": "手相占い機能があなたの未来について初期的な洞察を提供します。手のひらをスキャンして、星があなたの道を明らかにします。",
+        "buttonText": "手相を見る"
+      },
+      {
+        "title": "内なる秘密を解き明かす",
+        "text": "潜在意識の隠された言語を発見してください。この夢占いの簡単なガイドは、あなたの目覚めた人生を変える洞察を提供します。",
+        "buttonText": "夢を占う"
+      }
+    ]
+  },
+  "photo": {
+    "permission": {
+      "title": "ホロスコープカメラ許可",
+      "message": "ホロスコープは手相占いのためにカメラを使用する必要があります",
+      "buttonNeutral": "後で確認する",
+      "buttonNegative": "キャンセル",
+      "buttonPositive": "許可する"
+    },
+    "title": "手相占い",
+    "permissionText": "手相占いであなたの運命を知りたい場合は、写真を撮ってください。手が枠内に収まるように注意してください。",
+    "give": "許可する"
+  },
+  "dreamResult": {
+    "text": "あなたの夢の結果",
+    "overall": "総合"
+  },
+  "loveMatch": {
+    "title": "相性占い",
+    "chooseZodiacs": "星座を選択",
+    "button": "恋愛の相性を見る",
+    "zodiacNames": [
+      "牡羊座",
+      "牡牛座",
+      "双子座",
+      "蟹座",
+      "獅子座",
+      "乙女座",
+      "天秤座",
+      "蠍座",
+      "射手座",
+      "山羊座",
+      "水瓶座",
+      "魚座"
+    ],
+    "remove": "削除"
+  },
+  "horoscope": {
+    "barTitles": {
+      "general": "全般",
+      "love": "恋愛",
+      "career": "仕事",
+      "health": "健康",
+      "lucks": "運勢",
+      "yourHoroscope": "あなたの星座占い"
+    },
+    "dateFormat": "{{year}}年{{month}}月{{day}}日",
+    "landing": {
+      "weekly": "週間の星占いを読み込み中...",
+      "monthly": "月間の星占いを読み込み中...",
+      "weeklyMonthly": "週間と月間の星占いを読み込み中...",
+      "title": "あなた専用のホロスコープが準備できました。",
+      "cta": "タップして続ける"
+    },
+    "loading": {
+      "generating": "ホロスコープを生成中...",
+      "loading": "ホロスコープを読み込み中..."
+    },
+    "buttons": {
+      "today": "今日",
+      "week": "今週",
+      "month": "今月"
+    },
+    "signs": {
+      "moon": "月星座：",
+      "sun": "太陽星座：",
+      "ascendant": "上昇星座："
+    },
+    "slots": {
+      "yourPersonalIsReady": "あなた専用のホロスコープが準備できました。"
+    },
+    "noData": {
+      "fetchError": "ホロスコープの取得エラー"
+    },
+    "premium": {
+      "buyPremiumForAccess": "完全な詳細にアクセスするにはプレミアムを購入"
+    }
+  },
+  "resultLoveMatch": {
+    "details": "詳細：",
+    "potentialToCharm": "お互いを魅了する可能性",
+    "scores": "スコア",
+    "yourScore": "あなたのスコア",
+    "love": "愛",
+    "business": "ビジネス",
+    "sex": "セックス",
+    "friendship": "友情",
+    "swipeToExplore": "スワイプして詳しく見る"
+  },
+  "palmistry": {
+    "ad": {
+      "waitingTitle": "広告をご覧ください",
+      "waitingMessage": "手相占いの結果を見るために短い広告をご覧ください。ご支援ありがとうございます！"
+    },
+    "headerTitle": "手相分析",
+    "loading": {
+      "analyzingTitle": "手相を分析中...",
+      "analyzingSub": "AIがあなたの手のひらの線を読み取り、将来についての洞察を提供しています。",
+      "activityLabel": "分析中"
+    },
+    "error": {
+      "title": "分析に失敗しました",
+      "defaultMessage": "手相画像を分析できません。手がはっきりと写っていることを確認して、もう一度お試しください。",
+      "retryButton": "再試行"
+    },
+    "result": {
+      "pageTitle": "あなたの手相占い",
+      "summary": "概要",
+      "details": "詳細",
+      "result": "結果",
+      "handType": "手のタイプ",
+      "lifeLine": "生命線",
+      "heartLine": "感情線",
+      "fateLine": "運命線",
+      "disclaimer": "この占いは娯楽目的のみです。"
+    },
+    "placeholders": {
+      "noPhoto": "写真が提供されていません"
+    }
+  },
+  "notifications": {
+    "title": "通知",
+    "textNull": "メッセージはありません。"
+  },
+  "security": {
+    "title": "セキュリティ"
+  },
+  "social": {
+    "title": "ソーシャル",
+    "textNull": "ニュースはありません。アップデートをお待ちください。"
+  },
+  "login": {
+    "title": "ログイン",
+    "labels": {
+      "emailOrUsername": "メールアドレス / ユーザー名",
+      "password": "パスワード"
+    },
+    "placeholders": {
+      "emailOrUsername": "メールアドレスまたはユーザー名を入力",
+      "password": "パスワードを入力"
+    },
+    "buttons": {
+      "login": "ログイン",
+      "loading": "ログイン中..."
+    },
+    "validation": {
+      "required": "この項目は必須です",
+      "invalidCredentials": "メールアドレスまたはパスワードが正しくありません"
+    },
+    "toasts": {
+      "signinError": "メールアドレスまたはパスワードが正しくありません"
+    },
+    "links": {
+      "forgetPassword": "パスワードを忘れた"
+    }
+  },
+  "forgetPassword": {
+    "title": "パスワードを忘れた",
+    "description": "メールアドレスを入力してください。パスワードリセット用のコードをお送りします。",
+    "codeDescription": "{{email}}に確認コードを送信しました。以下にコードを入力してください。",
+    "passwordDescription": "新しいパスワードを入力してください。",
+    "labels": {
+      "email": "メールアドレス",
+      "code": "確認コード",
+      "newPassword": "新しいパスワード",
+      "confirmPassword": "パスワードを確認"
+    },
+    "placeholders": {
+      "email": "メールアドレスを入力",
+      "code": "コードを入力",
+      "newPassword": "新しいパスワードを入力",
+      "confirmPassword": "新しいパスワードを確認"
+    },
+    "buttons": {
+      "sendCode": "リセットコードを送信",
+      "sendResetLink": "リセットリンクを送信",
+      "verifyCode": "コードを確認",
+      "resetPassword": "パスワードをリセット",
+      "backToLogin": "ログインに戻る"
+    },
+    "validation": {
+      "required": "メールアドレスは必須です",
+      "invalidEmail": "無効なメールアドレス",
+      "clerkNotReady": "サービスが準備できていません。もう一度お試しください。",
+      "codeRequired": "コードは必須です",
+      "passwordRequired": "パスワードは必須です",
+      "confirmPasswordRequired": "パスワードを確認してください"
+    },
+    "success": {
+      "emailSent": "パスワードリセットコードを送信しました！受信トレイを確認してください。",
+      "codeVerified": "コードが確認されました！新しいパスワードを入力してください。",
+      "passwordReset": "パスワードが正常にリセットされました！新しいパスワードでログインできます。",
+      "passwordResetMessage": "パスワードが正常にリセットされました！新しいパスワードでログインできます。",
+      "message": "パスワードリセット用のコードをメールアドレスに送信しました。受信トレイを確認し、コードを入力してください。"
+    },
+    "error": {
+      "generic": "リセットメールの送信に失敗しました。もう一度お試しください。",
+      "emailNotFound": "メールアドレスが見つかりませんでした。",
+      "invalidEmail": "無効なメールアドレスです。",
+      "unexpectedStatus": "予期しない応答です。もう一度お試しください。",
+      "invalidCode": "無効なコードです。もう一度お試しください。",
+      "passwordsDoNotMatch": "パスワードが一致しません。",
+      "passwordTooShort": "パスワードは8文字以上である必要があります。",
+      "resetFailed": "パスワードのリセットに失敗しました。もう一度お試しください。",
+      "passwordPwned": "このパスワードは侵害されています。別のパスワードを選択してください。",
+      "passwordValidationFailed": "パスワードが要件を満たしていません。"
+    }
+  },
+  "register": {
+    "title": "アカウントを作成",
+    "labels": {
+      "email": "メールアドレス",
+      "password": "パスワード"
+    },
+    "placeholders": {
+      "email": "メールアドレスを入力",
+      "password": "パスワードを入力"
+    },
+    "buttons": {
+      "create": "作成",
+      "creating": "作成中..."
+    },
+    "validation": {
+      "required": "この項目は必須です",
+      "invalidEmail": "有効なメールアドレスを入力してください",
+      "minLength": "パスワードは6文字以上である必要があります",
+      "uppercase": "パスワードには大文字を1文字以上含める必要があります"
+    },
+    "requirements": {
+      "minLength": "6文字以上",
+      "uppercase": "大文字を1文字含む"
+    },
+    "toasts": {
+      "signupError": "登録に失敗しました。もう一度お試しください。"
+    }
+  },
+  "profilePicture": {
+    "title": "プロフィール写真",
+    "permission": {
+      "title": "許可が必要です",
+      "message": "フォトライブラリへのアクセスを許可してください"
+    },
+    "pickError": {
+      "title": "エラー",
+      "message": "画像の選択に失敗しました"
+    },
+    "noImage": {
+      "title": "画像なし",
+      "message": "まずプロフィール写真を選択してください"
+    },
+    "upload": {
+      "failed": {
+        "title": "エラー",
+        "message": "プロフィール写真のアップロードに失敗しました"
+      },
+      "registerFailed": {
+        "title": "エラー",
+        "message": "登録を完了できませんでした"
+      }
+    },
+    "overlay": {
+      "tap": "タップして選択"
+    },
+    "buttons": {
+      "later": "後で",
+      "next": "次へ"
+    }
+  },
+  "registerDetails": {
+    "title": "あともう少しです",
+    "labels": {
+      "name": "名前",
+      "surname": "姓",
+      "country": "国 / 都市",
+      "birthTime": "生まれた時刻"
+    },
+    "placeholders": {
+      "name": "名前を入力",
+      "surname": "姓を入力",
+      "country": "都市を入力",
+      "birthTime": "生まれた時刻を選択"
+    },
+    "buttons": {
+      "next": "次へ"
+    },
+    "validation": {
+      "required": "この項目は必須です",
+      "invalidTime": "無効な時刻形式です"
+    }
+  },
+  "registerDetailsG": {
+    "congrats": "おめでとうございます — 登録が完了しました",
+    "subtitle": "個人情報を入力してください",
+    "labels": {
+      "dateOfBirth": "生年月日",
+      "gender": "性別",
+      "male": "男性",
+      "female": "女性"
+    },
+    "placeholders": {
+      "selectDate": "生年月日を選択"
+    },
+    "buttons": {
+      "next": "次へ"
+    },
+    "validation": {
+      "required": "この項目は必須です",
+      "invalidDate": "無効な日付形式です"
+    }
+  },
+  "profile": {
+    "permission": {
+      "title": "許可が必要です",
+      "message": "フォトライブラリへのアクセスを許可してください"
+    },
+    "alerts": {
+      "successTitle": "成功",
+      "successMessage": "プロフィール写真が正常に更新されました！",
+      "errorTitle": "エラー",
+      "errorUpload": "プロフィール写真の更新に失敗しました",
+      "errorUploadGeneric": "画像のアップロードに失敗しました"
+    },
+    "topBar": {
+      "settings": "設定"
+    },
+    "user": {
+      "sunSign": "太陽星座",
+      "moonSign": "月星座",
+      "ascendant": "上昇星座",
+      "element": "エレメント",
+      "polarity": "極性",
+      "modality": "様式"
+    },
+    "birth": {
+      "birthInfo": "出生情報"
+    },
+    "palmitry": {
+      "pastPalmitries": "過去の手相占い",
+      "pastDreams": "過去の夢占い",
+      "watchAds": "広告を見る",
+      "unlockForever": "永久にアンロック",
+      "unlocked": "コンテンツがアンロックされました！",
+      "reading": "占い",
+      "dream": "夢",
+      "noPastReadings": "過去の手相占いがまだありません",
+      "noPastDreams": "過去の夢占いがまだありません"
+    },
+    "location": "場所",
+    "loading": "読み込み中..."
+  },
+  "userHoroscope": {
+    "aries": "牡羊座",
+    "taurus": "牡牛座",
+    "gemini": "双子座",
+    "cancer": "蟹座",
+    "leo": "獅子座",
+    "virgo": "乙女座",
+    "libra": "天秤座",
+    "scorpio": "蠍座",
+    "sagittarius": "射手座",
+    "capricorn": "山羊座",
+    "aquarius": "水瓶座",
+    "pisces": "魚座"
+  },
+  "deleteAccount": {
+    "deleteAccount": "アカウントを削除",
+    "deleteAccountWarning": "本当にアカウントを削除しますか？この操作は元に戻せず、すべてのデータが完全に削除されます。",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "accountDeleted": "アカウントが削除されました",
+    "accountDeletedMessage": "アカウントが正常に削除されました。",
+    "error": "エラー",
+    "deleteAccountError": "アカウントの削除に失敗しました。もう一度お試しください。"
+  },
+  "newcomer": {
+    "loading": "読み込み中...",
+    "hello": "こんにちは、{{name}}さん！",
+    "yourZodiacSign": "あなたの星座は{{sign}}です",
+    "letsSeeDailyHoroscope": "今日のホロスコープを見ましょう",
+    "next": "次へ"
+  },
+  "elements": {
+    "fire": "火",
+    "earth": "地",
+    "air": "風",
+    "water": "水"
+  },
+  "polarity": {
+    "positive": "陽性",
+    "negative": "陰性",
+    "yang": "陽",
+    "yin": "陰"
+  },
+  "modality": {
+    "cardinal": "活動宮",
+    "fixed": "不動宮",
+    "mutable": "柔軟宮"
+  }
+}

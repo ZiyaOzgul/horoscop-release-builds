@@ -1,0 +1,698 @@
+{
+  "common": {
+    "back": "Atrás",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "done": "Hecho"
+  },
+  "language": {
+    "title": "Idioma",
+    "select": "Seleccionar idioma",
+    "english": "Inglés",
+    "turkish": "Turco",
+    "info": "Actualmente en inglés",
+    "active": "Elegido",
+    "success": {
+      "title": "Cambio de idioma exitoso",
+      "message": "¡Tu idioma se cambió correctamente!"
+    }
+  },
+  "plans": {
+    "processing": "Procesando compra...",
+    "restore": {
+      "button": "Restaurar Compras",
+      "success": "¡Éxito!",
+      "restored": "Tu suscripción ha sido restaurada",
+      "notFound": "Sin Suscripción",
+      "noSubscription": "No se encontró suscripción activa"
+    },
+    "errors": {
+      "notSignedIn": "Sesión No Iniciada",
+      "signInFirst": "Por favor inicia sesión para comprar",
+      "noOfferings": "No Hay Planes Disponibles",
+      "tryAgain": "Por favor intenta más tarde",
+      "purchaseFailed": "Compra Fallida",
+      "restoreFailed": "Restauración Fallida"
+    },
+    "success": {
+      "title": "¡Bienvenido a Premium! 🎉",
+      "message": "Ahora tienes acceso a todas las funciones premium",
+      "ok": "¡Vamos!",
+      "alreadyActive": "¡Ya tienes una suscripción premium activa!",
+      "subscriptionFound": "Se encontró una suscripción pero las funciones premium no están activas. Por favor, intenta restaurar las compras."
+    },
+    "downgrade": {
+      "title": "Cambiar a Plan Gratuito",
+      "message": "Tu suscripción se cancelará al final del periodo de facturación"
+    },
+    "title": "Elige tu plan",
+    "subtitle": "Selecciona el plan que mejor se adapte a ti",
+    "currentPlan": "Plan actual",
+    "free": {
+      "name": "Plan gratuito",
+      "price": "$0",
+      "period": "Para siempre"
+    },
+    "premium": {
+      "name": "Plan premium",
+      "price": "$9.99",
+      "period": "por mes",
+      "badge": "PREMIUM"
+    },
+    "features": {
+      "horoscope": "Horóscopo gratuito",
+      "dream": "Interpretación de sueños gratuita",
+      "palmistry": "Lectura de palma gratuita",
+      "unlimited": "Consultas ilimitadas",
+      "tracking": "Seguimiento de datos pasados",
+      "adFree": "Experiencia sin anuncios"
+    },
+    "notes": {
+      "ads": "Incluye anuncios",
+      "cancel": "Cancela en cualquier momento"
+    },
+    "buttons": {
+      "upgrade": "Actualizar a Premium",
+      "downgrade": "Cambiar a gratuito"
+    }
+  },
+  "home": {
+    "welcome": "Bienvenido",
+    "goodMorning": "Buenos días",
+    "goodAfternoon": "Buenas tardes",
+    "goodEvening": "Buenas noches"
+  },
+  "bottomBar": {
+    "horoscope": "Horóscopo",
+    "loveMatch": "Compatibilidad",
+    "palmistry": "Quiromancia",
+    "dream": "Sueño",
+    "profile": "Perfil"
+  },
+  "changePassword": {
+    "title": "Cambiar contraseña",
+    "back": "Atrás",
+    "labels": {
+      "currentPassword": "Contraseña actual",
+      "newPassword": "Nueva contraseña",
+      "confirmPassword": "Confirmar nueva contraseña"
+    },
+    "placeholders": {
+      "currentPassword": "Ingresa tu contraseña actual",
+      "newPassword": "Ingresa tu nueva contraseña",
+      "confirmPassword": "Confirma tu nueva contraseña"
+    },
+    "buttons": {
+      "change": "Cambiar contraseña",
+      "changing": "Cambiando..."
+    },
+    "alerts": {
+      "userNotFound": "Error: Usuario no encontrado",
+      "passwordsDoNotMatch": "Error: Las contraseñas no coinciden",
+      "passwordTooShort": "Error: La contraseña debe tener al menos 8 caracteres",
+      "changeSuccess": "¡Contraseña cambiada con éxito!",
+      "changeFailed": "No se pudo cambiar la contraseña",
+      "currentIncorrect": "La contraseña actual es incorrecta",
+      "pwned": "Esta contraseña ha sido comprometida. Elige otra diferente",
+      "validationFailed": "La contraseña no cumple los requisitos"
+    },
+    "requirements": {
+      "title": "Requisitos de contraseña:",
+      "items": [
+        "Al menos 8 caracteres",
+        "Debe contener letras y números",
+        "Evita contraseñas comunes"
+      ]
+    },
+    "validation": {
+      "requiredCurrent": "Se requiere la contraseña actual",
+      "requiredNew": "Se requiere una nueva contraseña",
+      "minLengthNew": "La contraseña debe tener al menos 8 caracteres",
+      "confirmRequired": "Por favor confirma tu nueva contraseña",
+      "confirmMismatch": "Las contraseñas no coinciden"
+    }
+  },
+  "dream": {
+    "title": "Interpretación de sueños",
+    "placeholder": "¿Con qué soñaste ...",
+    "button": "Veamos",
+    "description": "Por favor escribe tu sueño con la mayor claridad posible. Incluye detalles clave como imágenes, emociones, símbolos y eventos inusuales. Cuanto más contexto proporciones, mejor podremos ayudarte a descubrir los significados ocultos en tu subconsciente.",
+    "frequent": "Vistos con frecuencia:",
+    "categories": [
+      {
+        "category": "Naturaleza y elementos",
+        "items": [
+          "Agua",
+          "Océano",
+          "Río",
+          "Lluvia",
+          "Lago",
+          "Cascada",
+          "Árbol",
+          "Flor",
+          "Arbusto",
+          "Bosque",
+          "Jardín",
+          "Nubes",
+          "Sol",
+          "Luna",
+          "Estrellas",
+          "Arcoíris"
+        ]
+      },
+      {
+        "category": "Edificios y estructuras",
+        "items": [
+          "Casa",
+          "Hogar",
+          "Apartamento",
+          "Cabaña",
+          "Castillo",
+          "Rascacielos",
+          "Puerta",
+          "Ventana",
+          "Portón",
+          "Puente",
+          "Túnel",
+          "Dormitorio",
+          "Cocina",
+          "Pasillo",
+          "Ático"
+        ]
+      },
+      {
+        "category": "Tiempo y movimiento",
+        "items": [
+          "Reloj",
+          "Reloj de pulsera",
+          "Calendario",
+          "Coche",
+          "Bicicleta",
+          "Tren",
+          "Avión",
+          "Barco",
+          "Autobús"
+        ]
+      },
+      {
+        "category": "Herramientas y objetos cotidianos",
+        "items": [
+          "Llave",
+          "Cerradura",
+          "Timbre",
+          "Espejo",
+          "Vaso",
+          "Libro",
+          "Carta",
+          "Periódico",
+          "Diario"
+        ]
+      },
+      {
+        "category": "Abstracto y simbólico",
+        "items": [
+          "Fuego",
+          "Vela",
+          "Lámpara",
+          "Chispa",
+          "Escaleras",
+          "Escalera de mano",
+          "Escalera mecánica",
+          "Dinero",
+          "Monedas",
+          "Joyería"
+        ]
+      },
+      {
+        "category": "Seres vivos",
+        "items": [
+          "Serpiente",
+          "Perro",
+          "Gato",
+          "Pájaro",
+          "León",
+          "Pez",
+          "Desconocido",
+          "Amigo",
+          "Familiar",
+          "Celebridad"
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "title": "Configuración",
+    "account": "Cuenta",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "privacy": "Privacidad",
+    "terms": "Términos de servicio",
+    "logout": "Cerrar sesión",
+    "change": "Cambiar contraseña",
+    "social": "Social",
+    "plans": "Planes"
+  },
+  "confirmPhoto": {
+    "notFound": "¡Foto no encontrada!",
+    "back": "Atrás",
+    "check": "Verifica tu foto",
+    "inst": "Asegúrate de que tu mano sea claramente visible dentro del marco. Para obtener los mejores resultados, asegúrate de que toda tu mano sea visible.",
+    "retake": "Repetir foto",
+    "submit": "Enviar y continuar"
+  },
+  "authIndex": {
+    "title": "Vamos a entrar",
+    "enterWith": {
+      "facebook": "Entrar con Facebook",
+      "google": "Entrar con Google",
+      "apple": "Entrar con Apple"
+    },
+    "or": "O",
+    "buttons": {
+      "login": "Iniciar sesión",
+      "signup": "Registrarse"
+    },
+    "noAccount": "¿No tienes una cuenta?"
+  },
+  "loading": {
+    "welcome": {
+      "welcome": "Bienvenido a",
+      "horoscope": "HORÓSCOPO"
+    },
+    "loadingLoveMatch": {
+      "calc": "Calculando tu",
+      "loveM": "Compatibilidad amorosa..."
+    },
+    "loadingDreams": {
+      "catch": "Capturando tus",
+      "dreams": "Sueños..."
+    },
+    "loadingProfile": {
+      "loading": "Cargando tu",
+      "profile": "Perfil..."
+    }
+  },
+  "opening": {
+    "or": "O",
+    "slides": [
+      {
+        "title": "Viaje cósmico y autodescubrimiento",
+        "text": "Bienvenido a la aplicación del horóscopo — te guiamos en un viaje cósmico de autodescubrimiento e iluminación.",
+        "buttonText": "Ver mi horóscopo"
+      },
+      {
+        "title": "Encuentra tu pareja ideal",
+        "text": "Compara los signos del zodiaco más compatibles contigo este mes. Deja que el horóscopo te ayude a encontrar tu pareja futura.",
+        "buttonText": "Buscar mi amor"
+      },
+      {
+        "title": "Descubre tu futuro",
+        "text": "Nuestra función de lectura de palma ofrece ideas iniciales sobre tu futuro. Escanea tu palma y deja que las estrellas revelen tu camino.",
+        "buttonText": "Leer mi palma"
+      },
+      {
+        "title": "Desbloquea tus secretos interiores",
+        "text": "Descubre el lenguaje oculto de tu subconsciente. Esta breve guía de interpretación de sueños ofrece conocimientos que pueden transformar tu vida consciente.",
+        "buttonText": "Interpretar mi sueño"
+      }
+    ]
+  },
+  "photo": {
+    "permission": {
+      "title": "Permiso de cámara para Horóscopo",
+      "message": "Horóscopo necesita usar tu cámara para la lectura de palma",
+      "buttonNeutral": "Pregúntame más tarde",
+      "buttonNegative": "Cancelar",
+      "buttonPositive": "Dar permiso"
+    },
+    "title": "Quiromancia",
+    "permissionText": "Si deseas conocer tu destino a través de la lectura de palma, toma una foto asegurándote de mantener tu mano dentro del borde.",
+    "give": "Dar permiso"
+  },
+  "dreamResult": {
+    "text": "Resultados de tu sueño",
+    "overall": "General"
+  },
+  "loveMatch": {
+    "title": "Compatibilidad amorosa",
+    "chooseZodiacs": "Elige los signos",
+    "button": "Obtener compatibilidad",
+    "zodiacNames": [
+      "Aries",
+      "Tauro",
+      "Géminis",
+      "Cáncer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Escorpio",
+      "Sagitario",
+      "Capricornio",
+      "Acuario",
+      "Piscis"
+    ],
+    "remove": "Eliminar"
+  },
+  "horoscope": {
+    "barTitles": {
+      "general": "General",
+      "love": "Amor",
+      "career": "Carrera",
+      "health": "Salud",
+      "lucks": "Suerte",
+      "yourHoroscope": "Tu horóscopo"
+    },
+    "dateFormat": "{{day}}/{{month}}/{{year}}",
+    "landing": {
+      "weekly": "Cargando el horóscopo semanal...",
+      "monthly": "Cargando el horóscopo mensual...",
+      "weeklyMonthly": "Cargando los horóscopos semanal y mensual...",
+      "title": "Tu horóscopo personal está listo.",
+      "cta": "Toca para continuar"
+    },
+    "loading": {
+      "generating": "Generando tu horóscopo...",
+      "loading": "Cargando tu horóscopo..."
+    },
+    "buttons": {
+      "today": "HOY",
+      "week": "SEMANA",
+      "month": "MES"
+    },
+    "signs": {
+      "moon": "Signo lunar:",
+      "sun": "Signo solar:",
+      "ascendant": "Ascendente:"
+    },
+    "slots": {
+      "yourPersonalIsReady": "Tu horóscopo personal está listo."
+    },
+    "noData": {
+      "fetchError": "Error al obtener el horóscopo"
+    },
+    "premium": {
+      "buyPremiumForAccess": "Compra Premium para Acceder a Todos los Detalles"
+    }
+  },
+  "resultLoveMatch": {
+    "details": "Detalles:",
+    "potentialToCharm": "Potencial para encantarse mutuamente",
+    "scores": "puntuación",
+    "yourScore": "Tu puntuación",
+    "love": "Amor",
+    "business": "Negocios",
+    "sex": "Sexo",
+    "friendship": "Amistad",
+    "swipeToExplore": "Desliza para explorar"
+  },
+  "palmistry": {
+    "headerTitle": "Análisis de la palma",
+    "loading": {
+      "analyzingTitle": "Analizando tu palma...",
+      "analyzingSub": "Nuestra IA está leyendo las líneas de tu palma para ofrecerte información sobre tu futuro.",
+      "activityLabel": "Analizando"
+    },
+    "error": {
+      "title": "Análisis fallido",
+      "defaultMessage": "No se pudo analizar la imagen de la palma. Asegúrate de que tu mano sea claramente visible e inténtalo de nuevo.",
+      "retryButton": "Intentar de nuevo"
+    },
+    "result": {
+      "pageTitle": "Tu lectura de palma",
+      "summary": "Resumen",
+      "details": "Detalles",
+      "result": "Resultado",
+      "handType": "Tipo de mano",
+      "lifeLine": "Línea de la vida",
+      "heartLine": "Línea del corazón",
+      "fateLine": "Línea del destino",
+      "disclaimer": "Esta lectura es solo para fines de entretenimiento."
+    },
+    "placeholders": {
+      "noPhoto": "No se proporcionó una foto"
+    }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "textNull": "No hay mensajes para ti."
+  },
+  "security": {
+    "title": "Seguridad"
+  },
+  "social": {
+    "title": "Social",
+    "textNull": "No hay noticias por ahora. Espera actualizaciones."
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "labels": {
+      "emailOrUsername": "Correo / Usuario",
+      "password": "Contraseña"
+    },
+    "placeholders": {
+      "emailOrUsername": "Ingresa tu correo o usuario",
+      "password": "Ingresa tu contraseña"
+    },
+    "buttons": {
+      "login": "Iniciar sesión",
+      "loading": "Iniciando..."
+    },
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "invalidCredentials": "Correo o contraseña incorrectos"
+    },
+    "toasts": {
+      "signinError": "Correo o contraseña incorrectos"
+    },
+    "links": {
+      "forgetPassword": "Olvidé mi contraseña"
+    }
+  },
+  "forgetPassword": {
+    "title": "Olvidé mi contraseña",
+    "description": "Ingresa tu dirección de correo electrónico y te enviaremos un código para restablecer tu contraseña.",
+    "codeDescription": "Hemos enviado un código de verificación a {{email}}. Por favor, ingresa el código a continuación.",
+    "passwordDescription": "Por favor, ingresa tu nueva contraseña.",
+    "labels": {
+      "email": "Dirección de correo electrónico",
+      "code": "Código de verificación",
+      "newPassword": "Nueva contraseña",
+      "confirmPassword": "Confirmar contraseña"
+    },
+    "placeholders": {
+      "email": "Ingresa tu correo electrónico",
+      "code": "Ingresa el código",
+      "newPassword": "Ingresa nueva contraseña",
+      "confirmPassword": "Confirma nueva contraseña"
+    },
+    "buttons": {
+      "sendCode": "Enviar código de restablecimiento",
+      "sendResetLink": "Enviar enlace de restablecimiento",
+      "verifyCode": "Verificar código",
+      "resetPassword": "Restablecer contraseña",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "validation": {
+      "required": "El correo electrónico es obligatorio",
+      "invalidEmail": "Dirección de correo electrónico inválida",
+      "clerkNotReady": "El servicio no está listo. Por favor, inténtalo de nuevo.",
+      "codeRequired": "El código es obligatorio",
+      "passwordRequired": "La contraseña es obligatoria",
+      "confirmPasswordRequired": "Por favor, confirma tu contraseña"
+    },
+    "success": {
+      "emailSent": "¡Código de restablecimiento de contraseña enviado! Revisa tu bandeja de entrada.",
+      "codeVerified": "¡Código verificado! Por favor, ingresa tu nueva contraseña.",
+      "passwordReset": "¡Contraseña restablecida exitosamente! Ahora puedes iniciar sesión con tu nueva contraseña.",
+      "passwordResetMessage": "¡Tu contraseña ha sido restablecida exitosamente! Ahora puedes iniciar sesión con tu nueva contraseña.",
+      "message": "Hemos enviado un código para restablecer tu contraseña a tu dirección de correo electrónico. Por favor, revisa tu bandeja de entrada e ingresa el código."
+    },
+    "error": {
+      "generic": "No se pudo enviar el correo de restablecimiento. Por favor, inténtalo de nuevo.",
+      "emailNotFound": "Dirección de correo electrónico no encontrada.",
+      "invalidEmail": "Dirección de correo electrónico inválida.",
+      "unexpectedStatus": "Respuesta inesperada. Por favor, inténtalo de nuevo.",
+      "invalidCode": "Código inválido. Por favor, inténtalo de nuevo.",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden.",
+      "passwordTooShort": "La contraseña debe tener al menos 8 caracteres.",
+      "resetFailed": "No se pudo restablecer la contraseña. Por favor, inténtalo de nuevo.",
+      "passwordPwned": "Esta contraseña ha sido comprometida. Por favor, elige una diferente.",
+      "passwordValidationFailed": "La contraseña no cumple con los requisitos."
+    }
+  },
+  "register": {
+    "title": "Crea tu cuenta",
+    "labels": {
+      "email": "Correo electrónico",
+      "password": "Contraseña"
+    },
+    "placeholders": {
+      "email": "Ingresa tu correo electrónico",
+      "password": "Ingresa tu contraseña"
+    },
+    "buttons": {
+      "create": "Crear",
+      "creating": "Creando..."
+    },
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "invalidEmail": "Por favor ingresa un correo válido",
+      "minLength": "La contraseña debe tener al menos 6 caracteres",
+      "uppercase": "La contraseña debe contener al menos 1 letra mayúscula"
+    },
+    "requirements": {
+      "minLength": "Al menos 6 caracteres",
+      "uppercase": "Contiene 1 letra mayúscula"
+    },
+    "toasts": {
+      "signupError": "No se pudo registrar. Inténtalo nuevamente."
+    }
+  },
+  "profilePicture": {
+    "title": "Foto de perfil",
+    "permission": {
+      "title": "Permiso requerido",
+      "message": "Por favor permite el acceso a tu galería de fotos"
+    },
+    "pickError": {
+      "title": "Error",
+      "message": "No se pudo seleccionar la imagen"
+    },
+    "noImage": {
+      "title": "Sin imagen",
+      "message": "Por favor selecciona primero una foto de perfil"
+    },
+    "upload": {
+      "failed": {
+        "title": "Error",
+        "message": "No se pudo subir la foto de perfil"
+      },
+      "registerFailed": {
+        "title": "Error",
+        "message": "No se pudo completar el registro"
+      }
+    },
+    "overlay": {
+      "tap": "Toca para seleccionar"
+    },
+    "buttons": {
+      "later": "Más tarde",
+      "next": "Siguiente"
+    }
+  },
+  "registerDetails": {
+    "title": "Solo unos pocos detalles más",
+    "labels": {
+      "name": "Nombre",
+      "surname": "Apellido",
+      "country": "País/Ciudad",
+      "birthTime": "Hora de nacimiento"
+    },
+    "placeholders": {
+      "name": "Ingresa tu nombre",
+      "surname": "Ingresa tu apellido",
+      "country": "Ingresa tu ciudad",
+      "birthTime": "Selecciona tu hora de nacimiento"
+    },
+    "buttons": {
+      "next": "Siguiente"
+    },
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "invalidTime": "Formato de hora no válido"
+    }
+  },
+  "registerDetailsG": {
+    "congrats": "Felicidades — te has registrado",
+    "subtitle": "Ahora algunos detalles personales",
+    "labels": {
+      "dateOfBirth": "Fecha de nacimiento",
+      "gender": "Género",
+      "male": "Hombre",
+      "female": "Mujer"
+    },
+    "placeholders": {
+      "selectDate": "Selecciona tu fecha de nacimiento"
+    },
+    "buttons": {
+      "next": "Siguiente"
+    },
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "invalidDate": "Formato de fecha no válido"
+    }
+  },
+  "profile": {
+    "permission": {
+      "title": "Permiso requerido",
+      "message": "Por favor permite el acceso a tu galería de fotos"
+    },
+    "alerts": {
+      "successTitle": "Éxito",
+      "successMessage": "¡Foto de perfil actualizada correctamente!",
+      "errorTitle": "Error",
+      "errorUpload": "No se pudo actualizar la foto de perfil",
+      "errorUploadGeneric": "No se pudo subir la imagen"
+    },
+    "topBar": {
+      "settings": "Configuración"
+    },
+    "user": {
+      "sunSign": "Signo solar",
+      "moonSign": "Signo lunar",
+      "ascendant": "Ascendente",
+      "element": "Elemento",
+      "polarity": "Polaridad",
+      "modality": "Modalidad"
+    },
+    "birth": {
+      "birthInfo": "Información de nacimiento"
+    },
+    "palmitry": {
+      "pastPalmitries": "Lecturas de palma anteriores",
+      "pastDreams": "Interpretaciones de sueños anteriores",
+      "watchAds": "Ver anuncios",
+      "unlockForever": "Desbloquear para siempre",
+      "unlocked": "¡Contenido desbloqueado!",
+      "reading": "Lectura",
+      "dream": "Sueño",
+      "noPastReadings": "Aún no hay lecturas de palma anteriores",
+      "noPastDreams": "Aún no hay interpretaciones de sueños anteriores"
+    },
+    "location": "Ubicación",
+    "loading": "Cargando..."
+  },
+  "userHoroscope": {
+    "aries": "Aries",
+    "taurus": "Tauro",
+    "gemini": "Géminis",
+    "cancer": "Cáncer",
+    "leo": "Leo",
+    "virgo": "Virgo",
+    "libra": "Libra",
+    "scorpio": "Escorpio",
+    "sagittarius": "Sagitario",
+    "capricorn": "Capricornio",
+    "aquarius": "Acuario",
+    "pisces": "Piscis"
+  },
+  "deleteAccount": {
+    "deleteAccount": "Eliminar Cuenta",
+    "deleteAccountWarning": "¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer y todos tus datos serán eliminados permanentemente.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "accountDeleted": "Cuenta Eliminada",
+    "accountDeletedMessage": "Tu cuenta ha sido eliminada exitosamente.",
+    "error": "Error",
+    "deleteAccountError": "No se pudo eliminar la cuenta. Por favor, inténtalo de nuevo.",
+    "userNotFound": "Usuario no encontrado. Por favor, inicia sesión nuevamente."
+  },
+  "newcomer": {
+    "loading": "Cargando...",
+    "hello": "¡Hola, {{name}}!",
+    "yourZodiacSign": "Tu signo zodiacal es {{sign}}",
+    "letsSeeDailyHoroscope": "Veamos tu HORÓSCOPO",
+    "next": "Siguiente"
+  }
+}

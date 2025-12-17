@@ -1,0 +1,719 @@
+{
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "done": "Done"
+  },
+  "language": {
+    "title": "Language",
+    "select": "Select Language",
+    "english": "English",
+    "turkish": "Türkçe",
+    "info": "Currently English",
+    "active": "Choosen",
+    "success": {
+      "title": "Language change is success",
+      "message": "Your language successfully changed!"
+    }
+  },
+  "plans": {
+    "processing": "Processing purchase...",
+    "restore": {
+      "button": "Restore Purchases",
+      "success": "Success!",
+      "restored": "Your subscription has been restored",
+      "notFound": "No Subscription",
+      "noSubscription": "No active subscription found"
+    },
+    "errors": {
+      "notSignedIn": "Not Signed In",
+      "signInFirst": "Please sign in to purchase",
+      "noOfferings": "No Plans Available",
+      "tryAgain": "Please try again later",
+      "purchaseFailed": "Purchase Failed",
+      "restoreFailed": "Restore Failed"
+    },
+    "success": {
+      "title": "Welcome to Premium! 🎉",
+      "message": "You now have access to all premium features",
+      "ok": "Let's Go!",
+      "alreadyActive": "You already have an active premium subscription!",
+      "subscriptionFound": "A subscription was found but premium features are not active. Please try restoring purchases."
+    },
+    "downgrade": {
+      "title": "Downgrade to Free",
+      "message": "Your subscription will be canceled at the end of the billing period"
+    },
+    "title": "Choose Your Plan",
+    "subtitle": "Select the plan that works best for you",
+    "currentPlan": "Current Plan",
+    "free": {
+      "name": "Free Plan",
+      "price": "$0",
+      "period": "Forever"
+    },
+    "premium": {
+      "name": "Premium Plan",
+      "price": "$9.99",
+      "period": "per month",
+      "badge": "PREMIUM"
+    },
+    "features": {
+      "horoscope": "Free Horoscope",
+      "dream": "Free Dream Interpretation",
+      "palmistry": "Free Palmistry Reading",
+      "unlimited": "Unlimited Lookups",
+      "tracking": "Past Data Tracking",
+      "adFree": "Ad-Free Experience"
+    },
+    "notes": {
+      "ads": "Includes ads",
+      "cancel": "Cancel anytime"
+    },
+    "buttons": {
+      "upgrade": "Upgrade to Premium",
+      "downgrade": "Downgrade to Free"
+    }
+  },
+  "home": {
+    "welcome": "Welcome",
+    "goodMorning": "Good Morning",
+    "goodAfternoon": "Good Afternoon",
+    "goodEvening": "Good Evening"
+  },
+
+  "bottomBar": {
+    "horoscope": "Horoscope",
+    "loveMatch": "Love Match",
+    "palmistry": "Palmistry",
+    "dream": "Dream",
+    "profile": "Profile"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "back": "Back",
+    "labels": {
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password"
+    },
+    "placeholders": {
+      "currentPassword": "Enter your current password",
+      "newPassword": "Enter your new password",
+      "confirmPassword": "Confirm your new password"
+    },
+    "buttons": {
+      "change": "Change Password",
+      "changing": "Changing..."
+    },
+    "alerts": {
+      "userNotFound": "Error: User not found",
+      "passwordsDoNotMatch": "Error: New passwords do not match",
+      "passwordTooShort": "Error: Password must be at least 8 characters long",
+      "changeSuccess": "Password changed successfully!",
+      "changeFailed": "Failed to change password",
+      "currentIncorrect": "Current password is incorrect",
+      "pwned": "This password has been compromised. Please choose a different one",
+      "validationFailed": "Password does not meet requirements"
+    },
+    "requirements": {
+      "title": "Password Requirements:",
+      "items": [
+        "At least 8 characters long",
+        "Must contain letters and numbers",
+        "Avoid common passwords"
+      ]
+    },
+    "validation": {
+      "requiredCurrent": "Current password is required",
+      "requiredNew": "New password is required",
+      "minLengthNew": "Password must be at least 8 characters long",
+      "confirmRequired": "Please confirm your new password",
+      "confirmMismatch": "Passwords do not match"
+    }
+  },
+  "dream": {
+    "title": "Dream Interpretation",
+    "placeholder": "What did you dream about ...",
+    "button": "Let's See",
+    "description": "Please write your dream as vividly as you can remember. Include key details like images, emotions, symbols, and any unusual events. The more context you provide, the better we can help you uncover hidden meanings in your subconscious.",
+    "frequent": "Frequently Seen:",
+    "categories": [
+      {
+        "category": "Nature & Elements",
+        "items": [
+          "Water",
+          "Ocean",
+          "River",
+          "Rain",
+          "Lake",
+          "Waterfall",
+          "Tree",
+          "Flower",
+          "Bush",
+          "Forest",
+          "Garden",
+          "Clouds",
+          "Sun",
+          "Moon",
+          "Stars",
+          "Rainbow"
+        ]
+      },
+      {
+        "category": "Buildings & Structures",
+        "items": [
+          "House",
+          "Home",
+          "Apartment",
+          "Cabin",
+          "Castle",
+          "Skyscraper",
+          "Door",
+          "Window",
+          "Gate",
+          "Bridge",
+          "Tunnel",
+          "Bedroom",
+          "Kitchen",
+          "Hall",
+          "Attic"
+        ]
+      },
+      {
+        "category": "Time & Movement",
+        "items": [
+          "Clock",
+          "Watch",
+          "Calendar",
+          "Car",
+          "Bike",
+          "Train",
+          "Airplane",
+          "Boat",
+          "Bus"
+        ]
+      },
+      {
+        "category": "Tools & Everyday Objects",
+        "items": [
+          "Key",
+          "Lock",
+          "Doorbell",
+          "Mirror",
+          "Glass",
+          "Book",
+          "Letter",
+          "Newspaper",
+          "Journal"
+        ]
+      },
+      {
+        "category": "Abstract & Symbolic",
+        "items": [
+          "Fire",
+          "Candle",
+          "Lamp",
+          "Spark",
+          "Stairs",
+          "Ladder",
+          "Escalator",
+          "Money",
+          "Coins",
+          "Jewelry"
+        ]
+      },
+      {
+        "category": "Living Beings",
+        "items": [
+          "Snake",
+          "Dog",
+          "Cat",
+          "Bird",
+          "Lion",
+          "Fish",
+          "Stranger",
+          "Friend",
+          "Family Member",
+          "Celebrity"
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "language": "Language",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "terms": "Terms of Service",
+    "logout": "Logout",
+    "change": "Change Password",
+    "social": "Social",
+    "plans": "Plans"
+  },
+  "confirmPhoto": {
+    "notFound": "Photo not ound!",
+    "back": "Back",
+    "check": "Check Your Photo",
+    "inst": " Make sure your hand is clearly visible within the frame. For the best palm reading results, ensure your entire hand is visible",
+    "retake": "Retake Photo",
+    "submit": "Submit and Continue"
+  },
+  "authIndex": {
+    "title": "Let's you in",
+    "enterWith": {
+      "facebook": "Enter with Facebook",
+      "google": "Enter with Google",
+      "apple": "Enter with Apple"
+    },
+    "or": "Or",
+    "buttons": {
+      "login": "Log In",
+      "signup": "Sign In"
+    },
+    "noAccount": "You don't have an account ?"
+  },
+  "loading": {
+    "welcome": {
+      "welcome": "Welcome To",
+      "horoscope": "HOROSCOPE"
+    },
+    "loadingLoveMatch": {
+      "calc": "Calculating Your",
+      "loveM": "Love Match..."
+    },
+    "loadingDreams": {
+      "catch": "Catching Your",
+      "dreams": "Dreams..."
+    },
+    "loadingProfile": {
+      "loading": "Loading Your",
+      "profile": "Profile..."
+    }
+  },
+  "opening": {
+    "or": "Or",
+    "slides": [
+      {
+        "title": "Cosmic Journey & Self-Discovery",
+        "text": "Welcome to the horoscope app — we guide you on a cosmic journey of self-discovery and enlightenment.",
+        "buttonText": "Check My Horoscope"
+      },
+      {
+        "title": "Find Your Love Match",
+        "text": "Match zodiac signs that are most compatible with you this month. Let the horoscope help you find your future partner.",
+        "buttonText": "Find Your Love"
+      },
+      {
+        "title": "Discover Your Future",
+        "text": "Our palm-reading feature offers initialized insights into your future. Scan your palm and let the stars reveal your path.",
+        "buttonText": "Read Your Palm"
+      },
+      {
+        "title": "Unlock Your Inner Secrets",
+        "text": "Discover the hidden language of your subconscious. This brief guide to dream interpretation offers insights that can transform your waking life.",
+        "buttonText": "Interpret My Dream"
+      }
+    ]
+  },
+  "photo": {
+    "permission": {
+      "title": "Horoscope Camera Permission",
+      "message": "Horoscope Needs To Use Your Camera For Palm Reading",
+      "buttonNeutral": "Ask Me Later",
+      "buttonNegative": "Cancel",
+      "buttonPositive": "Give Permission"
+    },
+    "title": "Palmistry",
+    "permissionText": "If you want to know your fate in palm reading. Take a photo, be careful to keep your hand with the border.",
+    "give": "İzin Ver"
+  },
+  "dreamResult": {
+    "text": "Your Dream Results",
+    "overall": "Overall"
+  },
+  "loveMatch": {
+    "title": "Love Match",
+    "chooseZodiacs": "Choose Zodiacs",
+    "button": "Get Your Love Compatibility",
+    "zodiacNames": [
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces"
+    ],
+    "remove": "Remove"
+  },
+  "horoscope": {
+    "barTitles": {
+      "general": "General",
+      "love": "Love",
+      "career": "Career",
+      "health": "Health",
+      "lucks": "Luck",
+      "yourHoroscope": "Your horoscope"
+    },
+    "dateFormat": "{{day}}/{{month}}/{{year}}",
+    "landing": {
+      "weekly": "Loading weekly horoscope...",
+      "monthly": "Loading monthly horoscope...",
+      "weeklyMonthly": "Loading weekly & monthly horoscopes...",
+      "title": "Your Personal Horoscope Is Ready.",
+      "cta": "Tap to Continue"
+    },
+    "loading": {
+      "generating": "Generating Your Horoscope...",
+      "loading": "Loading Your Horoscope..."
+    },
+    "buttons": {
+      "today": "TODAY",
+      "week": "WEEK",
+      "month": "MONTH"
+    },
+    "signs": {
+      "moon": "Moon Sign:",
+      "sun": "Sun Sign:",
+      "ascendant": "Ascendant:"
+    },
+    "slots": {
+      "yourPersonalIsReady": "Your Personal Horoscope Is Ready."
+    },
+    "noData": {
+      "fetchError": "Error fetching horoscope"
+    },
+    "premium": {
+      "buyPremiumForAccess": "Buy Premium for Access to Full Details"
+    }
+  },
+  "resultLoveMatch": {
+    "details": "Details:",
+    "potentialToCharm": "Potential to charm each other",
+    "scores": "Scores",
+    "yourScore": "Your score",
+    "love": "Love",
+    "business": "Business",
+    "sex": "Sex",
+    "friendship": "Friendship",
+    "swipeToExplore": "Swipe to explore"
+  },
+  "palmistry": {
+    "ad": {
+      "waitingTitle": "Please Watch the Ad",
+      "waitingMessage": "Watch a short ad to view your palmistry results. Thank you for supporting us!"
+    },
+    "headerTitle": "Palm Analysis",
+    "loading": {
+      "analyzingTitle": "Analyzing your palm...",
+      "analyzingSub": "Our AI is reading the lines on your palm to provide insights about your future.",
+      "activityLabel": "Analyzing"
+    },
+    "error": {
+      "title": "Analysis Failed",
+      "defaultMessage": "Unable to analyze the palm image. Please ensure your hand is clearly visible and try again.",
+      "retryButton": "Try Again"
+    },
+    "result": {
+      "pageTitle": "Your Palm Reading",
+      "summary": "Summary",
+      "details": "Details",
+      "result": "Result",
+      "handType": "Hand Type",
+      "lifeLine": "Life Line",
+      "heartLine": "Heart Line",
+      "fateLine": "Fate Line",
+      "disclaimer": "This reading is for entertainment purposes only."
+    },
+    "placeholders": {
+      "noPhoto": "No photo provided"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "textNull": "There is no message for you."
+  },
+  "security": {
+    "title": "Security"
+  },
+  "social": {
+    "title": "Social",
+    "textNull": "There is no news for u wait for updates."
+  },
+  "login": {
+    "title": "Login",
+    "labels": {
+      "emailOrUsername": "E-mail / Username",
+      "password": "Password"
+    },
+    "placeholders": {
+      "emailOrUsername": "Enter your email or username",
+      "password": "Enter your password"
+    },
+    "buttons": {
+      "login": "Login",
+      "loading": "Logging in..."
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidCredentials": "Email or password is not correct"
+    },
+    "toasts": {
+      "signinError": "Email or password is not correct"
+    },
+    "links": {
+      "forgetPassword": "Forget my password"
+    }
+  },
+  "forgetPassword": {
+    "title": "Forget Password",
+    "description": "Enter your email address and we'll send you a code to reset your password.",
+    "codeDescription": "We've sent a verification code to {{email}}. Please enter the code below.",
+    "passwordDescription": "Please enter your new password.",
+    "labels": {
+      "email": "Email Address",
+      "code": "Verification Code",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "placeholders": {
+      "email": "Enter your email",
+      "code": "Enter the code",
+      "newPassword": "Enter new password",
+      "confirmPassword": "Confirm new password"
+    },
+    "buttons": {
+      "sendCode": "Send Reset Code",
+      "sendResetLink": "Send Reset Link",
+      "verifyCode": "Verify Code",
+      "resetPassword": "Reset Password",
+      "backToLogin": "Back to Login"
+    },
+    "validation": {
+      "required": "Email is required",
+      "invalidEmail": "Invalid email address",
+      "clerkNotReady": "Service not ready. Please try again.",
+      "codeRequired": "Code is required",
+      "passwordRequired": "Password is required",
+      "confirmPasswordRequired": "Please confirm your password"
+    },
+    "success": {
+      "emailSent": "Password reset code sent! Check your inbox.",
+      "codeVerified": "Code verified! Please enter your new password.",
+      "passwordReset": "Password reset successfully! You can now login with your new password.",
+      "passwordResetMessage": "Your password has been reset successfully! You can now login with your new password.",
+      "message": "We've sent a password reset code to your email address. Please check your inbox and enter the code."
+    },
+    "error": {
+      "generic": "Failed to send reset email. Please try again.",
+      "emailNotFound": "Email address not found.",
+      "invalidEmail": "Invalid email address.",
+      "unexpectedStatus": "Unexpected response. Please try again.",
+      "invalidCode": "Invalid code. Please try again.",
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "passwordTooShort": "Password must be at least 8 characters long.",
+      "resetFailed": "Failed to reset password. Please try again.",
+      "passwordPwned": "This password has been compromised. Please choose a different one.",
+      "passwordValidationFailed": "Password does not meet requirements."
+    }
+  },
+  "register": {
+    "title": "Create Your Account",
+    "labels": {
+      "email": "E-mail",
+      "password": "Password"
+    },
+    "placeholders": {
+      "email": "Enter your email",
+      "password": "Enter your password"
+    },
+    "buttons": {
+      "create": "Create",
+      "creating": "Creating..."
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Please enter a valid email address",
+      "minLength": "Password must be at least 6 characters",
+      "uppercase": "Password must contain at least 1 uppercase letter"
+    },
+    "requirements": {
+      "minLength": "At least 6 characters long",
+      "uppercase": "Contains 1 uppercase letter"
+    },
+    "toasts": {
+      "signupError": "Failed to register. Please try again."
+    }
+  },
+  "profilePicture": {
+    "title": "Profile Picture",
+    "permission": {
+      "title": "Permission Required",
+      "message": "Please allow access to your photo library"
+    },
+    "pickError": {
+      "title": "Error",
+      "message": "Failed to pick image"
+    },
+    "noImage": {
+      "title": "No Image",
+      "message": "Please select a profile picture first"
+    },
+    "upload": {
+      "failed": {
+        "title": "Error",
+        "message": "Failed to upload profile picture"
+      },
+      "registerFailed": {
+        "title": "Error",
+        "message": "Failed to complete registration"
+      }
+    },
+    "overlay": {
+      "tap": "Tap to select"
+    },
+    "buttons": {
+      "later": "Later",
+      "next": "Next"
+    }
+  },
+  "registerDetails": {
+    "title": "Just Few More Details",
+    "labels": {
+      "name": "Name",
+      "surname": "Surname",
+      "country": "Country/City",
+      "birthTime": "Birth Time"
+    },
+    "placeholders": {
+      "name": "Enter your name",
+      "surname": "Enter your surname",
+      "country": "Enter your City",
+      "birthTime": "Select your birth time"
+    },
+    "buttons": {
+      "next": "Next"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidTime": "Invalid time format"
+    }
+  },
+  "registerDetailsG": {
+    "congrats": "Congratulations — you signed up",
+    "subtitle": "Now personal details",
+    "labels": {
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "placeholders": {
+      "selectDate": "Select your birth date"
+    },
+    "buttons": {
+      "next": "Next"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidDate": "Invalid date format"
+    }
+  },
+  "profile": {
+    "permission": {
+      "title": "Permission Required",
+      "message": "Please allow access to your photo library"
+    },
+    "alerts": {
+      "successTitle": "Success",
+      "successMessage": "Profile picture updated successfully!",
+      "errorTitle": "Error",
+      "errorUpload": "Failed to update profile picture",
+      "errorUploadGeneric": "Failed to upload image"
+    },
+    "topBar": {
+      "settings": "Settings"
+    },
+    "user": {
+      "sunSign": "Sun Sign",
+      "moonSign": "Moon Sign",
+      "ascendant": "Ascendant",
+      "element": "Element",
+      "polarity": "Polarity",
+      "modality": "Modality"
+    },
+    "birth": {
+      "birthInfo": "Birth info"
+    },
+    "palmitry": {
+      "pastPalmitries": "Past Palmitries",
+      "pastDreams": "Past Dream Interpretations",
+      "watchAds": "Watch ads",
+      "unlockForever": "Unlock Forever",
+      "unlocked": "Content unlocked!",
+      "reading": "Reading",
+      "dream": "Dream",
+      "noPastReadings": "No past palm readings yet",
+      "noPastDreams": "No past dream interpretations yet"
+    },
+    "location": "Location",
+    "loading": "Loading..."
+  },
+  "userHoroscope": {
+    "aries": "Aries",
+    "taurus": "Taurus",
+    "gemini": "Gemini",
+    "cancer": "Cancer",
+    "leo": "Leo",
+    "virgo": "Virgo",
+    "libra": "Libra",
+    "scorpio": "Scorpio",
+    "sagittarius": "Sagittarius",
+    "capricorn": "Capricorn",
+    "aquarius": "Aquarius",
+    "pisces": "Pisces"
+  },
+  "deleteAccount": {
+    "deleteAccount": "Delete Account",
+    "deleteAccountWarning": "Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently deleted.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "accountDeleted": "Account Deleted",
+    "accountDeletedMessage": "Your account has been successfully deleted.",
+    "error": "Error",
+    "deleteAccountError": "Failed to delete account. Please try again."
+  },
+  "newcomer": {
+    "loading": "Loading...",
+    "hello": "Hello, {{name}}!",
+    "yourZodiacSign": "Your zodiac sign is {{sign}}",
+    "letsSeeDailyHoroscope": "Let's see your HOROSCOPE",
+    "next": "Next"
+  },
+  "elements": {
+    "fire": "Fire",
+    "earth": "Earth",
+    "air": "Air",
+    "water": "Water"
+  },
+  "polarity": {
+    "positive": "Positive",
+    "negative": "Negative",
+    "yang": "Yang",
+    "yin": "Yin"
+  },
+  "modality": {
+    "cardinal": "Cardinal",
+    "fixed": "Fixed",
+    "mutable": "Mutable"
+  }
+}

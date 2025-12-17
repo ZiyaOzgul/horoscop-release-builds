@@ -1,0 +1,713 @@
+{
+  "common": {
+    "back": "Geri",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "continue": "Devam",
+    "done": "Tamam"
+  },
+  "language": {
+    "title": "Dil",
+    "select": "Dil Seçin",
+    "english": "İngilizce",
+    "active": "Seçildi",
+    "info": "Türkçe Dilini Kullanıyorsunuz",
+    "turkish": "Türkçe",
+    "success": {
+      "title": "Dil Seçimi Başarılı",
+      "message": "Diliniz başarıyla türkçeye çevrildi"
+    }
+  },
+  "plans": {
+    "processing": "Satın alma işleniyor...",
+    "restore": {
+      "button": "Satın Alımları Geri Yükle",
+      "success": "Başarılı!",
+      "restored": "Aboneliğiniz geri yüklendi",
+      "notFound": "Abonelik Bulunamadı",
+      "noSubscription": "Aktif abonelik bulunamadı"
+    },
+    "errors": {
+      "notSignedIn": "Giriş Yapılmadı",
+      "signInFirst": "Satın almak için lütfen giriş yapın",
+      "noOfferings": "Plan Mevcut Değil",
+      "tryAgain": "Lütfen daha sonra tekrar deneyin",
+      "purchaseFailed": "Satın Alma Başarısız",
+      "restoreFailed": "Geri Yükleme Başarısız"
+    },
+    "success": {
+      "title": "Premium'a Hoş Geldiniz! 🎉",
+      "message": "Artık tüm premium özelliklere erişiminiz var",
+      "ok": "Hadi Başlayalım!",
+      "alreadyActive": "Zaten aktif bir premium aboneliğiniz var!",
+      "subscriptionFound": "Bir abonelik bulundu ancak premium özellikler aktif değil. Lütfen satın alımları geri yüklemeyi deneyin."
+    },
+    "downgrade": {
+      "title": "Ücretsiz Plana Geç",
+      "message": "Aboneliğiniz faturalandırma döneminin sonunda iptal edilecek"
+    },
+    "title": "Planınızı Seçin",
+    "subtitle": "Sizin için en uygun planı seçin",
+    "currentPlan": "Mevcut Plan",
+    "free": {
+      "name": "Ücretsiz Plan",
+      "price": "$0",
+      "period": "Sonsuza Kadar"
+    },
+    "premium": {
+      "name": "Premium Plan",
+      "price": "$9.99",
+      "period": "aylık",
+      "badge": "PREMIUM"
+    },
+    "features": {
+      "horoscope": "Ücretsiz Burç Yorumu",
+      "dream": "Ücretsiz Rüya Yorumlama",
+      "palmistry": "Ücretsiz El Falı",
+      "unlimited": "Limitsiz Sorgulama",
+      "tracking": "Geçmiş Veri Takibi",
+      "adFree": "Reklamsız Deneyim"
+    },
+    "notes": {
+      "ads": "Reklamlar dahildir",
+      "cancel": "İstediğiniz zaman iptal edebilirsiniz"
+    },
+    "buttons": {
+      "upgrade": "Premium'a Yükselt",
+      "downgrade": "Ücretsiz plana düşür"
+    }
+  },
+
+  "home": {
+    "welcome": "Hoş geldiniz",
+    "goodMorning": "Günaydın",
+    "goodAfternoon": "İyi günler",
+    "goodEvening": "İyi akşamlar"
+  },
+  "dream": {
+    "title": "Rüya Yorumu",
+    "placeholder": "Rüyanızda ne gördünüz ...",
+    "button": "Görelim",
+    "description": "Lütfen rüyanızı olabildiğince canlı bir şekilde yazın. Görseller, duygular, semboller ve alışılmadık olaylar gibi anahtar ayrıntıları ekleyin. Ne kadar çok bağlam verirseniz bilinçaltınızdaki gizli anlamları bulmamıza o kadar yardımcı olur.",
+    "frequent": "Sık Görülenler:",
+    "categories": [
+      {
+        "category": "Doğa & Unsurlar",
+        "items": [
+          "Su",
+          "Okyanus",
+          "Nehir",
+          "Yağmur",
+          "Göl",
+          "Şelale",
+          "Ağaç",
+          "Çiçek",
+          "Çalı",
+          "Orman",
+          "Bahçe",
+          "Bulutlar",
+          "Güneş",
+          "Ay",
+          "Yıldızlar",
+          "Gökkuşağı"
+        ]
+      },
+      {
+        "category": "Binalar & Yapılar",
+        "items": [
+          "Ev",
+          "Yuva",
+          "Daire",
+          "Kulübe",
+          "Kale",
+          "Gökdelen",
+          "Kapı",
+          "Pencere",
+          "Giriş",
+          "Köprü",
+          "Tünel",
+          "Yatak Odası",
+          "Mutfak",
+          "Salon",
+          "Çatı Arası"
+        ]
+      },
+      {
+        "category": "Zaman & Hareket",
+        "items": [
+          "Saat",
+          "Kol Saati",
+          "Takvim",
+          "Araba",
+          "Bisiklet",
+          "Tren",
+          "Uçak",
+          "Tekne",
+          "Otobüs"
+        ]
+      },
+      {
+        "category": "Aletler & Günlük Eşyalar",
+        "items": [
+          "Anahtar",
+          "Kilit",
+          "Zil",
+          "Ayna",
+          "Kadeh",
+          "Kitap",
+          "Mektup",
+          "Gazete",
+          "Günlük"
+        ]
+      },
+      {
+        "category": "Soyut & Sembolik",
+        "items": [
+          "Ateş",
+          "Mum",
+          "Lamba",
+          "Kıvılcım",
+          "Merdiven",
+          "Ladder",
+          "Yürüyen Merdiven",
+          "Para",
+          "Bozuk Para",
+          "Mücevher"
+        ]
+      },
+      {
+        "category": "Canlı Varlıklar",
+        "items": [
+          "Yılan",
+          "Köpek",
+          "Kedi",
+          "Kuş",
+          "Aslan",
+          "Balık",
+          "Yabancı",
+          "Arkadaş",
+          "Aile Üyesi",
+          "Ünlü"
+        ]
+      }
+    ]
+  },
+  "bottomBar": {
+    "horoscope": "Horoscope",
+    "loveMatch": "Aşk Uyumu",
+    "palmistry": "El Falı",
+    "dream": "Rüya Yorumu",
+    "profile": "Profil"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "account": "Hesap",
+    "language": "Dil",
+    "notifications": "Bildirimler",
+    "privacy": "Gizlilik",
+    "terms": "Hizmet Şartları",
+    "logout": "Çıkış Yap",
+    "change": "Şifre Değiştir",
+    "social": "Sosyal",
+    "plans": "Üyelikler"
+  },
+  "changePassword": {
+    "title": "Şifre Değiştir",
+    "back": "Geri",
+    "labels": {
+      "currentPassword": "Mevcut Şifre",
+      "newPassword": "Yeni Şifre",
+      "confirmPassword": "Yeni Şifreyi Onayla"
+    },
+    "placeholders": {
+      "currentPassword": "Mevcut şifrenizi girin",
+      "newPassword": "Yeni şifrenizi girin",
+      "confirmPassword": "Yeni şifrenizi onaylayın"
+    },
+    "buttons": {
+      "change": "Şifreyi Değiştir",
+      "changing": "Değiştiriliyor..."
+    },
+    "alerts": {
+      "userNotFound": "Hata: Kullanıcı bulunamadı",
+      "passwordsDoNotMatch": "Hata: Yeni şifreler eşleşmiyor",
+      "passwordTooShort": "Hata: Şifre en az 8 karakter olmalı",
+      "changeSuccess": "Şifre başarıyla değiştirildi!",
+      "changeFailed": "Şifre değiştirilemedi",
+      "currentIncorrect": "Mevcut şifre yanlış",
+      "pwned": "Bu şifre ele geçirilmiş. Lütfen farklı bir şifre seçin",
+      "validationFailed": "Şifre gereksinimleri karşılanmıyor"
+    },
+    "requirements": {
+      "title": "Şifre Gereksinimleri:",
+      "items": [
+        "En az 8 karakter uzunluğunda olmalı",
+        "Harf ve rakam içermeli",
+        "Kolay tahmin edilen parolalardan kaçının"
+      ]
+    },
+    "validation": {
+      "requiredCurrent": "Mevcut şifre gerekli",
+      "requiredNew": "Yeni şifre gerekli",
+      "minLengthNew": "Şifre en az 8 karakter olmalı",
+      "confirmRequired": "Lütfen yeni şifrenizi onaylayın",
+      "confirmMismatch": "Şifreler eşleşmiyor"
+    }
+  },
+  "confirmPhoto": {
+    "notFound": "Fotoğraf Bulunamadı!",
+    "back": "Geri",
+    "check": "Fotoğrafını Kontrol Et",
+    "inst": "Daha iyi bir okuma için elinin net ve görünür bir şekilde olduğundan emin ol.",
+    "retake": "Tekrar Çek",
+    "submit": "Onayla ve devam et"
+  },
+  "authIndex": {
+    "title": "Hesabına Giriş Yap",
+    "enterWith": {
+      "facebook": "Facebook ile Giriş Yap",
+      "google": "Google ile Giriş Yap",
+      "apple": "Apple ile Giriş Yap"
+    },
+    "or": "Veya",
+    "buttons": {
+      "login": "Hemen Giriş Yap",
+      "signup": "Kayıt Ol"
+    },
+    "noAccount": "Hesabın yok mu?"
+  },
+  "loading": {
+    "welcome": {
+      "welcome": "HOROSCOPE",
+      "horoscope": "Hoş Geldiniz"
+    },
+    "loadingLoveMatch": {
+      "calc": "Aşk Eşleşmeniz",
+      "loveM": "Hesaplanıyor..."
+    },
+    "loadingDreams": {
+      "catch": "Rüyalarınız",
+      "dreams": "Yakalanıyor..."
+    },
+    "loadingProfile": {
+      "loading": "Profiliniz",
+      "profile": "Yükleniyor..."
+    }
+  },
+  "opening": {
+    "or": "Veya",
+    "slides": [
+      {
+        "title": "Kozmik Yolculuk & Kendini Keşfetme",
+        "text": "Horoscope uygulamasına hoş geldiniz.Sizi kendini keşif ve aydınlanma yolculuğuna yönlendiriyoruz.",
+        "buttonText": "Horoscopunu Gör"
+      },
+      {
+        "title": "Aşk Eşinizi Bulun",
+        "text": "Bu ay sizinle en uyumlu burçları eşleştirin. Horoscope, gelecekteki partnerinizi bulmanızda yardımcı olsun.",
+        "buttonText": "Aşkımı Bul"
+      },
+      {
+        "title": "Geleceğinizi Keşfedin",
+        "text": "El falı özelliğimiz geleceğiniz hakkında içgörüleri sunar. Elinizi tarayın ve yıldızlar yolunuzu açsın.",
+        "buttonText": "Elimi Oku"
+      },
+      {
+        "title": "İçinizdeki Sırları Açığa Çıkarın",
+        "text": "Bilinçaltınızın gizli dilini keşfedin. Rüya yorumlama rehberi, uyanık hayatınızı dönüştürebilecek içgörüler sunar.",
+        "buttonText": "Rüyamı Yorumla"
+      }
+    ]
+  },
+  "photo": {
+    "title": "El Falı",
+    "permissionText": "Eğer el falına bakmak istiyorsan bir fotoğraf çek. Fotoğrafı sınırlar içerisinde çekmeye dikkat et.",
+    "give": "İzin Ver"
+  },
+  "dreamResult": {
+    "text": "Rüyanızın Yorumlama Sonuçları",
+    "overall": "Sonuç"
+  },
+  "loveMatch": {
+    "title": "Aşk Uyumu",
+    "chooseZodiacs": "Burçları Seçin",
+    "button": "Aşk Uyumluluğunuzu Alın",
+    "zodiacNames": [
+      "Koç",
+      "Boğa",
+      "İkizler",
+      "Yengeç",
+      "Aslan",
+      "Başak",
+      "Terazi",
+      "Akrep",
+      "Yay",
+      "Oğlak",
+      "Kova",
+      "Balık"
+    ],
+    "remove": "Kaldır"
+  },
+  "horoscope": {
+    "barTitles": {
+      "general": "Genel",
+      "love": "Aşk",
+      "career": "Kariyer",
+      "health": "Sağlık",
+      "lucks": "Şans",
+      "yourHoroscope": "Burcun"
+    },
+    "dateFormat": "{{day}}/{{month}}/{{year}}",
+    "landing": {
+      "title": "Kişisel Horoscopunuz Hazır.",
+      "cta": "Devam Etmek İçin Dokunun"
+    },
+    "loading": {
+      "weekly": "Haftalık burç yükleniyor...",
+      "monthly": "Aylık burç yükleniyor...",
+      "weeklyMonthly": "Haftalık ve aylık burçlar yükleniyor...",
+      "generating": "Horoscopunuz oluşturuluyor...",
+      "loading": "Horoscopunuz yükleniyor..."
+    },
+    "buttons": {
+      "today": "GÜNLÜK",
+      "week": "HAFTALIK",
+      "month": "AYLIK"
+    },
+    "signs": {
+      "moon": "Ay Burcu:",
+      "sun": "Güneş Burcu:",
+      "ascendant": "Yükselen:"
+    },
+    "slots": {
+      "yourPersonalIsReady": "Kişisel Horoscopunuz Hazır."
+    },
+    "noData": {
+      "fetchError": "Burç alınırken hata oluştu"
+    },
+    "premium": {
+      "buyPremiumForAccess": "Tam Detaylar İçin Premium Satın Alın"
+    }
+  },
+  "resultLoveMatch": {
+    "details": "Detaylar:",
+    "potentialToCharm": "Birbirinizi büyüleme potansiyeli",
+    "scores": "Şansınız",
+    "yourScore": "Puanınız",
+    "love": "Aşk",
+    "business": "İş",
+    "sex": "Seks",
+    "friendship": "Arkadaşlık",
+    "swipeToExplore": "Keşfetmek için kaydır"
+  },
+  "palmistry": {
+    "ad": {
+      "waitingTitle": "Lütfen Reklamı İzleyin",
+      "waitingMessage": "Avuç içi analiz sonuçlarınızı görmek için kısa bir reklam izleyin. Desteğiniz için teşekkürler!"
+    },
+    "headerTitle": "El Analizi",
+    "loading": {
+      "analyzingTitle": "Eliniz analiz ediliyor...",
+      "analyzingSub": "Yapay zekamız, geleceğiniz hakkında içgörüler sağlamak için avucunuzu okuyor.",
+      "activityLabel": "Analiz ediliyor"
+    },
+    "error": {
+      "title": "Analiz Başarısız",
+      "defaultMessage": "El resmi analiz edilemedi. Lütfen elinizin net göründüğünden emin olup tekrar deneyin.",
+      "retryButton": "Tekrar dene"
+    },
+    "result": {
+      "pageTitle": "El Okumanız",
+      "summary": "Özet",
+      "details": "Detaylar",
+      "result": "Sonuç",
+      "handType": "El Tipi",
+      "lifeLine": "Yaşam Hattı",
+      "heartLine": "Kalp Hattı",
+      "fateLine": "Kader Hattı",
+      "disclaimer": "Bu okuma yalnızca eğlence amaçlıdır."
+    },
+    "placeholders": {
+      "noPhoto": "Fotoğraf yok"
+    }
+  },
+  "notifications": {
+    "title": "Bildirimler",
+    "textNull": "Sizin için henüz bir bildirim yok."
+  },
+  "security": {
+    "title": "Güvenlik"
+  },
+  "social": {
+    "title": "Sosyal",
+    "textNull": "Henüz yeni birşey yok. Güncellemeler için bildirimlerini aç."
+  },
+  "login": {
+    "title": "Giriş Yap",
+    "labels": {
+      "emailOrUsername": "E-posta / Kullanıcı Adı",
+      "password": "Şifre"
+    },
+    "placeholders": {
+      "emailOrUsername": "E-posta veya kullanıcı adınızı girin",
+      "password": "Şifrenizi girin"
+    },
+    "buttons": {
+      "login": "Giriş Yap",
+      "loading": "Giriş yapılıyor..."
+    },
+    "validation": {
+      "required": "Bu alan zorunlu",
+      "invalidCredentials": "E-posta veya şifre yanlış"
+    },
+    "toasts": {
+      "signinError": "E-posta veya şifre yanlış"
+    },
+    "links": {
+      "forgetPassword": "Şifremi unuttum"
+    }
+  },
+  "forgetPassword": {
+    "title": "Şifremi Unuttum",
+    "description": "E-posta adresinizi girin, size şifre sıfırlama kodu gönderelim.",
+    "codeDescription": "{{email}} adresine bir doğrulama kodu gönderdik. Lütfen aşağıya kodu girin.",
+    "passwordDescription": "Lütfen yeni şifrenizi girin.",
+    "labels": {
+      "email": "E-posta Adresi",
+      "code": "Doğrulama Kodu",
+      "newPassword": "Yeni Şifre",
+      "confirmPassword": "Şifreyi Onayla"
+    },
+    "placeholders": {
+      "email": "E-posta adresinizi girin",
+      "code": "Kodu girin",
+      "newPassword": "Yeni şifrenizi girin",
+      "confirmPassword": "Yeni şifrenizi onaylayın"
+    },
+    "buttons": {
+      "sendCode": "Sıfırlama Kodu Gönder",
+      "sendResetLink": "Sıfırlama Bağlantısı Gönder",
+      "verifyCode": "Kodu Doğrula",
+      "resetPassword": "Şifreyi Sıfırla",
+      "backToLogin": "Girişe Dön"
+    },
+    "validation": {
+      "required": "E-posta gereklidir",
+      "invalidEmail": "Geçersiz e-posta adresi",
+      "clerkNotReady": "Servis hazır değil. Lütfen tekrar deneyin.",
+      "codeRequired": "Kod gereklidir",
+      "passwordRequired": "Şifre gereklidir",
+      "confirmPasswordRequired": "Lütfen şifrenizi onaylayın"
+    },
+    "success": {
+      "emailSent": "Şifre sıfırlama kodu gönderildi! Gelen kutunuzu kontrol edin.",
+      "codeVerified": "Kod doğrulandı! Lütfen yeni şifrenizi girin.",
+      "passwordReset": "Şifre başarıyla sıfırlandı! Artık yeni şifrenizle giriş yapabilirsiniz.",
+      "passwordResetMessage": "Şifreniz başarıyla sıfırlandı! Artık yeni şifrenizle giriş yapabilirsiniz.",
+      "message": "E-posta adresinize bir şifre sıfırlama kodu gönderdik. Lütfen gelen kutunuzu kontrol edin ve kodu girin."
+    },
+    "error": {
+      "generic": "Sıfırlama e-postası gönderilemedi. Lütfen tekrar deneyin.",
+      "emailNotFound": "E-posta adresi bulunamadı.",
+      "invalidEmail": "Geçersiz e-posta adresi.",
+      "unexpectedStatus": "Beklenmeyen yanıt. Lütfen tekrar deneyin.",
+      "invalidCode": "Geçersiz kod. Lütfen tekrar deneyin.",
+      "passwordsDoNotMatch": "Şifreler eşleşmiyor.",
+      "passwordTooShort": "Şifre en az 8 karakter olmalıdır.",
+      "resetFailed": "Şifre sıfırlanamadı. Lütfen tekrar deneyin.",
+      "passwordPwned": "Bu şifre ele geçirilmiş. Lütfen farklı bir şifre seçin.",
+      "passwordValidationFailed": "Şifre gereksinimleri karşılanmıyor."
+    }
+  },
+  "register": {
+    "title": "Hesabınızı Oluşturun",
+    "labels": {
+      "email": "E-posta",
+      "password": "Şifre"
+    },
+    "placeholders": {
+      "email": "E-posta adresinizi girin",
+      "password": "Şifrenizi girin"
+    },
+    "buttons": {
+      "create": "Oluştur",
+      "creating": "Oluşturuluyor..."
+    },
+    "validation": {
+      "required": "Bu alan zorunlu",
+      "invalidEmail": "Lütfen geçerli bir e-posta adresi girin",
+      "minLength": "Şifre en az 6 karakter olmalı",
+      "uppercase": "Şifre en az 1 büyük harf içermeli"
+    },
+    "requirements": {
+      "minLength": "En az 6 karakter uzunluğunda",
+      "uppercase": "1 büyük harf içerir"
+    },
+    "toasts": {
+      "signupError": "Kayıt başarısız. Lütfen tekrar deneyin."
+    }
+  },
+  "profilePicture": {
+    "title": "Profil Fotoğrafı",
+    "permission": {
+      "title": "İzin Gerekli",
+      "message": "Lütfen fotoğraf galerisine erişim izni verin"
+    },
+    "pickError": {
+      "title": "Hata",
+      "message": "Fotoğraf seçilemedi"
+    },
+    "noImage": {
+      "title": "Fotoğraf Yok",
+      "message": "Lütfen önce bir profil fotoğrafı seçin"
+    },
+    "upload": {
+      "failed": {
+        "title": "Hata",
+        "message": "Profil fotoğrafı yüklenemedi"
+      },
+      "registerFailed": {
+        "title": "Hata",
+        "message": "Kayıt tamamlanamadı"
+      }
+    },
+    "overlay": {
+      "tap": "Seçmek için dokun"
+    },
+    "buttons": {
+      "later": "Daha Sonra",
+      "next": "İleri"
+    }
+  },
+  "registerDetails": {
+    "title": "Bir Kaç Detay Daha",
+    "labels": {
+      "name": "İsim",
+      "surname": "Soyisim",
+      "country": "Ülke/Şehir",
+      "birthTime": "Doğum Saati"
+    },
+    "placeholders": {
+      "name": "İsminizi girin",
+      "surname": "Soyisminizi girin",
+      "country": "Şehrinizi girin",
+      "birthTime": "Doğum saatinizi seçin"
+    },
+    "buttons": {
+      "next": "İleri"
+    },
+    "validation": {
+      "required": "Bu alan zorunludur",
+      "invalidTime": "Geçersiz saat formatı"
+    }
+  },
+  "registerDetailsG": {
+    "congrats": "Tebrikler — kaydınız tamamlandı",
+    "subtitle": "Şimdi kişisel bilgiler",
+    "labels": {
+      "dateOfBirth": "Doğum tarihi",
+      "gender": "Cinsiyet",
+      "male": "Erkek",
+      "female": "Kadın"
+    },
+    "placeholders": {
+      "selectDate": "Doğum tarihinizi seçin"
+    },
+    "buttons": {
+      "next": "İleri"
+    },
+    "validation": {
+      "required": "Bu alan zorunludur",
+      "invalidDate": "Geçersiz tarih formatı"
+    }
+  },
+  "profile": {
+    "permission": {
+      "title": "İzin Gerekli",
+      "message": "Lütfen fotoğraf galerisine erişim izni verin"
+    },
+    "alerts": {
+      "successTitle": "Başarılı",
+      "successMessage": "Profil fotoğrafı başarıyla güncellendi!",
+      "errorTitle": "Hata",
+      "errorUpload": "Profil fotoğrafı güncellenemedi",
+      "errorUploadGeneric": "Resim yüklenemedi"
+    },
+    "topBar": {
+      "settings": "Ayarlar"
+    },
+    "user": {
+      "sunSign": "Güneş Burcu",
+      "moonSign": "Ay Burcu",
+      "ascendant": "Yükselen",
+      "element": "Element",
+      "polarity": "Kutup",
+      "modality": "Modalite"
+    },
+    "birth": {
+      "birthInfo": "Doğum bilgileri"
+    },
+    "palmitry": {
+      "pastPalmitries": "Geçmiş El Okumaları",
+      "pastDreams": "Geçmiş Rüya Yorumları",
+      "watchAds": "Reklam İzle",
+      "unlockForever": "Sonsuza Kadar Aç",
+      "unlocked": "İçerik açıldı!",
+      "reading": "Okuma",
+      "dream": "Rüya",
+      "noPastReadings": "Henüz geçmiş el okuması yok",
+      "noPastDreams": "Henüz geçmiş rüya yorumu yok"
+    },
+    "location": "Konum",
+    "loading": "Yükleniyor..."
+  },
+  "userHoroscope": {
+    "aries": "Koç",
+    "taurus": "Boğa",
+    "gemini": "İkizler",
+    "cancer": "Yengeç",
+    "leo": "Aslan",
+    "virgo": "Başak",
+    "libra": "Terazi",
+    "scorpio": "Akrep",
+    "sagittarius": "Yay",
+    "capricorn": "Oğlak",
+    "aquarius": "Kova",
+    "pisces": "Balık"
+  },
+  "deleteAccount": {
+    "deleteAccount": "Hesabı Sil",
+    "deleteAccountWarning": "Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz ve tüm verileriniz kalıcı olarak silinecektir.",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "accountDeleted": "Hesap Silindi",
+    "accountDeletedMessage": "Hesabınız başarıyla silindi.",
+    "error": "Hata",
+    "deleteAccountError": "Hesap silinemedi. Lütfen tekrar deneyin.",
+    "userNotFound": "Kullanıcı bulunamadı. Lütfen tekrar giriş yapın."
+  },
+  "newcomer": {
+    "loading": "Yükleniyor...",
+    "hello": "Merhaba, {{name}}!",
+    "yourZodiacSign": "Burcun {{sign}}",
+    "letsSeeDailyHoroscope": "BURÇ YORUMUNUZU görelim",
+    "next": "İleri"
+  },
+  "elements": {
+    "fire": "Ateş",
+    "earth": "Toprak",
+    "air": "Hava",
+    "water": "Su"
+  },
+  "polarity": {
+    "positive": "Pozitif",
+    "negative": "Negatif",
+    "yang": "Yang",
+    "yin": "Yin"
+  },
+  "modality": {
+    "cardinal": "Öncü",
+    "fixed": "Sabit",
+    "mutable": "Değişken"
+  }
+}

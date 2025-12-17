@@ -1,0 +1,103 @@
+{
+  "expo": {
+    "name": "Horoscope",
+    "slug": "horoscope",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "horoscope",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "googleMobileAdsAppId": "ca-app-pub-xxxxxxxxxxxxx~yyyyyyyyyy",
+      "splash": {
+        "image": "./assets/images/icon.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "android": {
+      "blockedPermissions": ["com.android.vending.BILLING"],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.horoscope",
+      "googleMobileAdsAppId": "ca-app-pub-xxxxxxxxxxxxx~yyyyyyyyyy"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to set your profile picture"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0",
+            "extraMavenRepos": ["https://maven.google.com"],
+            "extraProguardRules": "-keep class com.android.vending.billing.** { *; }"
+          },
+          "ios": {
+            "deploymentTarget": "15.1"
+          }
+        }
+      ],
+      "expo-router",
+      "expo-font",
+      "expo-secure-store",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/icon.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
+      "expo-localization",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-4099680443697121~7533788311",
+          "iosAppId": "ca-app-pub-xxxxxxxxxxxxx~yyyyyyyyyy"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c99f7219-f23b-4193-bf25-7c8b5c777508"
+      }
+    }
+  }
+}

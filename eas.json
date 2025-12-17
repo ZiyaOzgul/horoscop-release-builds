@@ -1,0 +1,43 @@
+{
+  "build": {
+    "development": {
+      "developmentClient": false,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "API_URL": "$API_URL",
+        "CONVEX_DEPLOYMENT": "$CONVEX_DEPLOYMENT",
+        "EXPO_PUBLIC_CONVEX_URL": "$EXPO_PUBLIC_CONVEX_URL",
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "$EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "app-bundle",
+        "releaseChannel": "default",
+        "image": "ubuntu-22.04-jdk-17-ndk-r26b"
+      },
+      "ios": {
+        "releaseChannel": "default"
+      },
+      "autoIncrement": true,
+      "env": {
+        "API_URL": "$API_URL",
+        "CONVEX_DEPLOYMENT": "$CONVEX_DEPLOYMENT",
+        "EXPO_PUBLIC_CONVEX_URL": "$EXPO_PUBLIC_CONVEX_URL",
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "$EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  },
+  "cli": {
+    "appVersionSource": "remote"
+  }
+}
