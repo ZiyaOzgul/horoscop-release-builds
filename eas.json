@@ -19,11 +19,11 @@
     "production": {
       "android": {
         "buildType": "app-bundle",
-        "releaseChannel": "default",
+        "releaseChannel": "latest",
         "image": "ubuntu-22.04-jdk-17-ndk-r26b"
       },
       "ios": {
-        "releaseChannel": "default"
+        "releaseChannel": "latest"
       },
       "autoIncrement": true,
       "env": {

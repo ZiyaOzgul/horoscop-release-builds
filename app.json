@@ -14,7 +14,6 @@
     },
     "ios": {
       "supportsTablet": true,
-      "googleMobileAdsAppId": "ca-app-pub-xxxxxxxxxxxxx~yyyyyyyyyy",
       "splash": {
         "image": "./assets/images/icon.png",
         "resizeMode": "cover",
@@ -27,13 +26,11 @@
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
-
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.anonymous.horoscope",
-      "googleMobileAdsAppId": "ca-app-pub-xxxxxxxxxxxxx~yyyyyyyyyy"
+      "package": "com.anonymous.horoscope"
     },
     "web": {
       "bundler": "metro",
@@ -55,7 +52,8 @@
             "targetSdkVersion": 35,
             "buildToolsVersion": "35.0.0",
             "extraMavenRepos": ["https://maven.google.com"],
-            "extraProguardRules": "-keep class com.android.vending.billing.** { *; }"
+            "extraProguardRules": "-keep class com.android.vending.billing.** { *; }",
+            "ndkVersion": "29.0.13846066"
           },
           "ios": {
             "deploymentTarget": "15.1"
