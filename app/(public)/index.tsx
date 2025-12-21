@@ -16,6 +16,7 @@ import {
 } from "react-native-responsive-screen";
 
 import { useSSO } from "@clerk/clerk-expo";
+import * as Linking from "expo-linking";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import LinearGradient from "react-native-linear-gradient";
@@ -26,29 +27,42 @@ const Index = () => {
 
   const handleFacebookLogin = async () => {
     try {
+      const callbackUrl = Linking.createURL("/(public)/ssp-callback", {
+        scheme: "horoscope",
+      });
+
       const { createdSessionId, setActive } = await startSSOFlow({
         strategy: "oauth_facebook",
+        redirectUrl: callbackUrl,
       });
-      if (createdSessionId) {
-        setActive!({
+      if (createdSessionId && setActive) {
+        await setActive({
           session: createdSessionId,
+          redirectUrl: "",
         });
         router.replace("/(public)/(account)/loading");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Facebook login error:", error);
     }
   };
 
   const handleGoogleLogin = async () => {
     try {
-      const { createdSessionId, setActive } = await startSSOFlow({
-        strategy: "oauth_google",
-        redirectUrl: undefined,
+      const callbackUrl = Linking.createURL("/(public)/ssp-callback", {
+        scheme: "horoscope",
       });
 
-      if (createdSessionId) {
-        await setActive!({ session: createdSessionId });
+      const { createdSessionId, setActive } = await startSSOFlow({
+        strategy: "oauth_google",
+        redirectUrl: callbackUrl,
+      });
+
+      if (createdSessionId && setActive) {
+        await setActive({
+          session: createdSessionId,
+          redirectUrl: "",
+        });
         router.replace("/(public)/(account)/loading");
       }
     } catch (error) {
@@ -58,17 +72,23 @@ const Index = () => {
 
   const handleApplelogin = async () => {
     try {
+      const callbackUrl = Linking.createURL("/(public)/ssp-callback", {
+        scheme: "horoscope",
+      });
+
       const { createdSessionId, setActive } = await startSSOFlow({
         strategy: "oauth_apple",
+        redirectUrl: callbackUrl,
       });
-      if (createdSessionId) {
-        setActive!({
+      if (createdSessionId && setActive) {
+        await setActive({
           session: createdSessionId,
+          redirectUrl: "",
         });
         router.replace("/(public)/(account)/loading");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Apple login error:", error);
     }
   };
 

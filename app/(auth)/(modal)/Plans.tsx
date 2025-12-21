@@ -1,9 +1,10 @@
 import { Colors } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setUserData } from "@/redux/horoscopeSlicer";
 import { useUser } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,85 +32,320 @@ const Plans = () => {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const { user } = useUser();
+  const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0);
   const [purchasing, setPurchasing] = useState(false);
   const [offerings, setOfferings] = useState<PurchasesOffering | null>(null);
   const [selectedPackage, setSelectedPackage] =
     useState<PurchasesPackage | null>(null);
+  const [goldPackage, setGoldPackage] = useState<PurchasesPackage | null>(null);
+  const [platinumPackage, setPlatinumPackage] =
+    useState<PurchasesPackage | null>(null);
   const pagerRef = useRef<PagerView>(null);
   const currentUser = useAppSelector((state) => state.horoscope.userData);
 
   const updateSubscription = useMutation(api.users.updateSubscription);
+  const getUserData = useQuery(
+    api.users.getUserWithClerkID,
+    user?.id ? { clerkId: user.id } : "skip"
+  );
 
-  // Fetch RevenueCat offerings on mount
+  useEffect(() => {
+    if (getUserData) {
+      dispatch(setUserData(getUserData));
+    }
+  }, [getUserData, dispatch]);
+
   useEffect(() => {
     fetchOfferings();
-    checkCurrentSubscription();
   }, []);
 
   const fetchOfferings = async () => {
     try {
       const offerings = await Purchases.getOfferings();
-      if (offerings.current && offerings.current.availablePackages.length > 0) {
-        setOfferings(offerings.current);
 
-        const premiumPackage = offerings.current.availablePackages[0];
-        setSelectedPackage(premiumPackage);
+      // Collect all packages from all offerings (current + others)
+      let allPackages: PurchasesPackage[] = [];
 
-        console.log("✅ Offerings loaded:", offerings.current);
-        console.log("📦 Product ID:", premiumPackage.product.identifier);
+      // First, log all offerings
+      console.log("🔍 All offerings:");
+      if (offerings.current) {
         console.log(
-          "💰 Price (localized):",
-          premiumPackage.product.priceString
+          `  - Current: ${offerings.current.identifier} (${offerings.current.availablePackages.length} packages)`
         );
-        console.log("💵 Price (numeric):", premiumPackage.product.price);
-        console.log("🌍 Currency Code:", premiumPackage.product.currencyCode);
-        console.log("📦 Package Type:", premiumPackage.packageType);
+        allPackages.push(...offerings.current.availablePackages);
+      }
+
+      // Check all other offerings too
+      if (offerings.all && Object.keys(offerings.all).length > 0) {
+        Object.entries(offerings.all).forEach(([key, offering]) => {
+          if (key !== offerings.current?.identifier) {
+            console.log(
+              `  - ${key}: ${offering.identifier} (${offering.availablePackages.length} packages)`
+            );
+            allPackages.push(...offering.availablePackages);
+          }
+        });
+      }
+
+      // Set current offering for display (or first available)
+      if (offerings.current) {
+        setOfferings(offerings.current);
+      } else if (offerings.all && Object.keys(offerings.all).length > 0) {
+        const firstOffering = Object.values(offerings.all)[0];
+        setOfferings(firstOffering);
+      }
+
+      if (allPackages.length > 0) {
+        // Debug: Log all packages with details
+        console.log(
+          `🔍 Total packages from all offerings: ${allPackages.length}`
+        );
+        allPackages.forEach((pkg, index) => {
+          console.log(`  Package ${index + 1}:`);
+          console.log(`    - Package Identifier: ${pkg.identifier}`);
+          console.log(`    - Product Identifier: ${pkg.product.identifier}`);
+          console.log(`    - Product Title: ${pkg.product.title}`);
+          console.log(`    - Price: ${pkg.product.priceString}`);
+        });
+
+        // Find gold_monthly and platinum_monthly packages from ALL offerings
+        // Product identifiers: gold_monthly:base-gold and platinum_monthly:base-platinum
+        // Priority: exact match first, then flexible matching
+        const goldPkg = allPackages.find((pkg) => {
+          const productId = pkg.product.identifier.toLowerCase();
+          const packageId = pkg.identifier.toLowerCase();
+          const title = pkg.product.title?.toLowerCase() || "";
+
+          // Priority 1: Exact match for gold_monthly:base-gold
+          if (
+            productId === "gold_monthly:base-gold" ||
+            productId.includes("gold_monthly:base-gold")
+          ) {
+            return true;
+          }
+          // Priority 2: Contains gold_monthly (but not platinum)
+          if (
+            productId.includes("gold_monthly") &&
+            !productId.includes("platinum")
+          ) {
+            return true;
+          }
+          // Priority 3: Contains "gold" (but not "platinum")
+          if (
+            (productId.includes("gold") ||
+              packageId.includes("gold") ||
+              title.includes("gold")) &&
+            !productId.includes("platinum") &&
+            !packageId.includes("platinum") &&
+            !title.includes("platinum")
+          ) {
+            return true;
+          }
+          return false;
+        });
+
+        const platinumPkg = allPackages.find((pkg) => {
+          const productId = pkg.product.identifier.toLowerCase();
+          const packageId = pkg.identifier.toLowerCase();
+          const title = pkg.product.title?.toLowerCase() || "";
+
+          // Priority 1: Exact match for platinum_monthly:base-platinum
+          if (
+            productId === "platinum_monthly:base-platinum" ||
+            productId.includes("platinum_monthly:base-platinum")
+          ) {
+            return true;
+          }
+          // Priority 2: Contains platinum_monthly (but not gold)
+          if (
+            productId.includes("platinum_monthly") &&
+            !productId.includes("gold")
+          ) {
+            return true;
+          }
+          // Priority 3: Contains "platinum" (but not "gold")
+          if (
+            (productId.includes("platinum") ||
+              packageId.includes("platinum") ||
+              title.includes("platinum")) &&
+            !productId.includes("gold") &&
+            !packageId.includes("gold") &&
+            !title.includes("gold")
+          ) {
+            return true;
+          }
+          return false;
+        });
+
+        if (goldPkg) {
+          setGoldPackage(goldPkg);
+          console.log("✅ Gold package found!");
+          console.log("   - Product ID:", goldPkg.product.identifier);
+          console.log("   - Package ID:", goldPkg.identifier);
+          console.log("   - Product Title:", goldPkg.product.title);
+          console.log("   - Price:", goldPkg.product.priceString);
+
+          // Verify it's not platinum
+          const productId = goldPkg.product.identifier.toLowerCase();
+          if (productId.includes("platinum")) {
+            console.error(
+              "❌ WARNING: Gold package seems to be Platinum! Check RevenueCat configuration."
+            );
+          }
+        } else {
+          console.warn("⚠️ Gold package NOT found in any offering");
+          console.warn(
+            "   Make sure you've added gold package to a RevenueCat offering"
+          );
+        }
+
+        if (platinumPkg) {
+          setPlatinumPackage(platinumPkg);
+          console.log("✅ Platinum package found!");
+          console.log("   - Product ID:", platinumPkg.product.identifier);
+          console.log("   - Package ID:", platinumPkg.identifier);
+          console.log("   - Product Title:", platinumPkg.product.title);
+          console.log("   - Price:", platinumPkg.product.priceString);
+
+          // Verify it's not gold
+          const productId = platinumPkg.product.identifier.toLowerCase();
+          if (productId.includes("gold") && !productId.includes("platinum")) {
+            console.error(
+              "❌ WARNING: Platinum package seems to be Gold! Check RevenueCat configuration."
+            );
+          }
+        } else {
+          console.warn("⚠️ Platinum package NOT found in any offering");
+          console.warn(
+            "   Make sure you've added platinum package to a RevenueCat offering"
+          );
+        }
+
+        // Set default selected package to gold if available, otherwise platinum
+        if (goldPkg) {
+          setSelectedPackage(goldPkg);
+        } else if (platinumPkg) {
+          setSelectedPackage(platinumPkg);
+        }
+
+        if (offerings.current) {
+          console.log(
+            "✅ Current offering loaded:",
+            offerings.current.identifier
+          );
+        }
+        console.log(`📦 Total packages found: ${allPackages.length}`);
       } else {
-        console.warn("⚠️ No offerings available");
+        console.warn("⚠️ No packages available in any offering");
+        console.warn(
+          "   Check RevenueCat dashboard - make sure you have packages in your offerings"
+        );
       }
     } catch (error) {
       console.error("❌ Error fetching offerings:", error);
     }
   };
 
-  const checkCurrentSubscription = async () => {
-    if (!user?.id) return;
-
-    try {
-      await Purchases.logIn(user.id);
-      const customerInfo = await Purchases.getCustomerInfo();
-      console.log("data of user ----------->", customerInfo);
-
-      const isPremium =
-        typeof customerInfo.entitlements.active["Premium"] !== "undefined";
-
-      if (isPremium) {
-        const expirationDate =
-          customerInfo.entitlements.active["Premium"]?.expirationDate;
-
-        await updateSubscription({
-          clerkId: user.id,
-          userType: "premium",
-          subscriptionStatus: "active",
-          revenueCatUserId: customerInfo.originalAppUserId,
-          subscriptionEndDate: expirationDate
-            ? new Date(expirationDate).getTime()
-            : undefined,
-        });
-      }
-    } catch (error) {
-      console.error("Error checking subscription:", error);
+  // Helper function to get active entitlement (Gold or Platinum)
+  const getActiveEntitlement = (
+    customerInfo: any
+  ): {
+    entitlement: any;
+    userType: string;
+  } | null => {
+    // Check Platinum first (higher tier)
+    if (customerInfo.entitlements.active["Platinum"]) {
+      return {
+        entitlement: customerInfo.entitlements.active["Platinum"],
+        userType: "platinum",
+      };
     }
+    // Check Gold
+    if (customerInfo.entitlements.active["Gold"]) {
+      return {
+        entitlement: customerInfo.entitlements.active["Gold"],
+        userType: "gold",
+      };
+    }
+    // Fallback to Premium for backward compatibility
+    if (customerInfo.entitlements.active["Premium"]) {
+      return {
+        entitlement: customerInfo.entitlements.active["Premium"],
+        userType: "premium",
+      };
+    }
+    return null;
   };
 
-  const handlePurchase = async () => {
+  // Helper function to update subscription with retry
+  const updateSubscriptionWithRetry = async (
+    clerkId: string,
+    customerInfo: any,
+    maxRetries = 3
+  ): Promise<boolean> => {
+    const activeEntitlement = getActiveEntitlement(customerInfo);
+
+    if (!activeEntitlement) {
+      console.warn("⚠️ No active entitlement found");
+      return false;
+    }
+
+    let expirationTimestamp: number | undefined;
+    const expirationDate = activeEntitlement.entitlement?.expirationDate;
+
+    if (expirationDate) {
+      try {
+        expirationTimestamp = new Date(expirationDate).getTime();
+        if (isNaN(expirationTimestamp)) {
+          console.warn("Invalid expiration date format:", expirationDate);
+          expirationTimestamp = undefined;
+        }
+      } catch (dateError) {
+        console.error("Error parsing expiration date:", dateError);
+        expirationTimestamp = undefined;
+      }
+    }
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await updateSubscription({
+          clerkId: clerkId,
+          userType: activeEntitlement.userType,
+          subscriptionStatus: "active",
+          revenueCatUserId: customerInfo.originalAppUserId,
+          subscriptionEndDate: expirationTimestamp,
+        });
+        console.log(
+          `✅ Subscription updated in database (attempt ${attempt}) - ${activeEntitlement.userType}`
+        );
+        return true;
+      } catch (updateError) {
+        console.error(
+          `❌ Error updating subscription (attempt ${attempt}/${maxRetries}):`,
+          updateError
+        );
+        if (attempt < maxRetries) {
+          // Wait before retry (exponential backoff)
+          await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+        }
+      }
+    }
+    return false;
+  };
+
+  const handlePurchase = async (
+    packageToPurchase?: PurchasesPackage | null
+  ) => {
     if (!user?.id) {
       Alert.alert(t("plans.errors.notSignedIn"), t("plans.errors.signInFirst"));
       return;
     }
 
-    if (!selectedPackage) {
+    // Use provided package or fallback to selectedPackage state
+    const packageToUse = packageToPurchase || selectedPackage;
+
+    if (!packageToUse) {
       Alert.alert(t("plans.errors.noOfferings"), t("plans.errors.tryAgain"));
       return;
     }
@@ -118,13 +354,15 @@ const Plans = () => {
 
     try {
       console.log("🛒 Starting purchase flow...");
-      console.log("📦 Package:", selectedPackage.product.identifier);
+      console.log("📦 Package Product ID:", packageToUse.product.identifier);
+      console.log("📦 Package ID:", packageToUse.identifier);
+      console.log("📦 Package Title:", packageToUse.product.title);
       console.log("👤 User ID:", user.id);
 
       await Purchases.logIn(user.id);
       console.log("✅ Logged in to RevenueCat");
 
-      const purchaseResult = await Purchases.purchasePackage(selectedPackage);
+      const purchaseResult = await Purchases.purchasePackage(packageToUse);
       const { customerInfo } = purchaseResult;
 
       console.log("✅ Purchase completed!");
@@ -135,39 +373,41 @@ const Plans = () => {
       );
       console.log("🎫 All Entitlements:", customerInfo.entitlements);
 
-      const isPremium =
-        typeof customerInfo.entitlements.active["Premium"] !== "undefined";
+      const activeEntitlement = getActiveEntitlement(customerInfo);
 
-      console.log("🔍 Premium check result:", isPremium);
+      console.log("🔍 Active entitlement check result:", activeEntitlement);
       console.log(
-        "🔍 Premium entitlement:",
-        customerInfo.entitlements.active["Premium"]
+        "🔍 All entitlements:",
+        Object.keys(customerInfo.entitlements.active)
       );
 
-      if (isPremium) {
-        const expirationDate =
-          customerInfo.entitlements.active["Premium"]?.expirationDate;
+      if (activeEntitlement) {
+        const expirationDate = activeEntitlement.entitlement?.expirationDate;
 
         console.log("📅 Expiration Date:", expirationDate);
+        console.log("📦 User Type:", activeEntitlement.userType);
 
-        try {
-          await updateSubscription({
-            clerkId: user.id,
-            userType: "premium",
-            subscriptionStatus: "active",
-            revenueCatUserId: customerInfo.originalAppUserId,
-            subscriptionEndDate: expirationDate
-              ? new Date(expirationDate).getTime()
-              : undefined,
-          });
-          console.log("✅ Subscription updated in database");
-        } catch (updateError) {
-          console.error(
-            "❌ Error updating subscription in database:",
-            updateError
+        // Update subscription with retry mechanism
+        const updateSuccess = await updateSubscriptionWithRetry(
+          user.id,
+          customerInfo
+        );
+
+        if (!updateSuccess) {
+          console.warn(
+            "⚠️ Database update failed but RevenueCat has the purchase. Will sync on next check."
           );
-          // Still show success even if DB update fails - RevenueCat has the purchase
         }
+
+        // Wait a bit for database to update, getUserData query will auto-refresh
+        // Convex queries are reactive and will automatically update Redux state
+        await new Promise((resolve) => setTimeout(resolve, 800));
+
+        // Force a refresh of user data to ensure Redux state is updated
+        // The useEffect will automatically update Redux when getUserData changes
+        console.log(
+          "✅ Purchase successful, user data should auto-refresh via Convex"
+        );
 
         Alert.alert(t("plans.success.title"), t("plans.success.message"), [
           {
@@ -179,65 +419,73 @@ const Plans = () => {
           },
         ]);
       } else {
-        // Purchase succeeded but premium entitlement not found - might be a delay
+        // Purchase succeeded but entitlement not found - might be a delay
         console.warn(
-          "⚠️ Purchase completed but premium entitlement not found immediately"
+          "⚠️ Purchase completed but entitlement not found immediately"
         );
-        console.warn("⚠️ This might be a timing issue. Checking again...");
+        console.warn("⚠️ This might be a timing issue. Retrying with delay...");
 
-        // Try to refresh customer info
-        try {
-          const refreshedInfo = await Purchases.getCustomerInfo();
-          const refreshedIsPremium =
-            typeof refreshedInfo.entitlements.active["Premium"] !== "undefined";
+        // Retry mechanism with delay
+        let retryCount = 0;
+        const maxRetries = 3;
+        let refreshedEntitlement: {
+          entitlement: any;
+          userType: string;
+        } | null = null;
+        let refreshedInfo: any = null;
 
-          console.log(
-            "🔄 Refreshed customer info - Premium:",
-            refreshedIsPremium
+        while (retryCount < maxRetries && !refreshedEntitlement) {
+          // Wait before retry (2 seconds, 3 seconds, 4 seconds)
+          await new Promise((resolve) =>
+            setTimeout(resolve, 2000 + retryCount * 1000)
           );
+          retryCount++;
 
-          if (refreshedIsPremium) {
-            const expirationDate =
-              refreshedInfo.entitlements.active["Premium"]?.expirationDate;
+          try {
+            refreshedInfo = await Purchases.getCustomerInfo();
+            refreshedEntitlement = getActiveEntitlement(refreshedInfo);
 
-            await updateSubscription({
-              clerkId: user.id,
-              userType: "premium",
-              subscriptionStatus: "active",
-              revenueCatUserId: refreshedInfo.originalAppUserId,
-              subscriptionEndDate: expirationDate
-                ? new Date(expirationDate).getTime()
-                : undefined,
-            });
-
-            Alert.alert(t("plans.success.title"), t("plans.success.message"), [
-              {
-                text: t("plans.success.ok"),
-                onPress: () => router.back(),
-              },
-            ]);
-          } else {
-            // Purchase succeeded but entitlement still not available
-            console.error(
-              "❌ Purchase succeeded but premium entitlement still not available"
+            console.log(
+              `🔄 Retry ${retryCount}/${maxRetries} - Entitlement:`,
+              refreshedEntitlement
             );
-            Alert.alert(
-              t("plans.success.title") || "Purchase Successful",
-              "Your purchase was successful! The premium features will be activated shortly. Please refresh the app if needed.",
-              [
-                {
-                  text: t("plans.success.ok") || "OK",
-                  onPress: () => router.back(),
-                },
-              ]
+          } catch (refreshError) {
+            console.error(
+              `❌ Error refreshing customer info (retry ${retryCount}):`,
+              refreshError
             );
           }
-        } catch (refreshError) {
-          console.error("❌ Error refreshing customer info:", refreshError);
-          // Still show success - purchase went through
+        }
+
+        if (refreshedEntitlement && refreshedInfo) {
+          const updateSuccess = await updateSubscriptionWithRetry(
+            user.id,
+            refreshedInfo
+          );
+
+          if (!updateSuccess) {
+            console.warn(
+              "⚠️ Database update failed but RevenueCat has the purchase."
+            );
+          }
+
+          // Wait a bit for database to update, getUserData query will auto-refresh
+          await new Promise((resolve) => setTimeout(resolve, 500));
+
+          Alert.alert(t("plans.success.title"), t("plans.success.message"), [
+            {
+              text: t("plans.success.ok"),
+              onPress: () => router.back(),
+            },
+          ]);
+        } else {
+          // Purchase succeeded but entitlement still not available after retries
+          console.error(
+            "❌ Purchase succeeded but premium entitlement still not available after retries"
+          );
           Alert.alert(
             t("plans.success.title") || "Purchase Successful",
-            "Your purchase was successful! The premium features will be activated shortly.",
+            "Your purchase was successful! The premium features will be activated shortly. Please refresh the app if needed.",
             [
               {
                 text: t("plans.success.ok") || "OK",
@@ -266,31 +514,22 @@ const Plans = () => {
         );
         try {
           const customerInfo = await Purchases.getCustomerInfo();
-          const isPremium =
-            typeof customerInfo.entitlements.active["Premium"] !== "undefined";
+          const activeEntitlement = getActiveEntitlement(customerInfo);
 
-          if (isPremium) {
-            const expirationDate =
-              customerInfo.entitlements.active["Premium"]?.expirationDate;
+          if (activeEntitlement) {
+            const updateSuccess = await updateSubscriptionWithRetry(
+              user.id,
+              customerInfo
+            );
 
-            // Update database
-            try {
-              await updateSubscription({
-                clerkId: user.id,
-                userType: "premium",
-                subscriptionStatus: "active",
-                revenueCatUserId: customerInfo.originalAppUserId,
-                subscriptionEndDate: expirationDate
-                  ? new Date(expirationDate).getTime()
-                  : undefined,
-              });
-              console.log("✅ Subscription updated in database");
-            } catch (updateError) {
-              console.error(
-                "❌ Error updating subscription in database:",
-                updateError
+            if (!updateSuccess) {
+              console.warn(
+                "⚠️ Database update failed but RevenueCat has the purchase."
               );
             }
+
+            // Wait a bit for database to update, getUserData query will auto-refresh
+            await new Promise((resolve) => setTimeout(resolve, 500));
 
             // Show success message
             Alert.alert(
@@ -333,57 +572,26 @@ const Plans = () => {
     }
   };
 
-  const handleRestore = async () => {
-    if (!user?.id) return;
+  const getPriceInfo = (planId: string) => {
+    let packageToUse: PurchasesPackage | null = null;
 
-    setPurchasing(true);
-    try {
-      await Purchases.logIn(user.id);
-      const customerInfo = await Purchases.restorePurchases();
-
-      const isPremium =
-        typeof customerInfo.entitlements.active["Premium"] !== "undefined";
-
-      if (isPremium) {
-        const expirationDate =
-          customerInfo.entitlements.active["Premium"]?.expirationDate;
-
-        await updateSubscription({
-          clerkId: user.id,
-          userType: "premium",
-          subscriptionStatus: "active",
-          revenueCatUserId: customerInfo.originalAppUserId,
-          subscriptionEndDate: expirationDate
-            ? new Date(expirationDate).getTime()
-            : undefined,
-        });
-
-        Alert.alert(t("plans.restore.success"), t("plans.restore.restored"));
-      } else {
-        Alert.alert(
-          t("plans.restore.notFound"),
-          t("plans.restore.noSubscription")
-        );
-      }
-    } catch (error) {
-      console.error("Restore error:", error);
-      Alert.alert(t("plans.errors.restoreFailed"));
-    } finally {
-      setPurchasing(false);
+    if (planId === "gold") {
+      packageToUse = goldPackage;
+    } else if (planId === "platinum") {
+      packageToUse = platinumPackage;
     }
-  };
 
-  const getPriceInfo = () => {
-    if (!selectedPackage) {
+    if (!packageToUse) {
       return {
-        price: t("plans.premium.price"),
-        period: t("plans.premium.period"),
+        price:
+          planId === "gold" ? t("plans.gold.price") : t("plans.platinum.price"),
+        period: t("plans.gold.period"),
         currency: "",
       };
     }
 
-    const product = selectedPackage.product;
-    let period = t("plans.premium.period");
+    const product = packageToUse.product;
+    let period = t("plans.gold.period");
 
     return {
       price: product.priceString,
@@ -392,7 +600,8 @@ const Plans = () => {
     };
   };
 
-  const priceInfo = getPriceInfo();
+  const goldPriceInfo = getPriceInfo("gold");
+  const platinumPriceInfo = getPriceInfo("platinum");
 
   const plans = [
     {
@@ -437,25 +646,37 @@ const Plans = () => {
       current: currentUser?.userType === "normal",
     },
     {
-      id: "premium",
-      name: t("plans.premium.name"),
-      price: priceInfo.price,
-      period: priceInfo.period,
+      id: "gold",
+      name: t("plans.gold.name"),
+      price: goldPriceInfo.price,
+      period: goldPriceInfo.period,
       color: "#FFD700",
       features: [
         {
-          icon: "hourglass",
+          icon: "hourglass-outline",
           text: t("plans.features.horoscope"),
           available: true,
         },
-        { icon: "moon", text: t("plans.features.dream"), available: true },
         {
-          icon: "hand-left",
+          icon: "moon-outline",
+          text: t("plans.features.dream"),
+          available: true,
+        },
+        {
+          icon: "hand-left-outline",
           text: t("plans.features.palmistry"),
           available: true,
         },
-        { icon: "eye", text: t("plans.features.unlimited"), available: true },
-        { icon: "time", text: t("plans.features.tracking"), available: true },
+        {
+          icon: "eye-outline",
+          text: t("plans.features.unlimited"),
+          available: false,
+        },
+        {
+          icon: "time-outline",
+          text: t("plans.features.tracking"),
+          available: false,
+        },
         {
           icon: "analytics",
           text: t("plans.features.adFree"),
@@ -463,7 +684,48 @@ const Plans = () => {
         },
       ],
       note: t("plans.notes.cancel"),
-      current: currentUser?.userType === "premium",
+      current: currentUser?.userType === "gold",
+    },
+    {
+      id: "platinum",
+      name: t("plans.platinum.name"),
+      price: platinumPriceInfo.price,
+      period: platinumPriceInfo.period,
+      color: "#E0E0E0", // Metallic silver - lighter and more premium
+      features: [
+        {
+          icon: "hourglass",
+          text: t("plans.features.detailedHoroscope"),
+          available: true,
+        },
+        {
+          icon: "moon",
+          text: t("plans.features.dream"),
+          available: true,
+        },
+        {
+          icon: "hand-left",
+          text: t("plans.features.palmistry"),
+          available: true,
+        },
+        {
+          icon: "eye",
+          text: t("plans.features.unlimited"),
+          available: true,
+        },
+        {
+          icon: "time",
+          text: t("plans.features.tracking"),
+          available: true,
+        },
+        {
+          icon: "analytics",
+          text: t("plans.features.adFree"),
+          available: true,
+        },
+      ],
+      note: t("plans.notes.cancel"),
+      current: currentUser?.userType === "platinum",
     },
   ];
 
@@ -478,7 +740,18 @@ const Plans = () => {
     plan: (typeof plans)[0];
     index: number;
   }) => {
-    const isPremium = plan.id === "premium";
+    const isGold = plan.id === "gold";
+    const isPlatinum = plan.id === "platinum";
+    const isPaidPlan = isGold || isPlatinum;
+
+    // Get the appropriate package for this plan
+    const getPlanPackage = () => {
+      if (isGold) return goldPackage;
+      if (isPlatinum) return platinumPackage;
+      return null;
+    };
+
+    const planPackage = getPlanPackage();
 
     return (
       <ScrollView
@@ -487,7 +760,14 @@ const Plans = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.pageContainer}>
-          <View style={[styles.card, isPremium && styles.premiumCard]}>
+          <View
+            style={[
+              styles.card,
+              isPaidPlan && styles.premiumCard,
+              isGold && { borderColor: "#FFD700" },
+              isPlatinum && { borderColor: "#C8C8C8", borderWidth: 2 }, // Metallic silver border - lighter
+            ]}
+          >
             {plan.current && (
               <View style={styles.currentBadge}>
                 <Text style={styles.currentBadgeText}>
@@ -496,11 +776,27 @@ const Plans = () => {
               </View>
             )}
 
-            {isPremium && (
+            {isGold && (
               <View style={styles.premiumBadge}>
                 <Ionicons name="star" size={hp(2)} color="#FFD700" />
-                <Text style={styles.premiumBadgeText}>
-                  {t("plans.premium.name")}
+                <Text style={[styles.premiumBadgeText, { color: "#FFD700" }]}>
+                  {t("plans.gold.name")}
+                </Text>
+              </View>
+            )}
+
+            {isPlatinum && (
+              <View
+                style={[styles.premiumBadge, { backgroundColor: "#F0F0F0" }]}
+              >
+                <Ionicons name="diamond" size={hp(2)} color="#A5A5A5" />
+                <Text
+                  style={[
+                    styles.premiumBadgeText,
+                    { color: "#2C2C2C", fontWeight: "600" },
+                  ]}
+                >
+                  {t("plans.platinum.name")}
                 </Text>
               </View>
             )}
@@ -529,8 +825,10 @@ const Plans = () => {
                       size={hp(2.2)}
                       color={
                         feature.available
-                          ? isPremium
-                            ? "#FFD700"
+                          ? isPaidPlan
+                            ? isGold
+                              ? "#FFD700"
+                              : "#A5A5A5" // Metallic silver for platinum icons - lighter
                             : Colors.purpleColorBlack
                           : "#999"
                       }
@@ -568,10 +866,62 @@ const Plans = () => {
 
             {!plan.current && (
               <TouchableOpacity
-                style={[styles.selectButton, isPremium && styles.premiumButton]}
-                onPress={() => {
-                  if (isPremium) {
-                    handlePurchase();
+                style={[
+                  styles.selectButton,
+                  isPaidPlan && styles.premiumButton,
+                  isGold && { backgroundColor: "#FFD700" },
+                  isPlatinum && {
+                    backgroundColor: "#E0E0E0",
+                    shadowColor: "#A5A5A5",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 4,
+                    elevation: 5,
+                  },
+                ]}
+                onPress={async () => {
+                  if (isPaidPlan) {
+                    // Get the appropriate package based on the plan
+                    let packageToPurchase: PurchasesPackage | null = null;
+
+                    if (isGold && goldPackage) {
+                      packageToPurchase = goldPackage;
+                      console.log("🛒 Selecting GOLD package for purchase:");
+                      console.log("   - Plan ID:", plan.id);
+                      console.log(
+                        "   - Package Product ID:",
+                        goldPackage.product.identifier
+                      );
+                      console.log("   - Package ID:", goldPackage.identifier);
+                    } else if (isPlatinum && platinumPackage) {
+                      packageToPurchase = platinumPackage;
+                      console.log(
+                        "🛒 Selecting PLATINUM package for purchase:"
+                      );
+                      console.log("   - Plan ID:", plan.id);
+                      console.log(
+                        "   - Package Product ID:",
+                        platinumPackage.product.identifier
+                      );
+                      console.log(
+                        "   - Package ID:",
+                        platinumPackage.identifier
+                      );
+                    }
+
+                    if (packageToPurchase) {
+                      // Update state for UI consistency, but pass package directly to handlePurchase
+                      setSelectedPackage(packageToPurchase);
+                      // Pass package directly to avoid state timing issues
+                      handlePurchase(packageToPurchase);
+                    } else {
+                      Alert.alert(
+                        t("plans.errors.noOfferings"),
+                        isGold
+                          ? "Gold package not available. Please try again later."
+                          : "Platinum package not available. Please try again later."
+                      );
+                    }
                   } else {
                     Alert.alert(
                       t("plans.downgrade.title"),
@@ -579,26 +929,37 @@ const Plans = () => {
                     );
                   }
                 }}
-                disabled={purchasing || (isPremium && !selectedPackage)}
+                disabled={purchasing || (isPaidPlan && !planPackage)}
               >
                 {purchasing ? (
-                  <ActivityIndicator color={isPremium ? "#000" : "#fff"} />
+                  <ActivityIndicator
+                    color={
+                      isPaidPlan ? (isPlatinum ? "#2C2C2C" : "#000") : "#fff"
+                    }
+                  />
                 ) : (
                   <>
                     <Text
                       style={[
                         styles.selectButtonText,
-                        isPremium && styles.premiumButtonText,
+                        isPaidPlan && styles.premiumButtonText,
+                        isPlatinum && { color: "#2C2C2C", fontWeight: "600" },
                       ]}
                     >
-                      {isPremium
-                        ? t("plans.buttons.upgrade")
+                      {isPaidPlan
+                        ? isGold
+                          ? t("plans.buttons.getGold")
+                          : isPlatinum
+                            ? t("plans.buttons.getPlatinum")
+                            : t("plans.buttons.upgrade")
                         : t("plans.buttons.downgrade")}
                     </Text>
                     <Ionicons
                       name="arrow-forward"
                       size={hp(2.2)}
-                      color={isPremium ? "#000" : "#fff"}
+                      color={
+                        isPaidPlan ? (isPlatinum ? "#2C2C2C" : "#000") : "#fff"
+                      }
                     />
                   </>
                 )}
@@ -652,17 +1013,6 @@ const Plans = () => {
             />
           ))}
         </View>
-
-        {/* Restore Purchases Button */}
-        <TouchableOpacity
-          style={styles.restoreButton}
-          onPress={handleRestore}
-          disabled={purchasing}
-        >
-          <Text style={styles.restoreButtonText}>
-            {t("plans.restore.button")}
-          </Text>
-        </TouchableOpacity>
       </View>
 
       {/* Loading Overlay */}
@@ -900,15 +1250,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.purpleColorBlack || "#6B4CE6",
     width: hp(3),
   },
-  restoreButton: {
-    paddingVertical: hp(1),
-    alignItems: "center",
-  },
-  restoreButtonText: {
-    fontSize: hp(1.8),
-    color: Colors.purpleColorBlack || "#6B4CE6",
-    fontFamily: "Rubik_600SemiBold",
-  },
   purchasingOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0,0,0,0.7)",
@@ -921,19 +1262,5 @@ const styles = StyleSheet.create({
     fontSize: hp(2),
     fontFamily: "Rubik_600SemiBold",
     marginTop: hp(2),
-  },
-  debugContainer: {
-    backgroundColor: "#f0f0f0",
-    padding: hp(1),
-    marginHorizontal: wp(5),
-    marginTop: hp(1),
-    borderRadius: hp(1),
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-  debugText: {
-    fontSize: hp(1.6),
-    color: "#666",
-    fontFamily: "Rubik_400Regular",
   },
 });

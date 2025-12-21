@@ -83,14 +83,26 @@ const InitialLayout = () => {
     }
 
     const inAuthGroup = segments[0] === "(auth)";
+    const inPublicAccountGroup =
+      segments[0] === "(public)" && segments[1] === "(account)";
+    const isSSOCallback =
+      segments[0] === "(public)" && segments[1] === "ssp-callback";
 
-    if (isSignedIn && !inAuthGroup) {
+    // Skip routing logic if we're on the SSO callback page (it handles its own redirect)
+    if (isSSOCallback) {
+      return;
+    }
+
+    // If user is signed in and not in auth group, and not already in public/(account) (loading/registerDetails pages handle their own routing)
+    if (isSignedIn && !inAuthGroup && !inPublicAccountGroup) {
       console.log(
         "User signed in, redirecting to loading...",
         "isSignedIn:",
         isSignedIn,
         "inAuthGroup:",
-        inAuthGroup
+        inAuthGroup,
+        "inPublicAccountGroup:",
+        inPublicAccountGroup
       );
       router.replace("/(public)/(account)/loading");
     } else if (!isSignedIn && inAuthGroup) {
@@ -103,7 +115,7 @@ const InitialLayout = () => {
       );
       router.replace("/(public)");
     }
-  }, [isSignedIn, isLoaded]);
+  }, [isSignedIn, isLoaded, segments]);
 
   // Initialize RevenueCat
   useEffect(() => {

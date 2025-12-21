@@ -1,60 +1,101 @@
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setUserData } from "@/redux/horoscopeSlicer";
 import { useUser } from "@clerk/clerk-expo";
-import { useMutation } from "convex/react";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "convex/react";
+import { useEffect, useRef, useState } from "react";
 import Purchases from "react-native-purchases";
 import { api } from "../convex/_generated/api";
 
+// Global flag to prevent concurrent subscription checks
+let isSubscriptionCheckInProgress = false;
+
 export const usePremiumStatus = () => {
   const { user } = useUser();
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.horoscope.userData);
-  const checkValidity = useMutation(api.users.checkSubscriptionValidity);
   const updateSubscription = useMutation(api.users.updateSubscription);
+  const getUserData = useQuery(
+    api.users.getUserWithClerkID,
+    user?.id ? { clerkId: user.id } : "skip"
+  );
 
   const [isChecking, setIsChecking] = useState(false);
   const [lastChecked, setLastChecked] = useState<Date | null>(null);
+  const checkInProgressRef = useRef(false);
+
+  // Update Redux when getUserData changes
+  useEffect(() => {
+    if (getUserData) {
+      dispatch(setUserData(getUserData));
+    }
+  }, [getUserData, dispatch]);
 
   // Check subscription validity on mount and when user changes
   // Always check, not just when userType is premium, to catch sync issues
   useEffect(() => {
-    if (user?.id) {
+    if (user?.id && !checkInProgressRef.current) {
       checkSubscriptionStatus();
     }
   }, [user?.id]);
 
   const checkSubscriptionStatus = async () => {
-    if (!user?.id || isChecking) return;
+    if (!user?.id || isChecking || checkInProgressRef.current || isSubscriptionCheckInProgress) {
+      return;
+    }
 
     setIsChecking(true);
+    checkInProgressRef.current = true;
+    isSubscriptionCheckInProgress = true;
+
     try {
       // First, sync with RevenueCat (source of truth for subscriptions)
       await Purchases.logIn(user.id);
       const customerInfo = await Purchases.getCustomerInfo();
 
-      const isPremiumActive =
-        typeof customerInfo.entitlements.active["Premium"] !== "undefined";
+      // Check for active entitlements (Platinum > Gold > Premium for backward compatibility)
+      const platinumEntitlement = customerInfo.entitlements.active["Platinum"];
+      const goldEntitlement = customerInfo.entitlements.active["Gold"];
+      const premiumEntitlement = customerInfo.entitlements.active["Premium"]; // backward compatibility
 
-      // If RevenueCat says premium but DB doesn't match, sync it
-      if (isPremiumActive && currentUser?.userType !== "premium") {
-        console.log("🔄 Syncing: RevenueCat says premium, updating database...");
-        const expirationDate =
-          customerInfo.entitlements.active["Premium"]?.expirationDate;
+      const activeEntitlement = platinumEntitlement || goldEntitlement || premiumEntitlement;
+      const activeUserType = platinumEntitlement ? "platinum" : goldEntitlement ? "gold" : premiumEntitlement ? "premium" : null;
+
+      let expirationTimestamp: number | undefined;
+      const expirationDate = activeEntitlement?.expirationDate;
+
+      if (expirationDate) {
+        try {
+          expirationTimestamp = new Date(expirationDate).getTime();
+          if (isNaN(expirationTimestamp)) {
+            console.warn("Invalid expiration date format:", expirationDate);
+            expirationTimestamp = undefined;
+          }
+        } catch (dateError) {
+          console.error("Error parsing expiration date:", dateError);
+          expirationTimestamp = undefined;
+        }
+      }
+
+      // If RevenueCat says user has subscription but DB doesn't match, sync it
+      if (activeUserType && currentUser?.userType !== activeUserType) {
+        console.log(`🔄 Syncing: RevenueCat says ${activeUserType}, updating database...`);
 
         await updateSubscription({
           clerkId: user.id,
-          userType: "premium",
+          userType: activeUserType,
           subscriptionStatus: "active",
           revenueCatUserId: customerInfo.originalAppUserId,
-          subscriptionEndDate: expirationDate
-            ? new Date(expirationDate).getTime()
-            : undefined,
+          subscriptionEndDate: expirationTimestamp,
         });
-        console.log("✅ Database synced with RevenueCat premium status");
+        console.log(`✅ Database synced with RevenueCat ${activeUserType} status`);
+        
+        // Wait a bit for database to update, then refresh Redux
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
 
-      // If RevenueCat says not premium but DB says premium, sync it
-      if (!isPremiumActive && currentUser?.userType === "premium") {
-        console.log("🔄 Syncing: RevenueCat says not premium, updating database...");
+      // If RevenueCat says no subscription but DB says user has one, sync it
+      if (!activeUserType && currentUser?.userType && currentUser.userType !== "normal") {
+        console.log("🔄 Syncing: RevenueCat says no subscription, updating database...");
         await updateSubscription({
           clerkId: user.id,
           userType: "normal",
@@ -62,21 +103,42 @@ export const usePremiumStatus = () => {
           revenueCatUserId: customerInfo.originalAppUserId,
         });
         console.log("✅ Database synced with RevenueCat (downgraded to normal)");
+        
+        // Wait a bit for database to update, then refresh Redux
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
 
-      // Then check with backend for validity (expiration, etc.)
-      await checkValidity({ clerkId: user.id });
+      // Check expiration only if subscription is active in RevenueCat
+      // RevenueCat is the source of truth, so we just need to sync DB
+      // Expiration is handled by RevenueCat itself
+      if (activeUserType && expirationTimestamp) {
+        const now = Date.now();
+        if (expirationTimestamp < now) {
+          // Subscription expired in RevenueCat but still marked as active
+          console.warn("⚠️ Subscription expired according to expiration date");
+          await updateSubscription({
+            clerkId: user.id,
+            userType: "normal",
+            subscriptionStatus: "expired",
+            revenueCatUserId: customerInfo.originalAppUserId,
+          });
+        }
+      }
 
       setLastChecked(new Date());
     } catch (error) {
       console.error("Error checking subscription status:", error);
     } finally {
       setIsChecking(false);
+      checkInProgressRef.current = false;
+      isSubscriptionCheckInProgress = false;
     }
   };
 
-  const isPremium = currentUser?.userType === "premium";
-  const isFree = !isPremium;
+  const isPremium = currentUser?.userType === "premium" || currentUser?.userType === "gold" || currentUser?.userType === "platinum";
+  const isGold = currentUser?.userType === "gold";
+  const isPlatinum = currentUser?.userType === "platinum";
+  const isFree = currentUser?.userType === "normal" || !currentUser?.userType;
 
   // Subscription info
   const subscriptionEndDate = currentUser?.subscriptionEndDate
@@ -94,6 +156,8 @@ export const usePremiumStatus = () => {
 
   return {
     isPremium,
+    isGold,
+    isPlatinum,
     isFree,
     userType: currentUser?.userType,
     subscriptionEndDate,

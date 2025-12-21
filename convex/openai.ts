@@ -2,10 +2,6 @@ import { v } from "convex/values";
 import OpenAI from "openai";
 import { action } from "./_generated/server";
 
-// Note: This file handles OpenAI API calls and other sensitive API operations
-// All API keys are stored securely in Convex environment variables
-
-// This runs on the server, so your API key is safe!
 export const generateHoroscope = action({
   args: {
     horoscopeDetails: v.string(),
@@ -116,21 +112,50 @@ export const interpretDream = action({
     const openai = new OpenAI({ apiKey });
 
     try {
+      const systemContent = `You are an expert dream interpreter and psychologist specializing in dream analysis. Provide detailed, insightful, and culturally-aware dream interpretations based on established dream psychology principles.
+
+Analyze the dream carefully, identifying key symbols and their multiple layers of meaning. Consider both universal and personal contexts.
+
+Return ONLY valid JSON without markdown:
+{
+  "status": 200,
+  "interpretation": {
+    "symbols": [
+      {
+        "symbol": "symbol name (e.g., water, snake, flying)",
+        "meanings": [
+          "first meaning explanation (minimum 2-3 sentences)",
+          "second meaning explanation (minimum 2-3 sentences)",
+          "third meaning explanation (minimum 2-3 sentences)"
+        ]
+      }
+    ],
+    "overall_message": "Comprehensive interpretation (minimum 4-5 sentences) connecting all symbols and providing deeper insight into the dream's message for the dreamer's life, emotions, and subconscious thoughts."
+  }
+}
+
+Requirements:
+- Identify 3-5 key symbols from the dream
+- Provide 2-3 different meanings for each symbol (each meaning should be 2-3 sentences)
+- Write overall_message that synthesizes all symbols into a cohesive interpretation
+- Be insightful, empathetic, and provide actionable insights
+- Use only ${args.selectedLang} language for all content`;
+
       const response = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
-            content: `You are a helpful dream interpreter. Provide detailed and insightful dream interpretations. And give result only as a JsonObject. i will use data you provided.and add status to 200 if its success. Give provide detailed interpretation in json. Json data must look like this  'status': 200 'interpretation': 'symbols': ['symbol' '''meanings' '', '' 'overall_message': ''}} dont write json to top of it just give me only json data. Give the results only language as ${args.selectedLang}`,
+            content: systemContent,
           },
           {
             role: "user",
-            content: args.dreamText,
+            content: `Interpret this dream in detail: ${args.dreamText}`,
           },
         ],
-        temperature: 1,
+        temperature: 0.7,
         max_tokens: 2048,
-        top_p: 1,
+        top_p: 0.9,
       });
 
       const messageContent = response.choices[0].message.content;
@@ -138,7 +163,11 @@ export const interpretDream = action({
         throw new Error("Message content is null");
       }
 
-      const message = JSON.parse(messageContent);
+      const cleanedContent = messageContent
+        .replace(/```json\n?|\n?```/g, "")
+        .trim();
+      const message = JSON.parse(cleanedContent);
+
       return {
         status: message.status,
         interpretation: message.interpretation,

@@ -60,18 +60,24 @@ const ResultDream = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const { t, i18n } = useTranslation();
   const selectedLang = i18n.language;
-  const { isPremium } = usePremiumStatus();
+  const { isGold, isPlatinum } = usePremiumStatus();
 
-  // Direct query to Convex as fallback to check premium status
+  // Direct query to Convex as fallback to check subscription status
   const userProfile = useQuery(api.users.getUserWithClerkID, {
     clerkId: user?.id,
   });
 
-  // Check premium status from both Redux and Convex
+  // Check gold/platinum status from both Redux and Convex - no ads for gold or platinum users
   const currentUser = useAppSelector((state) => state.horoscope.userData);
-  const premiumStatusFromRedux = currentUser?.userType === "premium";
-  const premiumStatusFromConvex = (userProfile as any)?.userType === "premium";
-  const isUserPremium = premiumStatusFromRedux || premiumStatusFromConvex;
+  const userTypeFromRedux = currentUser?.userType;
+  const userTypeFromConvex = (userProfile as any)?.userType;
+  const isUserGoldOrPlatinum = 
+    isGold || 
+    isPlatinum || 
+    userTypeFromRedux === "gold" || 
+    userTypeFromRedux === "platinum" ||
+    userTypeFromConvex === "gold" ||
+    userTypeFromConvex === "platinum";
 
   // Initialize ad - skip for premium users
   useEffect(() => {
@@ -81,20 +87,19 @@ const ResultDream = () => {
       return;
     }
 
-    console.log("🔍 Premium check (dream):", {
-      isPremium,
-      premiumStatusFromRedux,
-      premiumStatusFromConvex,
-      isUserPremium,
-      userTypeFromRedux: currentUser?.userType,
-      userTypeFromConvex: (userProfile as any)?.userType,
+    console.log("🔍 Ad check (dream):", {
+      isGold,
+      isPlatinum,
+      isUserGoldOrPlatinum,
+      userTypeFromRedux,
+      userTypeFromConvex,
       hasUserProfile: userProfile !== undefined,
       hasCurrentUser: !!currentUser,
     });
 
-    // If user is premium, skip ads entirely
-    if (isUserPremium || isPremium) {
-      console.log("✅ Premium user - skipping ads");
+    // If user is gold or platinum, skip ads entirely
+    if (isUserGoldOrPlatinum) {
+      console.log("✅ Gold/Platinum user - skipping ads");
       setAdWatched(true);
       return;
     }
@@ -151,8 +156,9 @@ const ResultDream = () => {
       interstitial.removeAllListeners();
     };
   }, [
-    isPremium,
-    isUserPremium,
+    isGold,
+    isPlatinum,
+    isUserGoldOrPlatinum,
     currentUser?.userType,
     (userProfile as any)?.userType,
   ]);

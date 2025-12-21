@@ -62,13 +62,26 @@
       "period": "月額",
       "badge": "プレミアム"
     },
+    "gold": {
+      "name": "ゴールドプラン",
+      "price": "$4.99",
+      "period": "月額",
+      "badge": "ゴールド"
+    },
+    "platinum": {
+      "name": "プラチナプラン",
+      "price": "$9.99",
+      "period": "月額",
+      "badge": "プラチナ"
+    },
     "features": {
       "horoscope": "無料ホロスコープ",
       "dream": "無料夢占い",
       "palmistry": "無料手相占い",
       "unlimited": "無制限の閲覧",
       "tracking": "過去のデータ追跡",
-      "adFree": "広告なし"
+      "adFree": "広告なし",
+      "detailedHoroscope": "詳細なホロスコープ分析"
     },
     "notes": {
       "ads": "広告が含まれます",
@@ -76,7 +89,9 @@
     },
     "buttons": {
       "upgrade": "プレミアムにアップグレード",
-      "downgrade": "無料プランにダウングレード"
+      "downgrade": "無料プランにダウングレード",
+      "getGold": "Goldプランを取得",
+      "getPlatinum": "Platinumプランを取得"
     }
   },
   "home": {
@@ -394,7 +409,7 @@
       "fetchError": "ホロスコープの取得エラー"
     },
     "premium": {
-      "buyPremiumForAccess": "完全な詳細にアクセスするにはプレミアムを購入"
+      "buyPremiumForAccess": "完全な詳細にアクセスするにはプラチナを購入"
     }
   },
   "resultLoveMatch": {

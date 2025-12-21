@@ -36,7 +36,7 @@
       "restoreFailed": "Restore Failed"
     },
     "success": {
-      "title": "Welcome to Premium! 🎉",
+      "title": "Welcome to Premium! ",
       "message": "You now have access to all premium features",
       "ok": "Let's Go!",
       "alreadyActive": "You already have an active premium subscription!",
@@ -60,13 +60,26 @@
       "period": "per month",
       "badge": "PREMIUM"
     },
+    "gold": {
+      "name": "Gold Plan",
+      "price": "$4.99",
+      "period": "per month",
+      "badge": "GOLD"
+    },
+    "platinum": {
+      "name": "Platinum Plan",
+      "price": "$9.99",
+      "period": "per month",
+      "badge": "PLATINUM"
+    },
     "features": {
       "horoscope": "Free Horoscope",
       "dream": "Free Dream Interpretation",
       "palmistry": "Free Palmistry Reading",
       "unlimited": "Unlimited Lookups",
       "tracking": "Past Data Tracking",
-      "adFree": "Ad-Free Experience"
+      "adFree": "Ad-Free Experience",
+      "detailedHoroscope": "Detailed Horoscope Analysis"
     },
     "notes": {
       "ads": "Includes ads",
@@ -74,7 +87,9 @@
     },
     "buttons": {
       "upgrade": "Upgrade to Premium",
-      "downgrade": "Downgrade to Free"
+      "downgrade": "Downgrade to Free",
+      "getGold": "Get Gold Plan",
+      "getPlatinum": "Get Platinum Plan"
     }
   },
   "home": {
@@ -393,7 +408,7 @@
       "fetchError": "Error fetching horoscope"
     },
     "premium": {
-      "buyPremiumForAccess": "Buy Premium for Access to Full Details"
+      "buyPremiumForAccess": "Buy Platinum for Access to Full Details"
     }
   },
   "resultLoveMatch": {

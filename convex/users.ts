@@ -301,6 +301,8 @@ export const getUserWithClerkID = query({
 
     if (userData) {
       const mappedUserData = {
+        _id: userData._id,
+        _creationTime: userData._creationTime,
         clerkId: userData.clerkId,
         email: userData.email,
         gender: userData.gender ?? null,
@@ -315,10 +317,16 @@ export const getUserWithClerkID = query({
         element: userData.element ?? null,
         polarity: userData.polarity ?? null,
         modality: userData.modality ?? null,
+        userType: userData.userType ?? "normal",
+        subscriptionStatus: userData.subscriptionStatus ?? null,
+        revenueCatUserId: userData.revenueCatUserId ?? null,
+        subscriptionStartDate: userData.subscriptionStartDate ?? null,
+        subscriptionEndDate: userData.subscriptionEndDate ?? null,
+        lastSubscriptionCheck: userData.lastSubscriptionCheck ?? null,
       };
 
       if (!userData?.imageUrl || userData.imageUrl.startsWith("http")) {
-        return userData;
+        return mappedUserData;
       }
 
       const url = await ctx.storage.getUrl(userData.imageUrl as Id<"_storage">);
@@ -374,38 +382,38 @@ export const saveHoroscope = mutation({
       sunSign: v.string(),
       love: v.object({
         percentage: v.number(),
-        explanation: v.string(),
+        explanation: v.optional(v.string()),
       }),
       career: v.object({
         percentage: v.number(),
-        explanation: v.string(),
+        explanation: v.optional(v.string()),
       }),
       luck: v.object({
         percentage: v.number(),
-        explanation: v.string(),
+        explanation: v.optional(v.string()),
       }),
       health: v.object({
         percentage: v.number(),
-        explanation: v.string(),
+        explanation: v.optional(v.string()),
       }),
     }),
     monthly: v.object({
       sunSign: v.string(),
       love: v.object({
         percentage: v.number(),
-        explanation: v.string(),
+        explanation: v.optional(v.string()),
       }),
       career: v.object({
         percentage: v.number(),
-        explanation: v.string(),
+        explanation: v.optional(v.string()),
       }),
       luck: v.object({
         percentage: v.number(),
-        explanation: v.string(),
+        explanation: v.optional(v.string()),
       }),
       health: v.object({
         percentage: v.number(),
-        explanation: v.string(),
+        explanation: v.optional(v.string()),
       }),
     }),
   },

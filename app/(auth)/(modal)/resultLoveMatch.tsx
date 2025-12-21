@@ -40,18 +40,24 @@ const ResultLoveMatch = () => {
     (state) => state.horoscope.loveMatchResults
   );
   const [calculating, setCalculating] = useState(false);
-  const { isPremium } = usePremiumStatus();
+  const { isGold, isPlatinum } = usePremiumStatus();
 
-  // Direct query to Convex as fallback to check premium status
+  // Direct query to Convex as fallback to check subscription status
   const userProfile = useQuery(api.users.getUserWithClerkID, {
     clerkId: user?.id,
   });
 
-  // Check premium status from both Redux and Convex
+  // Check gold/platinum status from both Redux and Convex - no ads for gold or platinum users
   const currentUser = useAppSelector((state) => state.horoscope.userData);
-  const premiumStatusFromRedux = currentUser?.userType === "premium";
-  const premiumStatusFromConvex = (userProfile as any)?.userType === "premium";
-  const isUserPremium = premiumStatusFromRedux || premiumStatusFromConvex;
+  const userTypeFromRedux = currentUser?.userType;
+  const userTypeFromConvex = (userProfile as any)?.userType;
+  const isUserGoldOrPlatinum =
+    isGold ||
+    isPlatinum ||
+    userTypeFromRedux === "gold" ||
+    userTypeFromRedux === "platinum" ||
+    userTypeFromConvex === "gold" ||
+    userTypeFromConvex === "platinum";
 
   // ad section
   const [ad, setAd] = useState<InterstitialAd | null>(null);
@@ -71,19 +77,18 @@ const ResultLoveMatch = () => {
       return;
     }
 
-    console.log("🔍 Premium check:", {
-      isPremium,
-      premiumStatusFromRedux,
-      premiumStatusFromConvex,
-      isUserPremium,
-      userTypeFromRedux: currentUser?.userType,
-      userTypeFromConvex: (userProfile as any)?.userType,
+    console.log("🔍 Ad check (love match):", {
+      isGold,
+      isPlatinum,
+      isUserGoldOrPlatinum,
+      userTypeFromRedux,
+      userTypeFromConvex,
       hasUserProfile: userProfile !== undefined,
       hasCurrentUser: !!currentUser,
     });
 
-    if (isUserPremium || isPremium) {
-      console.log("✅ Premium user - skipping ads");
+    if (isUserGoldOrPlatinum) {
+      console.log("✅ Gold/Platinum user - skipping ads");
       setAdWatched(true);
       return;
     }
@@ -138,8 +143,9 @@ const ResultLoveMatch = () => {
       interstitial.removeAllListeners();
     };
   }, [
-    isPremium,
-    isUserPremium,
+    isGold,
+    isPlatinum,
+    isUserGoldOrPlatinum,
     currentUser?.userType,
     (userProfile as any)?.userType,
   ]);

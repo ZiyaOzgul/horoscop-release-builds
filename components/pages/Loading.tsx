@@ -35,9 +35,6 @@ const Loading = () => {
   const rotation = useSharedValue(0);
 
   const userProfile = useQuery(api.users.getUserWithClerkID, { clerkId });
-  const checkSubscriptionValidity = useMutation(
-    api.users.checkSubscriptionValidity
-  );
   const updateSubscription = useMutation(api.users.updateSubscription);
 
   // Timer to allow redirect after 1.5 seconds
@@ -83,15 +80,27 @@ const Loading = () => {
             console.log("✅ RevenueCat shows premium subscription active");
             console.log("📅 Expiration date:", expirationDate);
 
+            let expirationTimestamp: number | undefined;
+            if (expirationDate) {
+              try {
+                expirationTimestamp = new Date(expirationDate).getTime();
+                if (isNaN(expirationTimestamp)) {
+                  console.warn("Invalid expiration date format:", expirationDate);
+                  expirationTimestamp = undefined;
+                }
+              } catch (dateError) {
+                console.error("Error parsing expiration date:", dateError);
+                expirationTimestamp = undefined;
+              }
+            }
+
             // Update database with RevenueCat status
             await updateSubscription({
               clerkId: clerkId,
               userType: "premium",
               subscriptionStatus: "active",
               revenueCatUserId: customerInfo.originalAppUserId,
-              subscriptionEndDate: expirationDate
-                ? new Date(expirationDate).getTime()
-                : undefined,
+              subscriptionEndDate: expirationTimestamp,
             });
             console.log("✅ Database updated with premium status");
           } else {
@@ -99,19 +108,13 @@ const Loading = () => {
           }
         } catch (revenueCatError) {
           console.error("⚠️ Error syncing with RevenueCat:", revenueCatError);
-          // Continue with database check even if RevenueCat fails
+          // Continue even if RevenueCat fails - usePremiumStatus will handle sync
         }
 
-        // Then check subscription validity in database
-        const result = await checkSubscriptionValidity({ clerkId });
-        
-        if (result?.wasDowngraded) {
-          console.log("⚠️ User subscription expired - downgraded to normal");
-        } else if (result?.isValid) {
-          console.log("✅ Premium subscription is valid in database");
-        } else {
-          console.log("ℹ️ User is on free plan");
-        }
+        // Note: We don't need to check subscription validity here
+        // RevenueCat is the source of truth, and usePremiumStatus hook
+        // will handle all sync and expiration checks
+        console.log("ℹ️ Premium status check complete");
         
         setPremiumChecked(true);
       } catch (error) {
@@ -132,7 +135,7 @@ const Loading = () => {
     checkPremiumStatus();
 
     return () => clearTimeout(timeout);
-  }, [clerkId, userProfile, canRedirect, checkSubscriptionValidity, updateSubscription, premiumChecked]);
+  }, [clerkId, userProfile, canRedirect, updateSubscription, premiumChecked]);
 
   useEffect(() => {
     console.log("=== LOADING PAGE DEBUG ===");
@@ -235,7 +238,6 @@ const Loading = () => {
     clerkId,
     canRedirect,
     premiumChecked,
-    checkSubscriptionValidity,
   ]);
 
   const scale = useSharedValue(1);

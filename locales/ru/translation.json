@@ -62,13 +62,26 @@
       "period": "в месяц",
       "badge": "ПРЕМИУМ"
     },
+    "gold": {
+      "name": "Золотой тариф",
+      "price": "$4.99",
+      "period": "в месяц",
+      "badge": "ЗОЛОТО"
+    },
+    "platinum": {
+      "name": "Платиновый тариф",
+      "price": "$9.99",
+      "period": "в месяц",
+      "badge": "ПЛАТИНА"
+    },
     "features": {
       "horoscope": "Бесплатный гороскоп",
       "dream": "Бесплатное толкование снов",
       "palmistry": "Бесплатная хиромантия",
       "unlimited": "Неограниченные просмотры",
       "tracking": "Отслеживание прошлых данных",
-      "adFree": "Без рекламы"
+      "adFree": "Без рекламы",
+      "detailedHoroscope": "Детальный анализ гороскопа"
     },
     "notes": {
       "ads": "Содержит рекламу",
@@ -76,7 +89,9 @@
     },
     "buttons": {
       "upgrade": "Перейти на Премиум",
-      "downgrade": "Перейти на Бесплатный"
+      "downgrade": "Перейти на Бесплатный",
+      "getGold": "Получить Gold план",
+      "getPlatinum": "Получить Platinum план"
     }
   },
   "home": {
@@ -394,7 +409,7 @@
       "fetchError": "Ошибка загрузки гороскопа"
     },
     "premium": {
-      "buyPremiumForAccess": "Купите Premium для доступа к полным деталям"
+      "buyPremiumForAccess": "Купите Platinum для доступа к полным деталям"
     }
   },
   "resultLoveMatch": {

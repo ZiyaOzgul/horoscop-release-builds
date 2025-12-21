@@ -69,17 +69,18 @@ const getCachedHoroscope = async (date: string, isPremium: boolean) => {
       HOROSCOPE_CACHE_PREMIUM_KEY
     );
 
-    // Only use cache if date matches AND premium status matches
+    // Only use cache if date matches AND platinum status matches
+    // Note: isPremium parameter now represents platinum status (only platinum users get premium API)
     if (cachedDate === date && cachedPremium === String(isPremium)) {
       const cachedData = await AsyncStorage.getItem(HOROSCOPE_CACHE_KEY);
       if (cachedData) {
-        console.log(`📦 Using cached horoscope data (premium: ${isPremium})`);
+        console.log(`📦 Using cached horoscope data (platinum: ${isPremium})`);
         return JSON.parse(cachedData);
       }
     } else {
-      // Premium status changed or date changed - clear old cache
+      // Platinum status changed or date changed - clear old cache
       if (cachedDate === date && cachedPremium !== String(isPremium)) {
-        console.log("🔄 Premium status changed - clearing cache");
+        console.log("🔄 Platinum status changed - clearing cache");
         await clearCachedHoroscope();
       }
     }
@@ -99,7 +100,8 @@ const setCachedHoroscope = async (
     await AsyncStorage.setItem(HOROSCOPE_CACHE_DATE_KEY, date);
     await AsyncStorage.setItem(HOROSCOPE_CACHE_PREMIUM_KEY, String(isPremium));
     await AsyncStorage.setItem(HOROSCOPE_CACHE_KEY, JSON.stringify(data));
-    console.log(`💾 Cached horoscope data (premium: ${isPremium})`);
+    // Note: isPremium parameter now represents platinum status
+    console.log(`💾 Cached horoscope data (platinum: ${isPremium})`);
   } catch (error) {
     console.error("Error saving cached horoscope:", error);
   }
@@ -179,16 +181,16 @@ const Horoscope: React.FC = () => {
       : "skip"
   );
 
-  // Check premium status
-  const { isPremium } = usePremiumStatus();
+  // Check platinum status - only platinum users get full access
+  const { isPlatinum } = usePremiumStatus();
   const userTypeFromRedux = useAppSelector(
     (state) => state.horoscope.userData?.userType
   );
   const userTypeFromConvex = (getUserDataFromConvex as any)?.userType;
-  const isUserPremium =
-    isPremium ||
-    userTypeFromRedux === "premium" ||
-    userTypeFromConvex === "premium";
+  const isUserPlatinum =
+    isPlatinum ||
+    userTypeFromRedux === "platinum" ||
+    userTypeFromConvex === "platinum";
 
   const { translateZodiacSign, translateElement, translatePolarity } =
     useUserDataTranslation();
@@ -217,25 +219,25 @@ const Horoscope: React.FC = () => {
     }
   }, [todaysHoroscope, aiResultHoroscope, dispatch]);
 
-  // Clear cache and re-fetch when premium status changes
-  const prevPremiumStatusRef = React.useRef<boolean | undefined>(undefined);
+  // Clear cache and re-fetch when platinum status changes
+  const prevPlatinumStatusRef = React.useRef<boolean | undefined>(undefined);
 
   useEffect(() => {
-    // Only clear cache if premium status actually changed (not on initial mount)
+    // Only clear cache if platinum status actually changed (not on initial mount)
     if (
-      prevPremiumStatusRef.current !== undefined &&
-      prevPremiumStatusRef.current !== isUserPremium
+      prevPlatinumStatusRef.current !== undefined &&
+      prevPlatinumStatusRef.current !== isUserPlatinum
     ) {
       console.log(
-        `🔄 Premium status changed from ${prevPremiumStatusRef.current} to ${isUserPremium} - clearing cache and re-fetching`
+        `🔄 Platinum status changed from ${prevPlatinumStatusRef.current} to ${isUserPlatinum} - clearing cache and re-fetching`
       );
       clearCachedHoroscope();
 
       // Clear Redux state to force re-fetch - set to undefined to trigger useEffect
       dispatch(setHoroscopeData(undefined as any));
     }
-    prevPremiumStatusRef.current = isUserPremium;
-  }, [isUserPremium, dispatch]);
+    prevPlatinumStatusRef.current = isUserPlatinum;
+  }, [isUserPlatinum, dispatch]);
 
   const scale = useSharedValue(1);
   const glowOpacity = useSharedValue(0.8);
@@ -277,7 +279,7 @@ const Horoscope: React.FC = () => {
     setLoadingPeriods({ daily: true, weekly: true, monthly: true });
 
     try {
-      const cachedData = await getCachedHoroscope(todayString, isUserPremium);
+      const cachedData = await getCachedHoroscope(todayString, isUserPlatinum);
       if (cachedData) {
         dispatch(setHoroscopeData(cachedData));
         setLoading(false);
@@ -286,11 +288,12 @@ const Horoscope: React.FC = () => {
       }
 
       console.log("🌐 Fetching horoscope progressively");
+      console.log(`👤 User platinum status: ${isUserPlatinum}`);
 
       const loadedPeriods: any = {};
 
-      // Use free API for non-premium users, premium API for premium users
-      const horoscopeAPI = isUserPremium
+      // Use premium API only for platinum users, free API for everyone else
+      const horoscopeAPI = isUserPlatinum
         ? getUserHoroscopeProgressive
         : getUserHoroscopeProgressiveFree;
 
@@ -320,7 +323,7 @@ const Horoscope: React.FC = () => {
             weekly: loadedPeriods.weekly,
             monthly: loadedPeriods.monthly,
           };
-          setCachedHoroscope(todayString, fullData, isUserPremium);
+          setCachedHoroscope(todayString, fullData, isUserPlatinum);
 
           saveHoroscope({
             userId: user!.id,
@@ -348,7 +351,7 @@ const Horoscope: React.FC = () => {
         !todaysHoroscope &&
         !loading
       ) {
-        const cachedData = await getCachedHoroscope(todayString, isUserPremium);
+        const cachedData = await getCachedHoroscope(todayString, isUserPlatinum);
         if (cachedData) {
           dispatch(setHoroscopeData(cachedData));
           return;
@@ -366,7 +369,7 @@ const Horoscope: React.FC = () => {
     loading,
     todayString,
     dispatch,
-    isUserPremium, // Add isUserPremium to dependencies to re-fetch when premium status changes
+    isUserPlatinum, // Add isUserPlatinum to dependencies to re-fetch when platinum status changes
   ]);
 
   const formattedDate = t("horoscope.dateFormat", {
@@ -420,8 +423,9 @@ const Horoscope: React.FC = () => {
   const renderHoroscopeContent = (data: any) => {
     if (!data) return null;
 
-    // For non-premium users, blur love/career/luck/health cards on all periods
-    const shouldBlurCards = !isUserPremium;
+    // For non-platinum users, blur love/career/luck/health cards on all periods
+    // Only platinum users get full access to detailed horoscope
+    const shouldBlurCards = !isUserPlatinum;
 
     return (
       <>
@@ -491,7 +495,7 @@ const Horoscope: React.FC = () => {
                       />
                       <Text style={styles.premiumPromptText}>
                         {t("horoscope.premium.buyPremiumForAccess") ||
-                          "Buy Premium for Access"}
+                          "Buy Platinum for Access"}
                       </Text>
                     </View>
                   </>
@@ -546,7 +550,7 @@ const Horoscope: React.FC = () => {
                       />
                       <Text style={styles.premiumPromptText}>
                         {t("horoscope.premium.buyPremiumForAccess") ||
-                          "Buy Premium for Access"}
+                          "Buy Platinum for Access"}
                       </Text>
                     </View>
                   </>
@@ -601,7 +605,7 @@ const Horoscope: React.FC = () => {
                       />
                       <Text style={styles.premiumPromptText}>
                         {t("horoscope.premium.buyPremiumForAccess") ||
-                          "Buy Premium for Access"}
+                          "Buy Platinum for Access"}
                       </Text>
                     </View>
                   </>
@@ -652,7 +656,7 @@ const Horoscope: React.FC = () => {
                       />
                       <Text style={styles.premiumPromptText}>
                         {t("horoscope.premium.buyPremiumForAccess") ||
-                          "Buy Premium for Access"}
+                          "Buy Platinum for Access"}
                       </Text>
                     </View>
                   </>

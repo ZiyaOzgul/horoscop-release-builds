@@ -60,13 +60,26 @@
       "period": "por mes",
       "badge": "PREMIUM"
     },
+    "gold": {
+      "name": "Plan Gold",
+      "price": "$4.99",
+      "period": "por mes",
+      "badge": "GOLD"
+    },
+    "platinum": {
+      "name": "Plan Platinum",
+      "price": "$9.99",
+      "period": "por mes",
+      "badge": "PLATINUM"
+    },
     "features": {
       "horoscope": "Horóscopo gratuito",
       "dream": "Interpretación de sueños gratuita",
       "palmistry": "Lectura de palma gratuita",
       "unlimited": "Consultas ilimitadas",
       "tracking": "Seguimiento de datos pasados",
-      "adFree": "Experiencia sin anuncios"
+      "adFree": "Experiencia sin anuncios",
+      "detailedHoroscope": "Análisis Detallado de Horóscopo"
     },
     "notes": {
       "ads": "Incluye anuncios",
@@ -74,7 +87,9 @@
     },
     "buttons": {
       "upgrade": "Actualizar a Premium",
-      "downgrade": "Cambiar a gratuito"
+      "downgrade": "Cambiar a gratuito",
+      "getGold": "Obtener Plan Gold",
+      "getPlatinum": "Obtener Plan Platinum"
     }
   },
   "home": {
@@ -392,7 +407,7 @@
       "fetchError": "Error al obtener el horóscopo"
     },
     "premium": {
-      "buyPremiumForAccess": "Compra Premium para Acceder a Todos los Detalles"
+      "buyPremiumForAccess": "Compra Platinum para Acceder a Todos los Detalles"
     }
   },
   "resultLoveMatch": {

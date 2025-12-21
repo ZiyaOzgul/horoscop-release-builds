@@ -4,6 +4,7 @@ const PublicLayout = () => {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="ssp-callback" options={{ headerShown: false }} />
     </Stack>
   );
 };

@@ -60,13 +60,26 @@
       "period": "aylık",
       "badge": "PREMIUM"
     },
+    "gold": {
+      "name": "Gold Plan",
+      "price": "$4.99",
+      "period": "aylık",
+      "badge": "GOLD"
+    },
+    "platinum": {
+      "name": "Platinum Plan",
+      "price": "$9.99",
+      "period": "aylık",
+      "badge": "PLATINUM"
+    },
     "features": {
       "horoscope": "Ücretsiz Burç Yorumu",
       "dream": "Ücretsiz Rüya Yorumlama",
       "palmistry": "Ücretsiz El Falı",
       "unlimited": "Limitsiz Sorgulama",
       "tracking": "Geçmiş Veri Takibi",
-      "adFree": "Reklamsız Deneyim"
+      "adFree": "Reklamsız Deneyim",
+      "detailedHoroscope": "Detaylı Burç Analizi"
     },
     "notes": {
       "ads": "Reklamlar dahildir",
@@ -74,7 +87,9 @@
     },
     "buttons": {
       "upgrade": "Premium'a Yükselt",
-      "downgrade": "Ücretsiz plana düşür"
+      "downgrade": "Ücretsiz plana düşür",
+      "getGold": "Gold Plan'a Sahip Ol",
+      "getPlatinum": "Platinum Plan'a Sahip Ol"
     }
   },
 
@@ -386,7 +401,7 @@
       "fetchError": "Burç alınırken hata oluştu"
     },
     "premium": {
-      "buyPremiumForAccess": "Tam Detaylar İçin Premium Satın Alın"
+      "buyPremiumForAccess": "Tam Detaylar İçin Platinum Satın Alın"
     }
   },
   "resultLoveMatch": {
