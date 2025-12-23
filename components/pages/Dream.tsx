@@ -1,9 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Colors } from "@/constants/Colors";
 import { useAppDispatch } from "@/redux/hooks";
 import { setDreamReqData } from "@/redux/horoscopeSlicer";
 import { useRouter } from "expo-router";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FlatList,
@@ -25,13 +24,21 @@ import {
 const Dream = () => {
   const { t } = useTranslation();
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const dreamText = useRef<string>("");
+  const [showError, setShowError] = useState<boolean>(false);
+  const [dreamText, setDreamText] = useState<string>("");
   const router = useRouter();
   const dispatch = useAppDispatch();
   const toggleSelect = (item: string): void => {
-    setSelectedItems((prev) =>
-      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
-    );
+    setSelectedItems((prev) => {
+      const newItems = prev.includes(item)
+        ? prev.filter((i) => i !== item)
+        : [...prev, item];
+      // Clear error if user selects an item
+      if (newItems.length > 0 || dreamText.trim() !== "") {
+        setShowError(false);
+      }
+      return newItems;
+    });
   };
 
   const dreamData = useMemo(() => {
@@ -47,10 +54,38 @@ const Dream = () => {
   }, [t]);
 
   const handleSubmit = async () => {
-    const itemsText = selectedItems.join(", ");
-    const dreamReqData = `I see ${itemsText} and ${dreamText.current} in my dream. What is it mean ?`;
-    dispatch(setDreamReqData(dreamReqData));
-    router.push("/(auth)/(modal)/dreamResult");
+    // Validate that user has selected at least one item or entered dream text
+    if (selectedItems.length === 0 && dreamText.trim() === "") {
+      // Show error message - user needs to select at least one item or enter dream text
+      setShowError(true);
+      return;
+    }
+
+    // Clear error if validation passes
+    setShowError(false);
+
+    const itemsText = selectedItems.length > 0 ? selectedItems.join(", ") : "";
+    const dreamTextValue = dreamText.trim();
+
+    // Build the request data
+    let dreamReqData = "";
+    if (itemsText && dreamTextValue) {
+      dreamReqData = `I see ${itemsText} and ${dreamTextValue} in my dream. What is it mean ?`;
+    } else if (itemsText) {
+      dreamReqData = `I see ${itemsText} in my dream. What is it mean ?`;
+    } else if (dreamTextValue) {
+      dreamReqData = `${dreamTextValue}. What is it mean ?`;
+    }
+
+    if (dreamReqData) {
+      dispatch(setDreamReqData(dreamReqData));
+
+      // Clear form data after successful submission
+      setSelectedItems([]);
+      setDreamText("");
+
+      router.push("/(auth)/(modal)/dreamResult");
+    }
   };
 
   return (
@@ -67,8 +102,13 @@ const Dream = () => {
         </View>
 
         <TextInput
+          value={dreamText}
           onChangeText={(text) => {
-            dreamText.current = text;
+            setDreamText(text);
+            // Clear error if user enters text
+            if (text.trim() !== "" || selectedItems.length > 0) {
+              setShowError(false);
+            }
           }}
           multiline
           placeholder={t("dream.placeholder")}
@@ -88,6 +128,13 @@ const Dream = () => {
             <Text style={styles.buttonText}>{t("dream.button")}</Text>
           </LinearGradient>
         </TouchableOpacity>
+
+        {showError && (
+          <Text style={styles.errorText}>
+            {t("dream.validation.empty") ||
+              "Please select at least one item or enter your dream description."}
+          </Text>
+        )}
 
         <Text style={styles.frequent}>{t("dream.frequent")}</Text>
 
@@ -246,5 +293,14 @@ const styles = StyleSheet.create({
     fontSize: hp(2.3),
     fontFamily: "Rubik_600SemiBold",
     fontWeight: "600",
+  },
+  errorText: {
+    color: "#FF3B30",
+    fontSize: hp(1.8),
+    fontFamily: "Rubik_400Regular",
+    fontWeight: "400",
+    textAlign: "center",
+    marginTop: hp(1),
+    paddingHorizontal: wp(5),
   },
 });

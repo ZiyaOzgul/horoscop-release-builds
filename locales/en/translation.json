@@ -164,6 +164,9 @@
     "button": "Let's See",
     "description": "Please write your dream as vividly as you can remember. Include key details like images, emotions, symbols, and any unusual events. The more context you provide, the better we can help you uncover hidden meanings in your subconscious.",
     "frequent": "Frequently Seen:",
+    "validation": {
+      "empty": "Please select at least one item or enter your dream description."
+    },
     "categories": [
       {
         "category": "Nature & Elements",
@@ -421,6 +424,7 @@
     }
   },
   "resultLoveMatch": {
+    "mainTitle": "Your Love Compatibility",
     "details": "Details:",
     "potentialToCharm": "Potential to charm each other",
     "scores": "Scores",

@@ -23,7 +23,9 @@ import {
   View,
 } from "react-native";
 import { AdEventType, InterstitialAd } from "react-native-google-mobile-ads";
+import LinearGradient from "react-native-linear-gradient";
 import PagerView from "react-native-pager-view";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -292,33 +294,54 @@ const ResultLoveMatch = () => {
     category: (typeof categories)[0],
     index: number
   ) => (
-    <View key={category.key} style={styles.pageContainer}>
-      <View style={styles.categoryHeader}>
-        <Ionicons
-          name={category.icon as any}
-          size={hp(4)}
-          color={Colors.borderColor}
-        />
-        <Text style={styles.categoryTitle}>{category.title}</Text>
-      </View>
-
-      <View style={styles.categoryPercentageContainer}>
-        <View style={styles.circularProgress}>
-          <Text style={styles.categoryPercentageText}>
-            {category.percentage}%
-          </Text>
+    <Animated.View
+      key={category.key}
+      entering={FadeInUp.delay(index * 100).springify()}
+      style={styles.pageContainer}
+    >
+      <LinearGradient
+        colors={["#B73AF3", "#6950FB", "#8e61fe"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.cardGradient}
+      >
+        <View style={styles.categoryHeader}>
+          <View style={styles.iconContainer}>
+            <Ionicons name={category.icon as any} size={hp(4)} color="#fff" />
+          </View>
+          <Text style={styles.categoryTitle}>{category.title}</Text>
         </View>
-      </View>
 
-      <View style={styles.categoryExplanationContainer}>
-        <Text style={styles.categoryExplanation}>{category.explanation}</Text>
-      </View>
-    </View>
+        <View style={styles.categoryPercentageContainer}>
+          <View style={styles.circularProgress}>
+            <Text style={styles.categoryPercentageText}>
+              {category.percentage}%
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.categoryExplanationContainer}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.explanationScrollContent}
+          >
+            <Text style={styles.categoryExplanation}>
+              {category.explanation}
+            </Text>
+          </ScrollView>
+        </View>
+      </LinearGradient>
+    </Animated.View>
   );
 
   // Show main content after ad has been watched
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#FDF8FF", "#F5F0FF", "#FDF8FF"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -346,6 +369,17 @@ const ResultLoveMatch = () => {
         >
           <Entypo color={Colors.purpleColorBlack} size={hp(3.4)} name="share" />
         </TouchableOpacity>
+
+        {/* Main Title */}
+        <Animated.View
+          entering={FadeInDown.delay(100).springify()}
+          style={styles.mainTitleContainer}
+        >
+          <Text style={styles.mainTitle}>
+            {t("resultLoveMatch.mainTitle") || "Aşk Uyumunuz"}
+          </Text>
+          <View style={styles.mainTitleUnderline} />
+        </Animated.View>
 
         {/* Zodiac Images Section */}
         <View style={styles.zodiacContainer}>
@@ -463,19 +497,21 @@ const ResultLoveMatch = () => {
           </View>
 
           {/* PagerView */}
-          <PagerView
-            ref={pagerRef}
-            style={styles.pagerView}
-            initialPage={0}
-            onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
-          >
-            {categories.map((category, index) =>
-              renderCategoryPage(category, index)
-            )}
-          </PagerView>
+          <View style={styles.pagerWrapper}>
+            <PagerView
+              ref={pagerRef}
+              style={styles.pagerView}
+              initialPage={0}
+              onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
+            >
+              {categories.map((category, index) =>
+                renderCategoryPage(category, index)
+              )}
+            </PagerView>
+          </View>
         </View>
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -504,7 +540,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   zodiacContainer: {
-    marginTop: hp(10),
+    marginTop: hp(6),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -726,10 +762,61 @@ const styles = StyleSheet.create({
 
   categoryExplanation: {
     fontFamily: "Rubik_400Regular",
-    fontSize: hp(2),
+    fontSize: hp(2.1),
     color: "#fff",
     textAlign: "center",
-    lineHeight: hp(3),
+    lineHeight: hp(3.2),
+  },
+  mainTitleContainer: {
+    alignItems: "center",
+    marginTop: hp(1),
+  },
+  mainTitle: {
+    fontFamily: "Rubik_600SemiBold",
+    fontSize: hp(3.2),
+    fontWeight: "700",
+    color: Colors.purpleColorBlack,
+    textAlign: "center",
+    letterSpacing: 0.5,
+  },
+  mainTitleUnderline: {
+    width: wp(25),
+    height: hp(0.3),
+    backgroundColor: Colors.purpleColorBlack,
+    borderRadius: 2,
+    marginTop: hp(0.5),
+    opacity: 0.6,
+  },
+  pagerWrapper: {
+    backgroundColor: "transparent",
+  },
+  cardGradient: {
+    flex: 1,
+    borderRadius: 24,
+    paddingVertical: wp(6),
+    paddingHorizontal: wp(6),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 10,
+  },
+  iconContainer: {
+    width: hp(6),
+    height: hp(6),
+    borderRadius: hp(3),
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+  },
+  explanationScrollContent: {
+    paddingBottom: hp(3),
+    flexGrow: 1,
   },
   adWaitingContainer: {
     flex: 1,
@@ -797,17 +884,18 @@ const styles = StyleSheet.create({
   },
 
   pagerView: {
-    height: hp(70),
+    height: hp(75),
   },
   pageContainer: {
     height: "100%",
-    padding: wp(5),
-    backgroundColor: Colors.purplePalmitryBg,
-    borderRadius: 15,
+    padding: wp(6),
+    borderRadius: 24,
     marginHorizontal: wp(2),
+    overflow: "hidden",
   },
   categoryExplanationContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    paddingTop: hp(1),
   },
 });

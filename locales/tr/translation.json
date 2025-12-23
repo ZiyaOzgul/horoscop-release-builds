@@ -114,6 +114,9 @@
     "button": "Görelim",
     "description": "Lütfen rüyanızı olabildiğince canlı bir şekilde yazın. Görseller, duygular, semboller ve alışılmadık olaylar gibi anahtar ayrıntıları ekleyin. Ne kadar çok bağlam verirseniz bilinçaltınızdaki gizli anlamları bulmamıza o kadar yardımcı olur.",
     "frequent": "Sık Görülenler:",
+    "validation": {
+      "empty": "Lütfen en az bir öğe seçin veya rüya açıklamanızı girin."
+    },
     "categories": [
       {
         "category": "Doğa & Unsurlar",
@@ -414,6 +417,7 @@
     }
   },
   "resultLoveMatch": {
+    "mainTitle": "Aşk Uyumunuz",
     "details": "Detaylar:",
     "potentialToCharm": "Birbirinizi büyüleme potansiyeli",
     "scores": "Şansınız",

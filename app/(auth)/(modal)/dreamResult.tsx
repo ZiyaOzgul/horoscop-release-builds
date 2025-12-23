@@ -12,7 +12,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  Animated,
   Image,
   ScrollView,
   StatusBar,
@@ -24,10 +23,67 @@ import {
 import { AdEventType, InterstitialAd } from "react-native-google-mobile-ads";
 import LinearGradient from "react-native-linear-gradient";
 import PagerView from "react-native-pager-view";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+
+// Dot indicator component with animated width
+const DotIndicator = ({
+  index,
+  scrollX,
+  isActive,
+}: {
+  index: number;
+  scrollX: { value: number };
+  isActive: boolean;
+}) => {
+  // Pre-calculate width values outside of worklet
+  const minWidth = wp(2);
+  const maxWidth = wp(8);
+  const widthRange = maxWidth - minWidth;
+
+  const dotAnimatedStyle = useAnimatedStyle(() => {
+    const scrollValue = scrollX.value;
+    let width = minWidth; // Default width
+
+    if (scrollValue >= index - 1 && scrollValue <= index + 1) {
+      if (scrollValue < index) {
+        // Animating from previous dot to this one
+        const progress = scrollValue - (index - 1);
+        width = minWidth + progress * widthRange;
+      } else if (scrollValue > index) {
+        // Animating from this dot to next one
+        const progress = scrollValue - index;
+        width = maxWidth - progress * widthRange;
+      } else {
+        // Exactly at this dot
+        width = maxWidth;
+      }
+    }
+
+    return {
+      width: Math.max(minWidth, Math.min(maxWidth, width)),
+    };
+  });
+
+  return (
+    <Animated.View
+      style={[
+        styles.dot,
+        dotAnimatedStyle,
+        isActive ? styles.activeDot : styles.inactiveDot,
+      ]}
+    />
+  );
+};
 
 const ResultDream = () => {
   interface DreamInterpretationResponse {
@@ -54,7 +110,7 @@ const ResultDream = () => {
   const [adWatched, setAdWatched] = useState(false);
   const adTimeoutRef = useRef<number | null>(null);
 
-  const scrollX = useRef(new Animated.Value(0)).current;
+  const scrollX = useSharedValue(0);
   const router = useRouter();
   const { user } = useUser();
   const dreamReq = useAppSelector((state) => state.horoscope.dreamReqData);
@@ -171,6 +227,27 @@ const ResultDream = () => {
   ]);
 
   const saveDream = useMutation(api.dreams.saveDreamAnalysis);
+
+  // Animation for scroll indicator
+  const scrollIndicatorY = useSharedValue(0);
+
+  useEffect(() => {
+    scrollIndicatorY.value = withRepeat(
+      withTiming(8, {
+        duration: 1500,
+        easing: Easing.inOut(Easing.ease),
+      }),
+      -1,
+      true
+    );
+  }, [scrollIndicatorY]);
+
+  const scrollIndicatorStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: scrollIndicatorY.value }],
+      opacity: 0.7,
+    };
+  });
 
   const getDreamData = async () => {
     console.log("get dream data");
@@ -305,7 +382,7 @@ const ResultDream = () => {
         initialPage={0}
         onPageScroll={(e) => {
           const { position, offset } = e.nativeEvent;
-          scrollX.setValue(position + offset);
+          scrollX.value = position + offset;
         }}
         onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
         style={{ height: hp(58), paddingHorizontal: wp(2) }}
@@ -340,6 +417,18 @@ const ResultDream = () => {
                   <Text style={styles.symbolText}>{item.meanings}</Text>
                 )}
               </ScrollView>
+              {/* Scroll indicator */}
+              <View style={styles.scrollIndicatorContainer}>
+                <Animated.View
+                  style={[styles.scrollIndicator, scrollIndicatorStyle]}
+                >
+                  <Ionicons
+                    name="chevron-down"
+                    size={hp(2.5)}
+                    color="rgba(255, 255, 255, 0.8)"
+                  />
+                </Animated.View>
+              </View>
             </LinearGradient>
           </View>
         ))}
@@ -363,27 +452,30 @@ const ResultDream = () => {
             >
               <Text style={styles.symbolText}>{overall_message}</Text>
             </ScrollView>
+            {/* Scroll indicator */}
+            <View style={styles.scrollIndicatorContainer}>
+              <Animated.View
+                style={[styles.scrollIndicator, scrollIndicatorStyle]}
+              >
+                <Ionicons
+                  name="chevron-down"
+                  size={hp(2.5)}
+                  color="rgba(255, 255, 255, 0.8)"
+                />
+              </Animated.View>
+            </View>
           </LinearGradient>
         </View>
       </PagerView>
       <View style={styles.sliderBox}>
-        {Array.from({ length: symbols.length + 1 }).map((_, index) => {
-          const dotWidth = scrollX.interpolate({
-            inputRange: [index - 1, index, index + 1],
-            outputRange: [wp(2), wp(8), wp(2)],
-            extrapolate: "clamp",
-          });
-          return (
-            <Animated.View
-              key={index}
-              style={[
-                styles.dot,
-                { width: dotWidth },
-                currentPage === index ? styles.activeDot : styles.inactiveDot,
-              ]}
-            />
-          );
-        })}
+        {Array.from({ length: symbols.length + 1 }).map((_, index) => (
+          <DotIndicator
+            key={index}
+            index={index}
+            scrollX={scrollX}
+            isActive={currentPage === index}
+          />
+        ))}
       </View>
       <StatusBar
         translucent
@@ -609,5 +701,18 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: hp(2),
     fontWeight: "600",
+  },
+  scrollIndicatorContainer: {
+    position: "absolute",
+    bottom: hp(2),
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    pointerEvents: "none",
+  },
+  scrollIndicator: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

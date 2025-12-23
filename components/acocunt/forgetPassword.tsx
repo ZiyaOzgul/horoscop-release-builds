@@ -1,4 +1,4 @@
-import { useSignIn } from "@clerk/clerk-expo";
+import { useAuth, useSignIn } from "@clerk/clerk-expo";
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -41,6 +41,7 @@ type Step = "email" | "code" | "password" | "success";
 const ForgetPassword: React.FC = () => {
   const { t } = useTranslation();
   const { isLoaded, signIn } = useSignIn();
+  const { signOut } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<Step>("email");
   const [userEmail, setUserEmail] = useState<string>("");
@@ -215,12 +216,29 @@ const ForgetPassword: React.FC = () => {
       });
 
       if (result.status === "complete") {
-        setCurrentStep("success");
+        // Password reset successful - sign out user so they need to login again
+        try {
+          // Sign out any existing session
+          await signOut();
+        } catch (signOutError) {
+          console.error(
+            "Error signing out after password reset:",
+            signOutError
+          );
+          // Continue even if sign out fails
+        }
+
+        // Show success message
         Toast.success(
           t("forgetPassword.success.passwordReset") ||
-            "Password reset successfully! You can now login with your new password."
+            "Password reset successfully! Please login with your new password."
         );
         passwordForm.reset();
+
+        // Wait 0.5 seconds for user to read the message, then redirect to login page
+        setTimeout(() => {
+          router.replace("/(public)/(account)/login");
+        }, 500);
       } else {
         Toast.error(
           t("forgetPassword.error.resetFailed") ||

@@ -1,7 +1,7 @@
-import { useSignIn } from "@clerk/clerk-expo";
+import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -31,6 +31,7 @@ type FormTypes = {
 const Login: React.FC = () => {
   const { t } = useTranslation();
   const { isLoaded, setActive, signIn } = useSignIn();
+  const { user, isLoaded: isUserLoaded } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
 
   const {
@@ -47,6 +48,13 @@ const Login: React.FC = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
+  // If user is already signed in, redirect to app
+  useEffect(() => {
+    if (isUserLoaded && user) {
+      router.replace("/(public)/(account)/loading");
+    }
+  }, [isUserLoaded, user]);
 
   const onSubmit = async (data: FormTypes) => {
     setLoading(true);
@@ -76,6 +84,16 @@ const Login: React.FC = () => {
         Toast.error(t("login.toasts.signinError"));
       }
     } catch (error: any) {
+      // Check if error is "already signed in"
+      if (error?.errors?.[0]?.code === "form_identifier_exists" || 
+          error?.message?.includes("already signed in") ||
+          error?.toString()?.includes("already signed in")) {
+        // User is already signed in, redirect to app
+        console.log("User already signed in, redirecting...");
+        router.replace("/(public)/(account)/loading");
+        return;
+      }
+      
       // Localized toast & console for debugging
       Toast.error(t("login.toasts.signinError"));
       console.error("Sign-in error:", error);

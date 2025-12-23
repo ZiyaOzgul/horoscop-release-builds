@@ -163,6 +163,9 @@
     "button": "Veamos",
     "description": "Por favor escribe tu sueño con la mayor claridad posible. Incluye detalles clave como imágenes, emociones, símbolos y eventos inusuales. Cuanto más contexto proporciones, mejor podremos ayudarte a descubrir los significados ocultos en tu subconsciente.",
     "frequent": "Vistos con frecuencia:",
+    "validation": {
+      "empty": "Por favor selecciona al menos un elemento o ingresa la descripción de tu sueño."
+    },
     "categories": [
       {
         "category": "Naturaleza y elementos",
@@ -420,6 +423,7 @@
     }
   },
   "resultLoveMatch": {
+    "mainTitle": "Tu Compatibilidad de Amor",
     "details": "Detalles:",
     "potentialToCharm": "Potencial para encantarse mutuamente",
     "scores": "puntuación",
