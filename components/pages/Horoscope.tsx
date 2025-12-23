@@ -4,7 +4,7 @@ import {
 } from "@/api/horoscope";
 import { Colors } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
-import { usePremiumStatus } from "@/hooks/usePremiumCheck";
+import { usePlatinumStatus } from "@/hooks/usePremiumCheck";
 import { useUserDataTranslation } from "@/locales/translationHelper";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setHoroscopeData, setUserData } from "@/redux/horoscopeSlicer";
@@ -69,21 +69,22 @@ const getCachedHoroscope = async (date: string, isPremium: boolean) => {
       HOROSCOPE_CACHE_PREMIUM_KEY
     );
 
-    // Only use cache if date matches AND platinum status matches
-    // Note: isPremium parameter now represents platinum status (only platinum users get premium API)
-    if (cachedDate === date && cachedPremium === String(isPremium)) {
-      const cachedData = await AsyncStorage.getItem(HOROSCOPE_CACHE_KEY);
-      if (cachedData) {
-        console.log(`📦 Using cached horoscope data (platinum: ${isPremium})`);
-        return JSON.parse(cachedData);
+    // Check if we have cached data for this date
+    if (cachedDate === date) {
+      // If date matches, check if premium status also matches
+      if (cachedPremium === String(isPremium)) {
+        // Both date and premium status match - use cache
+        const cachedData = await AsyncStorage.getItem(HOROSCOPE_CACHE_KEY);
+        if (cachedData) {
+          console.log(`📦 Using cached horoscope data (platinum: ${isPremium})`);
+          return JSON.parse(cachedData);
+        }
       }
-    } else {
-      // Platinum status changed or date changed - clear old cache
-      if (cachedDate === date && cachedPremium !== String(isPremium)) {
-        console.log("🔄 Platinum status changed - clearing cache");
-        await clearCachedHoroscope();
-      }
+      // Date matches but premium status doesn't - cache is invalid for current status
+      // Don't clear cache here, let the separate useEffect handle cache clearing
+      // when premium status actually changes
     }
+    // Date doesn't match or no cache - return null
     return null;
   } catch (error) {
     console.error("Error reading cached horoscope:", error);
@@ -182,7 +183,7 @@ const Horoscope: React.FC = () => {
   );
 
   // Check platinum status - only platinum users get full access
-  const { isPlatinum } = usePremiumStatus();
+  const { isPlatinum, userType } = usePlatinumStatus();
   const userTypeFromRedux = useAppSelector(
     (state) => state.horoscope.userData?.userType
   );
@@ -190,7 +191,20 @@ const Horoscope: React.FC = () => {
   const isUserPlatinum =
     isPlatinum ||
     userTypeFromRedux === "platinum" ||
-    userTypeFromConvex === "platinum";
+    userTypeFromConvex === "platinum" ||
+    userType === "platinum";
+  
+  // Debug logging for platinum status
+  React.useEffect(() => {
+    console.log("🔍 Horoscope Platinum Status Check:", {
+      isPlatinum,
+      userTypeFromRedux,
+      userTypeFromConvex,
+      userType,
+      isUserPlatinum,
+      shouldBlurCards: !isUserPlatinum
+    });
+  }, [isPlatinum, userTypeFromRedux, userTypeFromConvex, userType, isUserPlatinum]);
 
   const { translateZodiacSign, translateElement, translatePolarity } =
     useUserDataTranslation();
@@ -221,9 +235,17 @@ const Horoscope: React.FC = () => {
 
   // Clear cache and re-fetch when platinum status changes
   const prevPlatinumStatusRef = React.useRef<boolean | undefined>(undefined);
+  const isInitialMountRef = React.useRef(true);
 
   useEffect(() => {
-    // Only clear cache if platinum status actually changed (not on initial mount)
+    // Skip on initial mount - don't clear cache just because isUserPlatinum is being determined
+    if (isInitialMountRef.current) {
+      isInitialMountRef.current = false;
+      prevPlatinumStatusRef.current = isUserPlatinum;
+      return;
+    }
+
+    // Only clear cache if platinum status actually changed (after initial mount)
     if (
       prevPlatinumStatusRef.current !== undefined &&
       prevPlatinumStatusRef.current !== isUserPlatinum

@@ -68,8 +68,8 @@ const Login: React.FC = () => {
         await setActive({ session: signInAttempt.createdSessionId });
         reset();
         setLoading(false);
-        // optionally navigate or let Clerk redirect
-        // router.replace("/(auth)/(tabs)/Home");
+        // Redirect to loading page to check user profile and premium status
+        router.replace("/(public)/(account)/loading");
       } else {
         // other statuses (e.g. needs second factor) can be handled here
         setLoading(false);

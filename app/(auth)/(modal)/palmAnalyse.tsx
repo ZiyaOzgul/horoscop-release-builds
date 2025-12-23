@@ -1,6 +1,6 @@
 import { analysePalm } from "@/api/palmistry";
 import { api } from "@/convex/_generated/api";
-import { usePremiumStatus } from "@/hooks/usePremiumCheck";
+import { usePlatinumStatus } from "@/hooks/usePremiumCheck";
 import { useAppSelector } from "@/redux/hooks";
 import { useUser } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
@@ -53,24 +53,28 @@ const PalmAnalyse: React.FC = () => {
   const { photoUri } = useLocalSearchParams<{ photoUri: string }>();
   const { t, i18n } = useTranslation();
   const selectedLang = i18n.language;
-  const { isGold, isPlatinum } = usePremiumStatus();
+  const { isPlatinum, isGold } = usePlatinumStatus();
 
   // Direct query to Convex as fallback to check subscription status
   const userProfile = useQuery(api.users.getUserWithClerkID, {
     clerkId: user?.id,
   });
 
-  // Check gold/platinum status from both Redux and Convex - no ads for gold or platinum users
+  // Check platinum and gold status from both Redux and Convex - no ads for platinum or gold users
   const currentUser = useAppSelector((state) => state.horoscope.userData);
   const userTypeFromRedux = currentUser?.userType;
   const userTypeFromConvex = (userProfile as any)?.userType;
-  const isUserGoldOrPlatinum = 
-    isGold || 
+  const isUserPlatinum = 
     isPlatinum || 
-    userTypeFromRedux === "gold" || 
     userTypeFromRedux === "platinum" ||
-    userTypeFromConvex === "gold" ||
     userTypeFromConvex === "platinum";
+  const isUserGold = 
+    isGold || 
+    userTypeFromRedux === "gold" ||
+    userTypeFromConvex === "gold";
+  
+  // Gold and Platinum users skip ads
+  const isUserGoldOrPlatinum = isUserPlatinum || isUserGold;
 
   const [isLoading, setIsLoading] = useState(true);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(
@@ -95,8 +99,10 @@ const PalmAnalyse: React.FC = () => {
     }
 
     console.log("🔍 Ad check (palm):", {
-      isGold,
       isPlatinum,
+      isGold,
+      isUserPlatinum,
+      isUserGold,
       isUserGoldOrPlatinum,
       userTypeFromRedux,
       userTypeFromConvex,
@@ -150,8 +156,10 @@ const PalmAnalyse: React.FC = () => {
       interstitial.removeAllListeners();
     };
   }, [
-    isGold,
     isPlatinum,
+    isGold,
+    isUserPlatinum,
+    isUserGold,
     isUserGoldOrPlatinum,
     currentUser?.userType,
     (userProfile as any)?.userType,
@@ -197,9 +205,9 @@ const PalmAnalyse: React.FC = () => {
 
       // Show ad after successful analysis - skip for premium users
       if (parsedResult.status === 200 && parsedResult.analysis) {
-        // If user is gold or platinum, skip the ad waiting screen
-        if (isUserGoldOrPlatinum) {
-          console.log("✅ Gold/Platinum user - skipping ad waiting screen");
+        // If user is platinum, skip the ad waiting screen
+        if (isUserPlatinum) {
+          console.log("✅ Platinum user - skipping ad waiting screen");
           setAdWatched(true);
           setShowAdWaitingScreen(false);
         } else {

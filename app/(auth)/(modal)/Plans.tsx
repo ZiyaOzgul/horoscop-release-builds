@@ -254,27 +254,66 @@ const Plans = () => {
     entitlement: any;
     userType: string;
   } | null => {
-    // Check Platinum first (higher tier)
-    if (customerInfo.entitlements.active["Platinum"]) {
-      return {
-        entitlement: customerInfo.entitlements.active["Platinum"],
-        userType: "platinum",
-      };
+    const activeEntitlements = customerInfo.entitlements.active || {};
+    const activeKeys = Object.keys(activeEntitlements);
+    
+    console.log("🔍 Checking active entitlements:", activeKeys);
+    
+    // Check all possible Platinum identifiers (case-insensitive and with/without underscore)
+    const platinumKeys = ["Platinum", "platinum", "platinum_plan", "Platinum_Plan", "PLATINUM"];
+    for (const key of platinumKeys) {
+      if (activeEntitlements[key]) {
+        console.log(`✅ Found Platinum entitlement with exact key: ${key}`);
+        return {
+          entitlement: activeEntitlements[key],
+          userType: "platinum",
+        };
+      }
     }
-    // Check Gold
-    if (customerInfo.entitlements.active["Gold"]) {
-      return {
-        entitlement: customerInfo.entitlements.active["Gold"],
-        userType: "gold",
-      };
+    
+    // Check all possible Gold identifiers (case-insensitive and with/without underscore)
+    const goldKeys = ["Gold", "gold", "gold_plan", "Gold_Plan", "GOLD"];
+    for (const key of goldKeys) {
+      if (activeEntitlements[key]) {
+        return {
+          entitlement: activeEntitlements[key],
+          userType: "gold",
+        };
+      }
     }
+    
     // Fallback to Premium for backward compatibility
-    if (customerInfo.entitlements.active["Premium"]) {
-      return {
-        entitlement: customerInfo.entitlements.active["Premium"],
-        userType: "premium",
-      };
+    const premiumKeys = ["Premium", "premium", "premium_plan", "Premium_Plan", "PREMIUM"];
+    for (const key of premiumKeys) {
+      if (activeEntitlements[key]) {
+        return {
+          entitlement: activeEntitlements[key],
+          userType: "premium",
+        };
+      }
     }
+    
+    // If no exact match, check if any active entitlement contains "platinum" or "gold" in its identifier
+    const allActiveKeys = Object.keys(activeEntitlements);
+    for (const key of allActiveKeys) {
+      const keyLower = key.toLowerCase();
+      if (keyLower.includes("platinum")) {
+        console.log(`✅ Found Platinum entitlement with partial match key: ${key}`);
+        return {
+          entitlement: activeEntitlements[key],
+          userType: "platinum",
+        };
+      }
+      if (keyLower.includes("gold") && !keyLower.includes("platinum")) {
+        console.log(`✅ Found Gold entitlement with key: ${key}`);
+        return {
+          entitlement: activeEntitlements[key],
+          userType: "gold",
+        };
+      }
+    }
+    
+    console.warn("⚠️ No matching entitlement found. Active keys:", activeKeys);
     return null;
   };
 
@@ -399,25 +438,34 @@ const Plans = () => {
           );
         }
 
-        // Wait a bit for database to update, getUserData query will auto-refresh
-        // Convex queries are reactive and will automatically update Redux state
-        await new Promise((resolve) => setTimeout(resolve, 800));
+        // Wait for database update - Convex queries are reactive and will auto-update
+        // Give enough time for the mutation to propagate and query to refresh
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        // Force a refresh of user data to ensure Redux state is updated
-        // The useEffect will automatically update Redux when getUserData changes
+        // Force Redux update by checking getUserData again
+        // The useEffect will handle updating Redux when getUserData changes
         console.log(
-          "✅ Purchase successful, user data should auto-refresh via Convex"
+          "✅ Purchase successful, waiting for Convex query to refresh user data"
         );
 
-        Alert.alert(t("plans.success.title"), t("plans.success.message"), [
-          {
-            text: t("plans.success.ok"),
-            onPress: () => {
-              console.log("✅ User acknowledged success, navigating back");
-              router.back();
+        // Determine subscription type for success message
+        const subscriptionType = activeEntitlement.userType === "gold" ? "gold" : activeEntitlement.userType === "premium" ? "platinum" : "platinum";
+        Alert.alert(
+          t(`plans.success.${subscriptionType}.title`),
+          t(`plans.success.${subscriptionType}.message`),
+          [
+            {
+              text: t(`plans.success.${subscriptionType}.ok`),
+              onPress: () => {
+                console.log("✅ User acknowledged success, navigating back");
+                // Small delay before navigating to ensure state is updated
+                setTimeout(() => {
+                  router.back();
+                }, 100);
+              },
             },
-          },
-        ]);
+          ]
+        );
       } else {
         // Purchase succeeded but entitlement not found - might be a delay
         console.warn(
@@ -469,26 +517,38 @@ const Plans = () => {
             );
           }
 
-          // Wait a bit for database to update, getUserData query will auto-refresh
-          await new Promise((resolve) => setTimeout(resolve, 500));
+          // Wait for database update - Convex queries are reactive and will auto-update
+          await new Promise((resolve) => setTimeout(resolve, 2000));
 
-          Alert.alert(t("plans.success.title"), t("plans.success.message"), [
-            {
-              text: t("plans.success.ok"),
-              onPress: () => router.back(),
-            },
-          ]);
+          // Determine subscription type for success message
+          const subscriptionType = refreshedEntitlement.userType === "gold" ? "gold" : refreshedEntitlement.userType === "premium" ? "platinum" : "platinum";
+          Alert.alert(
+            t(`plans.success.${subscriptionType}.title`),
+            t(`plans.success.${subscriptionType}.message`),
+            [
+              {
+                text: t(`plans.success.${subscriptionType}.ok`),
+                onPress: () => {
+                  setTimeout(() => {
+                    router.back();
+                  }, 100);
+                },
+              },
+            ]
+          );
         } else {
           // Purchase succeeded but entitlement still not available after retries
           console.error(
             "❌ Purchase succeeded but premium entitlement still not available after retries"
           );
+          // Try to determine subscription type from selected package
+          const subscriptionType = selectedPackage?.product.identifier?.toLowerCase().includes("gold") ? "gold" : "platinum";
           Alert.alert(
-            t("plans.success.title") || "Purchase Successful",
-            "Your purchase was successful! The premium features will be activated shortly. Please refresh the app if needed.",
+            t(`plans.success.${subscriptionType}.title`) || "Purchase Successful",
+            "Your purchase was successful! The features will be activated shortly. Please refresh the app if needed.",
             [
               {
-                text: t("plans.success.ok") || "OK",
+                text: t(`plans.success.${subscriptionType}.ok`) || "OK",
                 onPress: () => router.back(),
               },
             ]
@@ -528,37 +588,47 @@ const Plans = () => {
               );
             }
 
-            // Wait a bit for database to update, getUserData query will auto-refresh
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            // Wait for database update - Convex queries are reactive and will auto-update
+            await new Promise((resolve) => setTimeout(resolve, 2000));
 
+            // Determine subscription type for success message
+            const subscriptionType = activeEntitlement.userType === "gold" ? "gold" : activeEntitlement.userType === "premium" ? "platinum" : "platinum";
             // Show success message
             Alert.alert(
-              t("plans.success.title") || "Subscription Active",
-              t("plans.success.alreadyActive") ||
-                "You already have an active premium subscription!",
+              t(`plans.success.${subscriptionType}.title`) || "Subscription Active",
+              t(`plans.success.${subscriptionType}.alreadyActive`) ||
+                "You already have an active subscription!",
               [
                 {
-                  text: t("plans.success.ok") || "OK",
-                  onPress: () => router.back(),
+                  text: t(`plans.success.${subscriptionType}.ok`) || "OK",
+                  onPress: () => {
+                    setTimeout(() => {
+                      router.back();
+                    }, 100);
+                  },
                 },
               ]
             );
           } else {
-            // Subscription exists but not premium - show info message
+            // Subscription exists but not active - show info message
+            // Try to determine subscription type from package if available
+            const subscriptionType = selectedPackage?.product.identifier?.toLowerCase().includes("gold") ? "gold" : "platinum";
             Alert.alert(
-              t("plans.success.title") || "Subscription Found",
-              t("plans.success.subscriptionFound") ||
-                "A subscription was found but premium features are not active. Please try restoring purchases.",
-              [{ text: t("plans.success.ok") || "OK" }]
+              t(`plans.success.${subscriptionType}.title`) || "Subscription Found",
+              t(`plans.success.${subscriptionType}.subscriptionFound`) ||
+                "A subscription was found but features are not active. Please try restoring purchases.",
+              [{ text: t(`plans.success.${subscriptionType}.ok`) || "OK" }]
             );
           }
         } catch (checkError) {
           console.error("❌ Error checking subscription:", checkError);
+          // Fallback to platinum if we can't determine subscription type
+          const subscriptionType = selectedPackage?.product.identifier?.toLowerCase().includes("gold") ? "gold" : "platinum";
           Alert.alert(
-            t("plans.success.title") || "Subscription Active",
-            t("plans.success.alreadyActive") ||
+            t(`plans.success.${subscriptionType}.title`) || "Subscription Active",
+            t(`plans.success.${subscriptionType}.alreadyActive`) ||
               "You already have an active subscription!",
-            [{ text: t("plans.success.ok") || "OK" }]
+            [{ text: t(`plans.success.${subscriptionType}.ok`) || "OK" }]
           );
         }
       } else {
@@ -603,6 +673,9 @@ const Plans = () => {
   const goldPriceInfo = getPriceInfo("gold");
   const platinumPriceInfo = getPriceInfo("platinum");
 
+  // Use getUserData as primary source, fallback to currentUser from Redux
+  const activeUserType = getUserData?.userType || currentUser?.userType;
+
   const plans = [
     {
       id: "free",
@@ -643,7 +716,7 @@ const Plans = () => {
         },
       ],
       note: t("plans.notes.ads"),
-      current: currentUser?.userType === "normal",
+      current: activeUserType === "normal",
     },
     {
       id: "gold",
@@ -684,7 +757,7 @@ const Plans = () => {
         },
       ],
       note: t("plans.notes.cancel"),
-      current: currentUser?.userType === "gold",
+      current: activeUserType === "gold",
     },
     {
       id: "platinum",
@@ -725,7 +798,7 @@ const Plans = () => {
         },
       ],
       note: t("plans.notes.cancel"),
-      current: currentUser?.userType === "platinum",
+      current: activeUserType === "platinum",
     },
   ];
 

@@ -36,11 +36,20 @@
       "restoreFailed": "Restauración Fallida"
     },
     "success": {
-      "title": "¡Bienvenido a Premium! 🎉",
-      "message": "Ahora tienes acceso a todas las funciones premium",
-      "ok": "¡Vamos!",
-      "alreadyActive": "¡Ya tienes una suscripción premium activa!",
-      "subscriptionFound": "Se encontró una suscripción pero las funciones premium no están activas. Por favor, intenta restaurar las compras."
+      "gold": {
+        "title": "¡Bienvenido a Gold! 🎉",
+        "message": "Ahora tienes acceso a todas las funciones gold",
+        "ok": "¡Vamos!",
+        "alreadyActive": "¡Ya tienes una suscripción gold activa!",
+        "subscriptionFound": "Se encontró una suscripción pero las funciones gold no están activas. Por favor, intenta restaurar las compras."
+      },
+      "platinum": {
+        "title": "¡Bienvenido a Platinum! 🎉",
+        "message": "Ahora tienes acceso a todas las funciones platinum",
+        "ok": "¡Vamos!",
+        "alreadyActive": "¡Ya tienes una suscripción platinum activa!",
+        "subscriptionFound": "Se encontró una suscripción pero las funciones platinum no están activas. Por favor, intenta restaurar las compras."
+      }
     },
     "downgrade": {
       "title": "Cambiar a Plan Gratuito",

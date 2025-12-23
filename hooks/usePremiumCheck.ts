@@ -9,7 +9,7 @@ import { api } from "../convex/_generated/api";
 // Global flag to prevent concurrent subscription checks
 let isSubscriptionCheckInProgress = false;
 
-export const usePremiumStatus = () => {
+export const usePlatinumStatus = () => {
   const { user } = useUser();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.horoscope.userData);
@@ -31,7 +31,7 @@ export const usePremiumStatus = () => {
   }, [getUserData, dispatch]);
 
   // Check subscription validity on mount and when user changes
-  // Always check, not just when userType is premium, to catch sync issues
+  // Always check to catch sync issues
   useEffect(() => {
     if (user?.id && !checkInProgressRef.current) {
       checkSubscriptionStatus();
@@ -52,13 +52,42 @@ export const usePremiumStatus = () => {
       await Purchases.logIn(user.id);
       const customerInfo = await Purchases.getCustomerInfo();
 
-      // Check for active entitlements (Platinum > Gold > Premium for backward compatibility)
-      const platinumEntitlement = customerInfo.entitlements.active["Platinum"];
-      const goldEntitlement = customerInfo.entitlements.active["Gold"];
-      const premiumEntitlement = customerInfo.entitlements.active["Premium"]; // backward compatibility
+      // Helper function to find entitlement by multiple possible identifiers
+      const findEntitlement = (possibleKeys: string[]) => {
+        const activeEntitlements = customerInfo.entitlements.active || {};
+        for (const key of possibleKeys) {
+          if (activeEntitlements[key]) {
+            return activeEntitlements[key];
+          }
+        }
+        // Fallback: check if any active entitlement contains the keyword
+        const allActiveKeys = Object.keys(activeEntitlements);
+        for (const key of allActiveKeys) {
+          const keyLower = key.toLowerCase();
+          for (const searchKey of possibleKeys) {
+            if (keyLower.includes(searchKey.toLowerCase())) {
+              return activeEntitlements[key];
+            }
+          }
+        }
+        return null;
+      };
 
-      const activeEntitlement = platinumEntitlement || goldEntitlement || premiumEntitlement;
-      const activeUserType = platinumEntitlement ? "platinum" : goldEntitlement ? "gold" : premiumEntitlement ? "premium" : null;
+      // Check for active entitlements (Platinum first, then Gold)
+      // Support multiple identifier formats: "Platinum", "platinum", "platinum_plan", etc.
+      const platinumEntitlement = findEntitlement(["Platinum", "platinum", "platinum_plan", "Platinum_Plan", "PLATINUM"]);
+      const goldEntitlement = findEntitlement(["Gold", "gold", "gold_plan", "Gold_Plan", "GOLD"]);
+
+      // Platinum takes priority over Gold
+      const activeEntitlement = platinumEntitlement || goldEntitlement;
+      const activeUserType = platinumEntitlement ? "platinum" : goldEntitlement ? "gold" : null;
+      
+      console.log("🔍 usePlatinumStatus - Active entitlements check:", {
+        platinumFound: !!platinumEntitlement,
+        goldFound: !!goldEntitlement,
+        activeUserType,
+        allActiveKeys: Object.keys(customerInfo.entitlements.active || {})
+      });
 
       let expirationTimestamp: number | undefined;
       const expirationDate = activeEntitlement?.expirationDate;
@@ -135,10 +164,10 @@ export const usePremiumStatus = () => {
     }
   };
 
-  const isPremium = currentUser?.userType === "premium" || currentUser?.userType === "gold" || currentUser?.userType === "platinum";
-  const isGold = currentUser?.userType === "gold";
+  // Check for platinum and gold subscriptions
   const isPlatinum = currentUser?.userType === "platinum";
-  const isFree = currentUser?.userType === "normal" || !currentUser?.userType;
+  const isGold = currentUser?.userType === "gold";
+  const isFree = !isPlatinum && !isGold; // If not platinum or gold, user is free
 
   // Subscription info
   const subscriptionEndDate = currentUser?.subscriptionEndDate
@@ -155,9 +184,8 @@ export const usePremiumStatus = () => {
     daysUntilExpiration !== null && daysUntilExpiration <= 7;
 
   return {
-    isPremium,
-    isGold,
     isPlatinum,
+    isGold,
     isFree,
     userType: currentUser?.userType,
     subscriptionEndDate,

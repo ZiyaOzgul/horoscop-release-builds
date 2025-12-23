@@ -36,11 +36,20 @@
       "restoreFailed": "Geri Yükleme Başarısız"
     },
     "success": {
-      "title": "Premium'a Hoş Geldiniz! 🎉",
-      "message": "Artık tüm premium özelliklere erişiminiz var",
-      "ok": "Hadi Başlayalım!",
-      "alreadyActive": "Zaten aktif bir premium aboneliğiniz var!",
-      "subscriptionFound": "Bir abonelik bulundu ancak premium özellikler aktif değil. Lütfen satın alımları geri yüklemeyi deneyin."
+      "gold": {
+        "title": "Gold'a Hoş Geldiniz! 🎉",
+        "message": "Artık tüm gold özelliklere erişiminiz var",
+        "ok": "Hadi Başlayalım!",
+        "alreadyActive": "Zaten aktif bir gold aboneliğiniz var!",
+        "subscriptionFound": "Bir abonelik bulundu ancak gold özellikler aktif değil. Lütfen satın alımları geri yüklemeyi deneyin."
+      },
+      "platinum": {
+        "title": "Platinum'a Hoş Geldiniz! 🎉",
+        "message": "Artık tüm platinum özelliklere erişiminiz var",
+        "ok": "Hadi Başlayalım!",
+        "alreadyActive": "Zaten aktif bir platinum aboneliğiniz var!",
+        "subscriptionFound": "Bir abonelik bulundu ancak platinum özellikler aktif değil. Lütfen satın alımları geri yüklemeyi deneyin."
+      }
     },
     "downgrade": {
       "title": "Ücretsiz Plana Geç",

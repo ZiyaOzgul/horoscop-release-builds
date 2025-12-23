@@ -2,7 +2,7 @@ import { dreamInterpretation } from "@/api/dream";
 import Ladingdream from "@/components/Ladingdream";
 import { Colors } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
-import { usePremiumStatus } from "@/hooks/usePremiumCheck";
+import { usePlatinumStatus } from "@/hooks/usePremiumCheck";
 import { useAppSelector } from "@/redux/hooks";
 import { useUser } from "@clerk/clerk-expo";
 import { Entypo, Ionicons } from "@expo/vector-icons";
@@ -22,6 +22,7 @@ import {
   View,
 } from "react-native";
 import { AdEventType, InterstitialAd } from "react-native-google-mobile-ads";
+import LinearGradient from "react-native-linear-gradient";
 import PagerView from "react-native-pager-view";
 import {
   heightPercentageToDP as hp,
@@ -60,24 +61,26 @@ const ResultDream = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const { t, i18n } = useTranslation();
   const selectedLang = i18n.language;
-  const { isGold, isPlatinum } = usePremiumStatus();
+  const { isPlatinum, isGold } = usePlatinumStatus();
 
   // Direct query to Convex as fallback to check subscription status
   const userProfile = useQuery(api.users.getUserWithClerkID, {
     clerkId: user?.id,
   });
 
-  // Check gold/platinum status from both Redux and Convex - no ads for gold or platinum users
+  // Check platinum and gold status from both Redux and Convex - no ads for platinum or gold users
   const currentUser = useAppSelector((state) => state.horoscope.userData);
   const userTypeFromRedux = currentUser?.userType;
   const userTypeFromConvex = (userProfile as any)?.userType;
-  const isUserGoldOrPlatinum = 
-    isGold || 
-    isPlatinum || 
-    userTypeFromRedux === "gold" || 
+  const isUserPlatinum =
+    isPlatinum ||
     userTypeFromRedux === "platinum" ||
-    userTypeFromConvex === "gold" ||
     userTypeFromConvex === "platinum";
+  const isUserGold =
+    isGold || userTypeFromRedux === "gold" || userTypeFromConvex === "gold";
+
+  // Gold and Platinum users skip ads
+  const isUserGoldOrPlatinum = isUserPlatinum || isUserGold;
 
   // Initialize ad - skip for premium users
   useEffect(() => {
@@ -88,8 +91,10 @@ const ResultDream = () => {
     }
 
     console.log("🔍 Ad check (dream):", {
-      isGold,
       isPlatinum,
+      isGold,
+      isUserPlatinum,
+      isUserGold,
       isUserGoldOrPlatinum,
       userTypeFromRedux,
       userTypeFromConvex,
@@ -156,8 +161,10 @@ const ResultDream = () => {
       interstitial.removeAllListeners();
     };
   }, [
-    isGold,
     isPlatinum,
+    isGold,
+    isUserPlatinum,
+    isUserGold,
     isUserGoldOrPlatinum,
     currentUser?.userType,
     (userProfile as any)?.userType,
@@ -283,19 +290,11 @@ const ResultDream = () => {
           <Entypo color={Colors.purpleColorBlack} size={hp(3.4)} name="share" />
         </TouchableOpacity>
       </View>
-      <Text
-        style={{
-          marginTop: hp(2.6),
-          fontFamily: "Rubik_600SemiBold",
-          fontSize: hp(4),
-          fontWeight: "600",
-          color: Colors.purpleColorBlack,
-          textAlign: "center",
-        }}
-      >
-        {t("dreamResult.text")}
-      </Text>
-      <View style={{ alignItems: "center" }}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.mainTitle}>{t("dreamResult.text")}</Text>
+        <View style={styles.titleUnderline} />
+      </View>
+      <View style={styles.imageWrapper}>
         <Image
           source={require("@/assets/images/horoscope/dreamPageIco.png")}
           style={styles.image}
@@ -309,18 +308,63 @@ const ResultDream = () => {
           scrollX.setValue(position + offset);
         }}
         onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
-        style={{ height: hp(50), paddingHorizontal: wp(6) }}
+        style={{ height: hp(58), paddingHorizontal: wp(2) }}
       >
         {symbols.map((item, index) => (
-          <View style={styles.symbolContainer} key={index}>
-            <Text style={styles.symbolTitle}>{item.symbol}</Text>
-            <Text style={styles.symbolText}>{item.meanings}</Text>
+          <View key={index} style={styles.pageContainer}>
+            <LinearGradient
+              colors={["#B73AF3", "#6950FB", "#8e61fe"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.symbolContainer}
+            >
+              <View style={styles.symbolHeader}>
+                <View style={styles.iconContainer}>
+                  <Ionicons name="sparkles" size={hp(3.5)} color="#fff" />
+                </View>
+                <Text style={styles.symbolTitle}>{item.symbol}</Text>
+              </View>
+              <ScrollView
+                style={styles.symbolContent}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.symbolContentContainer}
+              >
+                {Array.isArray(item.meanings) ? (
+                  item.meanings.map((meaning: string, meaningIndex: number) => (
+                    <View key={meaningIndex} style={styles.meaningItem}>
+                      <View style={styles.bulletPoint} />
+                      <Text style={styles.symbolText}>{meaning}</Text>
+                    </View>
+                  ))
+                ) : (
+                  <Text style={styles.symbolText}>{item.meanings}</Text>
+                )}
+              </ScrollView>
+            </LinearGradient>
           </View>
         ))}
-        <ScrollView style={styles.symbolContainer}>
-          <Text style={styles.symbolTitle}>{t("dreamResult.overall")}</Text>
-          <Text style={styles.symbolText}>{overall_message}</Text>
-        </ScrollView>
+        <View style={styles.pageContainer}>
+          <LinearGradient
+            colors={["#B73AF3", "#6950FB", "#8e61fe"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.symbolContainer}
+          >
+            <View style={styles.symbolHeader}>
+              <View style={styles.iconContainer}>
+                <Ionicons name="star" size={hp(3.5)} color="#fff" />
+              </View>
+              <Text style={styles.symbolTitle}>{t("dreamResult.overall")}</Text>
+            </View>
+            <ScrollView
+              style={styles.symbolContent}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.symbolContentContainer}
+            >
+              <Text style={styles.symbolText}>{overall_message}</Text>
+            </ScrollView>
+          </LinearGradient>
+        </View>
       </PagerView>
       <View style={styles.sliderBox}>
         {Array.from({ length: symbols.length + 1 }).map((_, index) => {
@@ -368,33 +412,121 @@ const styles = StyleSheet.create({
     color: Colors.purpleColorBlack,
     textAlign: "center",
   },
+  titleContainer: {
+    alignItems: "center",
+    marginTop: hp(2),
+    marginBottom: hp(1),
+  },
+  mainTitle: {
+    fontFamily: "Rubik_600SemiBold",
+    fontSize: hp(3.5),
+    fontWeight: "700",
+    color: Colors.purpleColorBlack,
+    textAlign: "center",
+    letterSpacing: 0.5,
+  },
+  titleUnderline: {
+    width: wp(20),
+    height: hp(0.3),
+    backgroundColor: Colors.purpleColorBlack,
+    borderRadius: 2,
+    marginTop: hp(0.5),
+    opacity: 0.6,
+  },
+  imageWrapper: {
+    alignItems: "center",
+    marginVertical: hp(1),
+    shadowColor: Colors.purpleColorBlack,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
   image: {
-    width: wp(90),
-    height: hp(25),
+    width: wp(60),
+    height: hp(15),
+  },
+  pageContainer: {
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(1),
+    justifyContent: "center",
+    alignItems: "center",
   },
   symbolContainer: {
-    marginVertical: hp(1.5),
-    height: hp(45),
-    backgroundColor: Colors.purplePalmitryBg,
-    paddingVertical: hp(1),
-    paddingHorizontal: wp(4),
-    borderRadius: 16,
-    marginHorizontal: wp(6),
+    width: "100%",
+    height: hp(53),
+    borderRadius: 24,
+    paddingVertical: hp(2.5),
+    paddingHorizontal: wp(5),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 10,
+    overflow: "hidden",
+  },
+  symbolHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: hp(2),
+    gap: wp(3),
+  },
+  iconContainer: {
+    width: hp(5),
+    height: hp(5),
+    borderRadius: hp(2.5),
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.3)",
   },
   symbolTitle: {
     fontFamily: "Rubik_600SemiBold",
-    fontSize: hp(4),
-    fontWeight: "600",
+    fontSize: hp(3.2),
+    fontWeight: "700",
     color: "#fff",
     textAlign: "center",
+    textTransform: "capitalize",
+    letterSpacing: 0.5,
+    flex: 1,
+  },
+  symbolContent: {
+    flex: 1,
+  },
+  symbolContentContainer: {
+    paddingBottom: hp(2),
+  },
+  meaningItem: {
+    flexDirection: "row",
+    marginBottom: hp(1.5),
+    alignItems: "flex-start",
+  },
+  bulletPoint: {
+    width: hp(0.8),
+    height: hp(0.8),
+    borderRadius: hp(0.4),
+    backgroundColor: "#fff",
+    marginTop: hp(1),
+    marginRight: wp(3),
+    flexShrink: 0,
   },
   symbolText: {
-    fontFamily: "Rubik_500Medium",
-    fontSize: hp(2.2),
-    fontWeight: "normal",
+    fontFamily: "Rubik_400Regular",
+    fontSize: hp(2.1),
+    fontWeight: "400",
     color: "#fff",
-    textAlign: "center",
-    marginTop: hp(1),
+    textAlign: "left",
+    lineHeight: hp(3),
+    letterSpacing: 0.3,
+    flex: 1,
   },
   sliderBox: {
     flexDirection: "row",

@@ -1,6 +1,5 @@
 import { Colors } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
-import { usePremiumStatus } from "@/hooks/usePremiumCheck";
 import { useUserDataTranslation } from "@/locales/translationHelper";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setUserData } from "@/redux/horoscopeSlicer";
@@ -37,6 +36,7 @@ import {
 } from "react-native-responsive-screen";
 import LoadingProfile from "../LoadingProfile";
 
+import { usePlatinumStatus } from "@/hooks/usePremiumCheck";
 import {
   RewardedAd,
   RewardedAdEventType,
@@ -70,16 +70,21 @@ const Profile: React.FC = () => {
     user?.id ? { userId: user.id, limit: 20 } : "skip"
   );
 
-  // Check premium status
-  const { isPremium } = usePremiumStatus();
+  // Check platinum and gold status
+  const { isPlatinum, isGold } = usePlatinumStatus();
   const userTypeFromRedux = useAppSelector(
     (state) => state.horoscope.userData?.userType
   );
   const userTypeFromConvex = (getUserDetails as any)?.userType;
-  const isUserPremium =
-    isPremium ||
-    userTypeFromRedux === "premium" ||
-    userTypeFromConvex === "premium";
+  const isUserPlatinum =
+    isPlatinum ||
+    userTypeFromRedux === "platinum" ||
+    userTypeFromConvex === "platinum";
+  const isUserGold =
+    isGold || userTypeFromRedux === "gold" || userTypeFromConvex === "gold";
+
+  // Gold and Platinum users have automatic access (no ads)
+  const isUserGoldOrPlatinum = isUserPlatinum || isUserGold;
 
   const generateUploadUrl = useMutation(api.users.generateUploadUrl);
   const updateProfilePicture = useMutation(api.users.updateProfilePicture);
@@ -87,9 +92,9 @@ const Profile: React.FC = () => {
   const [uploading, setUploading] = useState(false);
   const [localImageUri, setLocalImageUri] = useState<string | null>(null);
 
-  // Ad unlock states - premium users have automatic access
-  const [isPalmitryUnlocked, setIsPalmitryUnlocked] = useState(isUserPremium);
-  const [isDreamsUnlocked, setIsDreamsUnlocked] = useState(isUserPremium);
+  // Ad unlock states - only platinum users have automatic access (gold users need to watch ads)
+  const [isPalmitryUnlocked, setIsPalmitryUnlocked] = useState(isUserPlatinum);
+  const [isDreamsUnlocked, setIsDreamsUnlocked] = useState(isUserPlatinum);
   const [isLoadingAd, setIsLoadingAd] = useState(false);
 
   const scrollX = useRef(new anim.Value(0)).current;
@@ -101,13 +106,13 @@ const Profile: React.FC = () => {
     }
   }, [getUserDetails, dispatch]);
 
-  // Update unlock states when premium status changes
+  // Update unlock states when platinum status changes (only platinum, not gold)
   useEffect(() => {
-    if (isUserPremium) {
+    if (isUserPlatinum) {
       setIsPalmitryUnlocked(true);
       setIsDreamsUnlocked(true);
     }
-  }, [isUserPremium]);
+  }, [isUserPlatinum]);
 
   // Initialize rewarded ad with production ID
   const rewardedAd = RewardedAd.createForAdRequest(
@@ -390,6 +395,34 @@ const Profile: React.FC = () => {
         >
           {userDetails?.lastName}
         </Text>
+
+        {/* Subscription Badge */}
+        {(isUserGold || isUserPlatinum) && (
+          <Animated.View
+            entering={FadeInDown.delay(150).springify()}
+            style={[
+              styles.subscriptionBadge,
+              isUserPlatinum ? styles.platinumBadge : styles.goldBadge,
+            ]}
+          >
+            <Ionicons
+              name={isUserPlatinum ? "diamond" : "medal"}
+              size={hp(2.5)}
+              color={isUserPlatinum ? "#E5E4E2" : "#FFD700"}
+              style={styles.badgeIcon}
+            />
+            <Text
+              style={[
+                styles.badgeText,
+                isUserPlatinum
+                  ? styles.platinumBadgeText
+                  : styles.goldBadgeText,
+              ]}
+            >
+              {isUserPlatinum ? "Platinum" : "Gold"}
+            </Text>
+          </Animated.View>
+        )}
 
         {/* Horoscope Info with Background */}
         <View style={styles.userDetailsContainer}>
@@ -763,6 +796,52 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     paddingHorizontal: wp(2),
     flexShrink: 1,
+  },
+  subscriptionBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(0.8),
+    borderRadius: 20,
+    marginTop: hp(1),
+    marginBottom: hp(0.5),
+    borderWidth: 2,
+    gap: wp(2),
+  },
+  goldBadge: {
+    backgroundColor: "#FFF9E6",
+    borderColor: "#FFD700",
+    shadowColor: "#FFD700",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  platinumBadge: {
+    backgroundColor: "#F5F5F5",
+    borderColor: "#E5E4E2",
+    shadowColor: "#C0C0C0",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  badgeIcon: {
+    marginRight: wp(1),
+  },
+  badgeText: {
+    fontSize: hp(1.8),
+    fontFamily: "Rubik_600SemiBold",
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  goldBadgeText: {
+    color: "#B8860B",
+  },
+  platinumBadgeText: {
+    color: "#6B6B6B",
   },
   userDetailsContainer: {
     flexDirection: "row",

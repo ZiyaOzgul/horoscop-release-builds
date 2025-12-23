@@ -2,7 +2,7 @@ import { getLoveMatchDetails } from "@/api/loveMatch";
 import Loading from "@/components/Loading";
 import { Colors } from "@/constants/Colors";
 import { api } from "@/convex/_generated/api";
-import { usePremiumStatus } from "@/hooks/usePremiumCheck";
+import { usePlatinumStatus } from "@/hooks/usePremiumCheck";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setLoveMatch } from "@/redux/horoscopeSlicer";
 import { useUser } from "@clerk/clerk-expo";
@@ -40,24 +40,26 @@ const ResultLoveMatch = () => {
     (state) => state.horoscope.loveMatchResults
   );
   const [calculating, setCalculating] = useState(false);
-  const { isGold, isPlatinum } = usePremiumStatus();
+  const { isPlatinum, isGold } = usePlatinumStatus();
 
   // Direct query to Convex as fallback to check subscription status
   const userProfile = useQuery(api.users.getUserWithClerkID, {
     clerkId: user?.id,
   });
 
-  // Check gold/platinum status from both Redux and Convex - no ads for gold or platinum users
+  // Check platinum and gold status from both Redux and Convex - no ads for platinum or gold users
   const currentUser = useAppSelector((state) => state.horoscope.userData);
   const userTypeFromRedux = currentUser?.userType;
   const userTypeFromConvex = (userProfile as any)?.userType;
-  const isUserGoldOrPlatinum =
-    isGold ||
+  const isUserPlatinum =
     isPlatinum ||
-    userTypeFromRedux === "gold" ||
     userTypeFromRedux === "platinum" ||
-    userTypeFromConvex === "gold" ||
     userTypeFromConvex === "platinum";
+  const isUserGold =
+    isGold || userTypeFromRedux === "gold" || userTypeFromConvex === "gold";
+
+  // Gold and Platinum users skip ads
+  const isUserGoldOrPlatinum = isUserPlatinum || isUserGold;
 
   // ad section
   const [ad, setAd] = useState<InterstitialAd | null>(null);
@@ -78,8 +80,10 @@ const ResultLoveMatch = () => {
     }
 
     console.log("🔍 Ad check (love match):", {
-      isGold,
       isPlatinum,
+      isGold,
+      isUserPlatinum,
+      isUserGold,
       isUserGoldOrPlatinum,
       userTypeFromRedux,
       userTypeFromConvex,
@@ -143,8 +147,10 @@ const ResultLoveMatch = () => {
       interstitial.removeAllListeners();
     };
   }, [
-    isGold,
     isPlatinum,
+    isGold,
+    isUserPlatinum,
+    isUserGold,
     isUserGoldOrPlatinum,
     currentUser?.userType,
     (userProfile as any)?.userType,

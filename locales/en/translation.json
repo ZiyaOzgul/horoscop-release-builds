@@ -36,11 +36,20 @@
       "restoreFailed": "Restore Failed"
     },
     "success": {
-      "title": "Welcome to Premium! ",
-      "message": "You now have access to all premium features",
-      "ok": "Let's Go!",
-      "alreadyActive": "You already have an active premium subscription!",
-      "subscriptionFound": "A subscription was found but premium features are not active. Please try restoring purchases."
+      "gold": {
+        "title": "Welcome to Gold! 🎉",
+        "message": "You now have access to all gold features",
+        "ok": "Let's Go!",
+        "alreadyActive": "You already have an active gold subscription!",
+        "subscriptionFound": "A subscription was found but gold features are not active. Please try restoring purchases."
+      },
+      "platinum": {
+        "title": "Welcome to Platinum! 🎉",
+        "message": "You now have access to all platinum features",
+        "ok": "Let's Go!",
+        "alreadyActive": "You already have an active platinum subscription!",
+        "subscriptionFound": "A subscription was found but platinum features are not active. Please try restoring purchases."
+      }
     },
     "downgrade": {
       "title": "Downgrade to Free",
