@@ -172,7 +172,16 @@ const ResultLoveMatch = () => {
   const selectedLang = i18n.language;
 
   const getLoveResult = async (reqData: string) => {
-    const result = await getLoveMatchDetails(reqData, selectedLang);
+    // Get user's gender from Redux or Convex
+    const userGender = currentUser?.gender || (userProfile as any)?.gender;
+    // For love match, we use the user's gender for the first person
+    // Since we don't have second person's gender info, we only pass the first person's gender
+    const result = await getLoveMatchDetails(
+      reqData,
+      selectedLang,
+      userGender, // first person gender (current user)
+      undefined // second person gender (not available in current implementation)
+    );
     const status = result.status;
     const matchData = result.loveMatch;
     if (status === 200) {
@@ -322,8 +331,9 @@ const ResultLoveMatch = () => {
 
         <View style={styles.categoryExplanationContainer}>
           <ScrollView
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
             contentContainerStyle={styles.explanationScrollContent}
+            nestedScrollEnabled={true}
           >
             <Text style={styles.categoryExplanation}>
               {category.explanation}
@@ -803,6 +813,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 10,
+    justifyContent: "space-between",
   },
   iconContainer: {
     width: hp(6),
@@ -815,8 +826,8 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255, 255, 255, 0.3)",
   },
   explanationScrollContent: {
-    paddingBottom: hp(3),
-    flexGrow: 1,
+    paddingBottom: hp(2),
+    paddingHorizontal: wp(1),
   },
   adWaitingContainer: {
     flex: 1,
@@ -888,13 +899,15 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     height: "100%",
-    padding: wp(6),
+    padding: wp(2),
     borderRadius: 24,
     marginHorizontal: wp(2),
     overflow: "hidden",
   },
   categoryExplanationContainer: {
     flex: 1,
+    minHeight: hp(20),
+    maxHeight: hp(35),
     justifyContent: "flex-start",
     paddingTop: hp(1),
   },

@@ -466,6 +466,88 @@
   "security": {
     "title": "Güvenlik"
   },
+  "privacyPolicy": {
+    "title": "Gizlilik Politikası",
+    "lastUpdated": "Son güncelleme: 23 Ekim 2025",
+    "subtitle": "Gizliliğiniz bizim için önemlidir. Bu politika, Horoscope uygulamasını kullanırken kişisel bilgilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu açıklar.",
+    "dataWeCollect": "Topladığımız Veriler",
+    "dataCollected": {
+      "birthInformation": {
+        "title": "Doğum Bilgileri",
+        "items": ["Doğum tarihi", "Doğum saati", "Doğum yeri"],
+        "purpose": "Doğru burç yorumları ve astrolojik haritalar oluşturmak için"
+      },
+      "profilePhotos": {
+        "title": "Profil Fotoğrafları",
+        "items": ["İsteğe bağlı profil resmi"],
+        "purpose": "Hesabınızı kişiselleştirmek ve kullanıcı deneyimini geliştirmek için"
+      },
+      "handPhotos": {
+        "title": "El Fotoğrafları",
+        "items": ["El falı okumaları için avuç içi görüntüleri"],
+        "purpose": "El falı analizi ve yorumları sağlamak için"
+      },
+      "accountInformation": {
+        "title": "Hesap Bilgileri",
+        "items": ["E-posta adresi", "Kullanıcı adı", "Hesap tercihleri"],
+        "purpose": "Hesabınızı yönetmek ve önemli güncellemeleri iletmek için"
+      },
+      "paymentInformation": {
+        "title": "Ödeme Bilgileri",
+        "items": ["Premium abonelikler için ödeme işlemleri"],
+        "purpose": "Google Play üzerinden premium abonelik satın alımlarını işlemek için"
+      }
+    },
+    "sections": {
+      "informationWeCollect": {
+        "title": "Topladığımız Bilgiler",
+        "content": "Horoscope uygulamasını kullanırken doğrudan bize sağladığınız bilgileri topluyoruz. Bu, astrolojik hizmetler sağlamak ve deneyiminizi geliştirmek için gerekli kişisel verileri içerir."
+      },
+      "howWeUse": {
+        "title": "Bilgilerinizi Nasıl Kullanıyoruz",
+        "content": "Doğum bilgileriniz (tarih, saat ve yer) yalnızca kişiselleştirilmiş burç yorumları, burç raporları ve astrolojik içgörüler oluşturmak için kullanılır. Profil fotoğrafları isteğe bağlıdır ve sunucularımızda güvenli bir şekilde saklanır. El falı okumaları için gönderilen el fotoğrafları analiz algoritmalarımız kullanılarak işlenir ve şifrelenmiş olarak saklanır. Kişisel fotoğraflarınızı asla üçüncü taraflarla paylaşmayız."
+      },
+      "dataSecurity": {
+        "title": "Veri Güvenliği",
+        "content": "Kişisel bilgilerinizi korumak için endüstri standardı güvenlik önlemleri uyguluyoruz. Tüm veriler aktarım sırasında ve beklerken şifrelenir. El fotoğrafları ve profil resimleri sınırlı erişimli güvenli sunucularda saklanır. Verilerinizin korunmaya devam etmesini sağlamak için güvenlik protokollerimizi düzenli olarak güncelliyoruz."
+      },
+      "premiumSubscriptions": {
+        "title": "Premium Abonelikler",
+        "content": "Premium aboneliğimiz Google Play Store üzerinden işlenir. Kredi kartı veya ödeme bilgilerinizi doğrudan saklamıyoruz. Tüm ödeme işlemleri Google Play tarafından güvenli bir şekilde yönetilir. Abonelik bilgileriniz (aktif durum, satın alma tarihi) premium özelliklere erişiminizi yönetmek için saklanır."
+      },
+      "dataRetention": {
+        "title": "Veri Saklama",
+        "content": "Kişisel bilgilerinizi hesabınız aktif olduğu sürece veya size hizmet sağlamak için gerektiği sürece saklarız. Hesabınızı ve tüm ilişkili verileri uygulama ayarlarından veya bizimle iletişime geçerek istediğiniz zaman silme talebinde bulunabilirsiniz. Silme talebi üzerine, doğum bilgileri, fotoğraflar ve okumalar dahil tüm verileriniz 30 gün içinde kalıcı olarak kaldırılacaktır."
+      },
+      "yourRights": {
+        "title": "Haklarınız",
+        "content": "Kişisel bilgilerinize her zaman erişme, güncelleme veya silme hakkınız vardır. Verilerinizin bir kopyasını indirebilir, düzeltme talep edebilir veya hesabınızı kalıcı olarak silebilirsiniz. Premium aboneler için, aboneliğinizi Google Play Store üzerinden istediğiniz zaman iptal edebilirsiniz."
+      },
+      "thirdPartyServices": {
+        "title": "Üçüncü Taraf Hizmetler",
+        "content": "Ödeme işlemleri için Google Play Store kullanıyoruz ve uygulama performansını iyileştirmek için analitik hizmetler kullanabiliriz. Bu hizmetlerin kendi gizlilik politikaları vardır. Kişisel bilgilerinizi pazarlama amaçlı üçüncü taraflara satmıyor veya paylaşmıyoruz."
+      },
+      "childrensPrivacy": {
+        "title": "Çocukların Gizliliği",
+        "content": "Uygulamamız 13 yaşın altındaki çocuklar için tasarlanmamıştır. 13 yaşın altındaki çocuklardan bilerek kişisel bilgi toplamıyoruz. 13 yaşın altındaki bir çocuktan bilgi topladığımızı düşünüyorsanız, lütfen derhal bizimle iletişime geçin."
+      },
+      "changesToPolicy": {
+        "title": "Gizlilik Politikasındaki Değişiklikler",
+        "content": "Bu gizlilik politikasını zaman zaman güncelleyebiliriz. Önemli değişiklikler hakkında sizi uygulama veya e-posta yoluyla bilgilendireceğiz. Değişikliklerden sonra uygulamayı kullanmaya devam etmeniz güncellenmiş politikayı kabul ettiğiniz anlamına gelir."
+      }
+    },
+    "keyPoints": {
+      "title": "Verileriniz Bizimle Güvende",
+      "encryption": "Uçtan uca şifreleme",
+      "noDataSelling": "Veri satışı yok",
+      "fullControl": "Verileriniz üzerinde tam kontrol"
+    },
+    "contact": {
+      "title": "Gizlilik Hakkında Sorularınız mı Var?",
+      "subtitle": "Yardımcı olmak için buradayız. Gizlilik ekibimizle istediğiniz zaman iletişime geçin.",
+      "button": "Gizlilik Ekibiyle İletişime Geçin"
+    }
+  },
   "social": {
     "title": "Sosyal",
     "textNull": "Henüz yeni birşey yok. Güncellemeler için bildirimlerini aç."

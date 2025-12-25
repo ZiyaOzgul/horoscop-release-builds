@@ -468,6 +468,88 @@
   "security": {
     "title": "Seguridad"
   },
+  "privacyPolicy": {
+    "title": "Política de Privacidad",
+    "lastUpdated": "Última actualización: 23 de octubre de 2025",
+    "subtitle": "Tu privacidad es importante para nosotros. Esta política explica cómo recopilamos, usamos y protegemos tu información personal cuando usas la aplicación Horóscopo.",
+    "dataWeCollect": "Datos que Recopilamos",
+    "dataCollected": {
+      "birthInformation": {
+        "title": "Información de Nacimiento",
+        "items": ["Fecha de nacimiento", "Hora de nacimiento", "Lugar de nacimiento"],
+        "purpose": "Para generar lecturas de horóscopo precisas y cartas astrológicas"
+      },
+      "profilePhotos": {
+        "title": "Fotos de Perfil",
+        "items": ["Foto de perfil opcional"],
+        "purpose": "Para personalizar tu cuenta y mejorar la experiencia del usuario"
+      },
+      "handPhotos": {
+        "title": "Fotos de la Mano",
+        "items": ["Imágenes de la palma para lecturas de quiromancia"],
+        "purpose": "Para proporcionar análisis e interpretaciones de lectura de palma"
+      },
+      "accountInformation": {
+        "title": "Información de la Cuenta",
+        "items": ["Dirección de correo electrónico", "Nombre de usuario", "Preferencias de cuenta"],
+        "purpose": "Para gestionar tu cuenta y comunicar actualizaciones importantes"
+      },
+      "paymentInformation": {
+        "title": "Información de Pago",
+        "items": ["Transacciones de pago para suscripciones premium"],
+        "purpose": "Para procesar compras de suscripciones premium a través de Google Play"
+      }
+    },
+    "sections": {
+      "informationWeCollect": {
+        "title": "Información que Recopilamos",
+        "content": "Recopilamos información que nos proporcionas directamente al usar la aplicación Horóscopo. Esto incluye datos personales necesarios para proporcionar servicios astrológicos y mejorar tu experiencia."
+      },
+      "howWeUse": {
+        "title": "Cómo Usamos tu Información",
+        "content": "Tu información de nacimiento (fecha, hora y lugar) se usa exclusivamente para generar horóscopos personalizados, informes zodiacales e ideas astrológicas. Las fotos de perfil son opcionales y se almacenan de forma segura en nuestros servidores. Las fotos de la mano enviadas para lecturas de quiromancia se procesan usando nuestros algoritmos de análisis y se almacenan encriptadas. Nunca compartimos tus fotos personales con terceros."
+      },
+      "dataSecurity": {
+        "title": "Seguridad de Datos",
+        "content": "Implementamos medidas de seguridad estándar de la industria para proteger tu información personal. Todos los datos están encriptados en tránsito y en reposo. Las fotos de la mano y las imágenes de perfil se almacenan en servidores seguros con acceso restringido. Actualizamos regularmente nuestros protocolos de seguridad para asegurar que tus datos permanezcan protegidos."
+      },
+      "premiumSubscriptions": {
+        "title": "Suscripciones Premium",
+        "content": "Nuestra suscripción premium se procesa a través de Google Play Store. No almacenamos directamente la información de tu tarjeta de crédito o pago. Todo el procesamiento de pagos se maneja de forma segura por Google Play. Tu información de suscripción (estado activo, fecha de compra) se almacena para gestionar el acceso a tus funciones premium."
+      },
+      "dataRetention": {
+        "title": "Retención de Datos",
+        "content": "Conservamos tu información personal mientras tu cuenta esté activa o según sea necesario para brindarte servicios. Puedes solicitar la eliminación de tu cuenta y todos los datos asociados en cualquier momento a través de la configuración de la aplicación o contactándonos. Al solicitar la eliminación, todos tus datos, incluida la información de nacimiento, fotos y lecturas, se eliminarán permanentemente en un plazo de 30 días."
+      },
+      "yourRights": {
+        "title": "Tus Derechos",
+        "content": "Tienes derecho a acceder, actualizar o eliminar tu información personal en cualquier momento. Puedes descargar una copia de tus datos, solicitar correcciones o eliminar permanentemente tu cuenta. Para los suscriptores premium, puedes cancelar tu suscripción a través de Google Play Store en cualquier momento."
+      },
+      "thirdPartyServices": {
+        "title": "Servicios de Terceros",
+        "content": "Utilizamos Google Play Store para el procesamiento de pagos y podemos usar servicios de análisis para mejorar el rendimiento de la aplicación. Estos servicios tienen sus propias políticas de privacidad. No vendemos ni compartimos tu información personal con terceros con fines de marketing."
+      },
+      "childrensPrivacy": {
+        "title": "Privacidad de los Niños",
+        "content": "Nuestra aplicación no está dirigida a niños menores de 13 años. No recopilamos conscientemente información personal de niños menores de 13 años. Si crees que hemos recopilado información de un niño menor de 13 años, por favor contáctanos inmediatamente."
+      },
+      "changesToPolicy": {
+        "title": "Cambios en la Política de Privacidad",
+        "content": "Podemos actualizar esta política de privacidad de vez en cuando. Te notificaremos sobre cualquier cambio significativo a través de la aplicación o por correo electrónico. El uso continuado de la aplicación después de los cambios constituye la aceptación de la política actualizada."
+      }
+    },
+    "keyPoints": {
+      "title": "Tus Datos Están Seguros con Nosotros",
+      "encryption": "Cifrado de extremo a extremo",
+      "noDataSelling": "Sin venta de datos",
+      "fullControl": "Control total sobre tus datos"
+    },
+    "contact": {
+      "title": "¿Preguntas sobre Privacidad?",
+      "subtitle": "Estamos aquí para ayudar. Contacta a nuestro equipo de privacidad en cualquier momento.",
+      "button": "Contactar al Equipo de Privacidad"
+    }
+  },
   "social": {
     "title": "Social",
     "textNull": "No hay noticias por ahora. Espera actualizaciones."

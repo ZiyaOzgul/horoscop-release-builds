@@ -35,7 +35,7 @@ Return ONLY valid JSON without markdown:
 {
   "status": 200,
   "horoscope": {
-    "sunSign": "detailed explanation (minimum 3-4 sentences) with planetary influences and actionable advice",
+    "sunSign": "detailed explanation (minimum 5-6 sentences) with planetary influences and actionable advice",
     "love": {"percentage": 0-100 },
     "career": {"percentage": 0-100 },
     "luck": {"percentage": 0-100 },
@@ -50,11 +50,11 @@ Return ONLY valid JSON without markdown:
 {
   "status": 200,
   "horoscope": {
-    "sunSign": "detailed explanation (minimum 3-4 sentences) with planetary influences and actionable advice",
-    "love": {"percentage": 0-100, "explanation": "detailed explanation (minimum 3-4 sentences)"},
-    "career": {"percentage": 0-100, "explanation": "detailed explanation (minimum 3-4 sentences)"},
-    "luck": {"percentage": 0-100, "explanation": "detailed explanation (minimum 3-4 sentences)"},
-    "health": {"percentage": 0-100, "explanation": "detailed explanation (minimum 3-4 sentences)"}
+    "sunSign": "detailed explanation (minimum 5-6 sentences) with planetary influences and actionable advice",
+    "love": {"percentage": 0-100, "explanation": "detailed explanation (minimum 4-5 sentences)"},
+    "career": {"percentage": 0-100, "explanation": "detailed explanation (minimum 4-5 sentences)"},
+    "luck": {"percentage": 0-100, "explanation": "detailed explanation (minimum 4-5 sentences)"},
+    "health": {"percentage": 0-100, "explanation": "detailed explanation (minimum 4-5 sentences)"}
   }
 }
 
@@ -102,6 +102,7 @@ export const interpretDream = action({
   args: {
     dreamText: v.string(),
     selectedLang: v.string(),
+    gender: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const apiKey = process.env.OPENAI_API_KEY;
@@ -112,9 +113,13 @@ export const interpretDream = action({
     const openai = new OpenAI({ apiKey });
 
     try {
+      const genderContext = args.gender
+        ? ` The dreamer is ${args.gender}. Consider gender-related cultural and personal contexts when interpreting symbols, but avoid stereotypes. Focus on the dreamer's personal experience and emotions.`
+        : "";
+
       const systemContent = `You are an expert dream interpreter and psychologist specializing in dream analysis. Provide detailed, insightful, and culturally-aware dream interpretations based on established dream psychology principles.
 
-Analyze the dream carefully, identifying key symbols and their multiple layers of meaning. Consider both universal and personal contexts.
+Analyze the dream carefully, identifying key symbols and their multiple layers of meaning. Consider both universal and personal contexts.${genderContext}
 
 Return ONLY valid JSON without markdown:
 {
@@ -139,6 +144,7 @@ Requirements:
 - Provide 2-3 different meanings for each symbol (each meaning should be 2-3 sentences)
 - Write overall_message that synthesizes all symbols into a cohesive interpretation
 - Be insightful, empathetic, and provide actionable insights
+- Consider cultural and personal contexts, including gender when relevant, but avoid stereotypes
 - Use only ${args.selectedLang} language for all content`;
 
       const response = await openai.chat.completions.create({
@@ -183,6 +189,8 @@ export const analyzeLoveMatch = action({
   args: {
     zodiacPair: v.string(),
     selectedLang: v.string(),
+    firstPersonGender: v.optional(v.string()),
+    secondPersonGender: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const apiKey = process.env.OPENAI_API_KEY;
@@ -193,17 +201,16 @@ export const analyzeLoveMatch = action({
     const openai = new OpenAI({ apiKey });
 
     try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are an expert astrologer specializing in zodiac compatibility. Analyze compatibility with detailed explanations (3-4 sentences minimum per category). Return only valid JSON, no markdown or extra text.",
-          },
-          {
-            role: "user",
-            content: `Analyze ${args.zodiacPair} compatibility in ${args.selectedLang}. Provide percentage (0-100) and detailed explanation (minimum 3-4 sentences) for Love, Business, Sex, and Friendship. Consider elemental traits, strengths, and challenges.
+      let genderContext = "";
+      if (args.firstPersonGender && args.secondPersonGender) {
+        genderContext = ` The first person is ${args.firstPersonGender} and the second person is ${args.secondPersonGender}. Consider gender dynamics and relationship patterns when analyzing compatibility, but focus on zodiac traits and personal compatibility rather than stereotypes.`;
+      } else if (args.firstPersonGender) {
+        genderContext = ` The first person is ${args.firstPersonGender}. Consider this context when analyzing compatibility, but prioritize zodiac traits and elemental compatibility.`;
+      }
+
+      const systemContent = `You are an expert astrologer specializing in zodiac compatibility. Analyze compatibility with detailed explanations (3-4 sentences minimum per category). Consider zodiac traits, elemental compatibility, planetary influences, and relationship dynamics.${genderContext} Return only valid JSON, no markdown or extra text.`;
+
+      const userContent = `Analyze ${args.zodiacPair} compatibility in ${args.selectedLang}. Provide percentage (0-100) and detailed explanation (minimum 3-4 sentences) for Love, Business, Sex, and Friendship. Consider elemental traits, strengths, challenges, and relationship dynamics.
 
 JSON format:
 {
@@ -219,7 +226,18 @@ JSON format:
   }
 }
 
-Return ONLY the JSON object.`,
+Return ONLY the JSON object.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: systemContent,
+          },
+          {
+            role: "user",
+            content: userContent,
           },
         ],
         temperature: 0.8,

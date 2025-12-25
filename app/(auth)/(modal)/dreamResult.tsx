@@ -251,7 +251,9 @@ const ResultDream = () => {
 
   const getDreamData = async () => {
     console.log("get dream data");
-    const dreamRes = await dreamInterpretation(dreamReq, selectedLang);
+    // Get user's gender from Redux or Convex
+    const userGender = currentUser?.gender || (userProfile as any)?.gender;
+    const dreamRes = await dreamInterpretation(dreamReq, selectedLang, userGender);
     if (dreamRes.status == 200) {
       setDreamResults(dreamRes);
 

@@ -6,7 +6,9 @@ const client = new ConvexHttpClient(convexUrl);
 
 export const getLoveMatchDetails = async (
   loveMatchZodiacs: string,
-  selectedLang: string
+  selectedLang: string,
+  firstPersonGender?: string,
+  secondPersonGender?: string
 ) => {
   try {
     console.log("💕 Analyzing love match (via Convex - Secure)");
@@ -14,6 +16,8 @@ export const getLoveMatchDetails = async (
     const result = await client.action(api.openai.analyzeLoveMatch, {
       zodiacPair: loveMatchZodiacs,
       selectedLang,
+      firstPersonGender: firstPersonGender || undefined,
+      secondPersonGender: secondPersonGender || undefined,
     });
 
     console.log("Love Match API Response:", result);

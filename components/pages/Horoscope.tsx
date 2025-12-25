@@ -9,7 +9,7 @@ import { useUserDataTranslation } from "@/locales/translationHelper";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setHoroscopeData, setUserData } from "@/redux/horoscopeSlicer";
 import { useUser } from "@clerk/clerk-expo";
-import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation, useQuery } from "convex/react";
 import { BlurView } from "expo-blur";
@@ -210,6 +210,27 @@ const Horoscope: React.FC = () => {
     useUserDataTranslation();
 
   const saveHoroscope = useMutation(api.users.saveHoroscope);
+
+  // Animation for scroll indicator
+  const scrollIndicatorY = useSharedValue(0);
+
+  useEffect(() => {
+    scrollIndicatorY.value = withRepeat(
+      withTiming(8, {
+        duration: 1500,
+        easing: Easing.inOut(Easing.ease),
+      }),
+      -1,
+      true
+    );
+  }, [scrollIndicatorY]);
+
+  const scrollIndicatorStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: scrollIndicatorY.value }],
+      opacity: 0.7,
+    };
+  });
   const [loadingPeriods, setLoadingPeriods] = React.useState({
     daily: false,
     weekly: false,
@@ -469,7 +490,25 @@ const Horoscope: React.FC = () => {
               {t("horoscope.barTitles.general")}
             </Text>
           </View>
-          <Text style={styles.resultCardText}>{data.sunSign}</Text>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
+            contentContainerStyle={styles.resultCardScrollContent}
+          >
+            <Text style={styles.resultCardText}>{data.sunSign}</Text>
+          </ScrollView>
+          {/* Scroll indicator */}
+          <View style={styles.scrollIndicatorContainer}>
+            <Animated.View
+              style={[styles.scrollIndicator, scrollIndicatorStyle]}
+            >
+              <Ionicons
+                name="chevron-down"
+                size={hp(2.5)}
+                color="rgba(255, 255, 255, 0.8)"
+              />
+            </Animated.View>
+          </View>
         </LinearGradient>
 
         {/* Love Card */}
@@ -492,9 +531,15 @@ const Horoscope: React.FC = () => {
                 </Text>
               </View>
               <View style={styles.resultCardTextContainer}>
-                <Text style={styles.resultCardText}>
-                  {data.love.explanation || ""}
-                </Text>
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  nestedScrollEnabled={true}
+                  contentContainerStyle={styles.resultCardScrollContent}
+                >
+                  <Text style={styles.resultCardText}>
+                    {data.love.explanation || ""}
+                  </Text>
+                </ScrollView>
                 {shouldBlurCards && (
                   <>
                     <BlurView
@@ -522,6 +567,18 @@ const Horoscope: React.FC = () => {
                     </View>
                   </>
                 )}
+                {/* Scroll indicator */}
+                <View style={styles.scrollIndicatorContainer}>
+                  <Animated.View
+                    style={[styles.scrollIndicator, scrollIndicatorStyle]}
+                  >
+                    <Ionicons
+                      name="chevron-down"
+                      size={hp(2.5)}
+                      color="rgba(255, 255, 255, 0.8)"
+                    />
+                  </Animated.View>
+                </View>
               </View>
             </LinearGradient>
           </View>
@@ -547,9 +604,15 @@ const Horoscope: React.FC = () => {
                 </Text>
               </View>
               <View style={styles.resultCardTextContainer}>
-                <Text style={styles.resultCardText}>
-                  {data.career.explanation || ""}
-                </Text>
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  nestedScrollEnabled={true}
+                  contentContainerStyle={styles.resultCardScrollContent}
+                >
+                  <Text style={styles.resultCardText}>
+                    {data.career.explanation || ""}
+                  </Text>
+                </ScrollView>
                 {shouldBlurCards && (
                   <>
                     <BlurView
@@ -577,6 +640,18 @@ const Horoscope: React.FC = () => {
                     </View>
                   </>
                 )}
+                {/* Scroll indicator */}
+                <View style={styles.scrollIndicatorContainer}>
+                  <Animated.View
+                    style={[styles.scrollIndicator, scrollIndicatorStyle]}
+                  >
+                    <Ionicons
+                      name="chevron-down"
+                      size={hp(2.5)}
+                      color="rgba(255, 255, 255, 0.8)"
+                    />
+                  </Animated.View>
+                </View>
               </View>
             </LinearGradient>
           </View>
@@ -602,9 +677,15 @@ const Horoscope: React.FC = () => {
                 </Text>
               </View>
               <View style={styles.resultCardTextContainer}>
-                <Text style={styles.resultCardText}>
-                  {data.luck.explanation || ""}
-                </Text>
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  nestedScrollEnabled={true}
+                  contentContainerStyle={styles.resultCardScrollContent}
+                >
+                  <Text style={styles.resultCardText}>
+                    {data.luck.explanation || ""}
+                  </Text>
+                </ScrollView>
                 {shouldBlurCards && (
                   <>
                     <BlurView
@@ -632,6 +713,18 @@ const Horoscope: React.FC = () => {
                     </View>
                   </>
                 )}
+                {/* Scroll indicator */}
+                <View style={styles.scrollIndicatorContainer}>
+                  <Animated.View
+                    style={[styles.scrollIndicator, scrollIndicatorStyle]}
+                  >
+                    <Ionicons
+                      name="chevron-down"
+                      size={hp(2.5)}
+                      color="rgba(255, 255, 255, 0.8)"
+                    />
+                  </Animated.View>
+                </View>
               </View>
             </LinearGradient>
           </View>
@@ -653,9 +746,15 @@ const Horoscope: React.FC = () => {
                 </Text>
               </View>
               <View style={styles.resultCardTextContainer}>
-                <Text style={styles.resultCardText}>
-                  {data.health.explanation || ""}
-                </Text>
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  nestedScrollEnabled={true}
+                  contentContainerStyle={styles.resultCardScrollContent}
+                >
+                  <Text style={styles.resultCardText}>
+                    {data.health.explanation || ""}
+                  </Text>
+                </ScrollView>
                 {shouldBlurCards && (
                   <>
                     <BlurView
@@ -683,6 +782,18 @@ const Horoscope: React.FC = () => {
                     </View>
                   </>
                 )}
+                {/* Scroll indicator */}
+                <View style={styles.scrollIndicatorContainer}>
+                  <Animated.View
+                    style={[styles.scrollIndicator, scrollIndicatorStyle]}
+                  >
+                    <Ionicons
+                      name="chevron-down"
+                      size={hp(2.5)}
+                      color="rgba(255, 255, 255, 0.8)"
+                    />
+                  </Animated.View>
+                </View>
               </View>
             </LinearGradient>
           </View>
@@ -1178,20 +1289,22 @@ const styles = StyleSheet.create({
   },
   resultCard: {
     borderRadius: 16,
-    padding: wp(4),
-    marginBottom: hp(2),
+    padding: wp(5),
+    marginBottom: hp(2.5),
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 5,
     overflow: "hidden",
+    minHeight: hp(30),
+    maxHeight: hp(65),
   },
   resultCardHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: hp(1.5),
+    marginBottom: hp(2),
     gap: wp(2),
   },
   resultCardIcon: {
@@ -1201,7 +1314,7 @@ const styles = StyleSheet.create({
   },
   resultCardTitle: {
     fontFamily: "Rubik_600SemiBold",
-    fontSize: hp(2.3),
+    fontSize: hp(2.6),
     fontWeight: "600",
     color: "#fff",
     flex: 1,
@@ -1215,15 +1328,35 @@ const styles = StyleSheet.create({
   },
   resultCardText: {
     fontFamily: "Rubik_400Regular",
-    fontSize: hp(1.9),
+    fontSize: hp(2.1),
     fontWeight: "400",
     color: "#fff",
-    lineHeight: hp(2.5),
-    textAlign: "center",
+    lineHeight: hp(3.2),
+    textAlign: "left",
+    paddingHorizontal: wp(1.5),
   },
   resultCardTextContainer: {
     position: "relative",
-    marginTop: hp(1.5),
+    marginTop: hp(2),
+    flex: 1,
+    minHeight: hp(22),
+    maxHeight: hp(55),
+  },
+  resultCardScrollContent: {
+    paddingBottom: hp(1),
+    flexGrow: 1,
+  },
+  scrollIndicatorContainer: {
+    position: "absolute",
+    bottom: hp(2),
+    right: wp(4),
+    alignItems: "center",
+    justifyContent: "center",
+    pointerEvents: "none",
+  },
+  scrollIndicator: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   loadingIndicatorContainer: {
     position: "absolute",

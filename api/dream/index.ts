@@ -6,7 +6,8 @@ const client = new ConvexHttpClient(convexUrl);
 
 export const dreamInterpretation = async (
   dreamText: string,
-  selectedLang: string
+  selectedLang: string,
+  gender?: string
 ) => {
   try {
     console.log("🌙 Interpreting dream (via Convex - Secure)");
@@ -14,6 +15,7 @@ export const dreamInterpretation = async (
     const result = await client.action(api.openai.interpretDream, {
       dreamText,
       selectedLang,
+      gender: gender || undefined,
     });
 
     console.log("Interpretation complete", result);

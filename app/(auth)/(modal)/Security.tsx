@@ -6,6 +6,7 @@ import {
 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Dimensions,
   Linking,
@@ -40,105 +41,115 @@ interface KeyPoint {
 }
 
 const PrivacyPolicyScreen = () => {
+  const { t } = useTranslation();
+
   const dataCollected = [
     {
       iconLib: "AntDesign",
       iconName: "calendar",
-      title: "Birth Information",
-      items: ["Date of birth", "Time of birth", "Place of birth"],
-      purpose:
-        "To generate accurate horoscope readings and astrological charts",
+      title: t("privacyPolicy.dataCollected.birthInformation.title"),
+      items: t("privacyPolicy.dataCollected.birthInformation.items", {
+        returnObjects: true,
+      }) as string[],
+      purpose: t("privacyPolicy.dataCollected.birthInformation.purpose"),
     },
     {
       iconLib: "Ionicons",
       iconName: "image-outline",
-      title: "Profile Photos",
-      items: ["Optional profile picture"],
-      purpose: "To personalize your account and enhance user experience",
+      title: t("privacyPolicy.dataCollected.profilePhotos.title"),
+      items: t("privacyPolicy.dataCollected.profilePhotos.items", {
+        returnObjects: true,
+      }) as string[],
+      purpose: t("privacyPolicy.dataCollected.profilePhotos.purpose"),
     },
     {
       iconLib: "Ionicons",
       iconName: "hand-left-outline",
-      title: "Hand Photos",
-      items: ["Palm images for palmistry readings"],
-      purpose: "To provide palm reading analysis and interpretations",
+      title: t("privacyPolicy.dataCollected.handPhotos.title"),
+      items: t("privacyPolicy.dataCollected.handPhotos.items", {
+        returnObjects: true,
+      }) as string[],
+      purpose: t("privacyPolicy.dataCollected.handPhotos.purpose"),
     },
     {
       iconLib: "AntDesign",
       iconName: "user",
-      title: "Account Information",
-      items: ["Email address", "Username", "Account preferences"],
-      purpose: "To manage your account and communicate important updates",
+      title: t("privacyPolicy.dataCollected.accountInformation.title"),
+      items: t("privacyPolicy.dataCollected.accountInformation.items", {
+        returnObjects: true,
+      }) as string[],
+      purpose: t("privacyPolicy.dataCollected.accountInformation.purpose"),
     },
     {
       iconLib: "AntDesign",
-      iconName: "creditcard",
-      title: "Payment Information",
-      items: ["Payment transactions for premium subscriptions"],
-      purpose: "To process premium subscription purchases through Google Play",
+      iconName: "credit-card",
+      title: t("privacyPolicy.dataCollected.paymentInformation.title"),
+      items: t("privacyPolicy.dataCollected.paymentInformation.items", {
+        returnObjects: true,
+      }) as string[],
+      purpose: t("privacyPolicy.dataCollected.paymentInformation.purpose"),
     },
   ];
 
   const sections = [
     {
-      title: "Information We Collect",
-      content:
-        "We collect information that you provide directly to us when using the Horoscope app. This includes personal data necessary for providing astrological services and enhancing your experience.",
+      title: t("privacyPolicy.sections.informationWeCollect.title"),
+      content: t("privacyPolicy.sections.informationWeCollect.content"),
     },
     {
-      title: "How We Use Your Information",
-      content:
-        "Your birth information (date, time, and place) is used exclusively to generate personalized horoscopes, zodiac reports, and astrological insights. Profile photos are optional and stored securely on our servers. Hand photos submitted for palmistry readings are processed using our analysis algorithms and stored encrypted. We never share your personal photos with third parties.",
+      title: t("privacyPolicy.sections.howWeUse.title"),
+      content: t("privacyPolicy.sections.howWeUse.content"),
     },
     {
-      title: "Data Security",
-      content:
-        "We implement industry-standard security measures to protect your personal information. All data is encrypted in transit and at rest. Hand photos and profile pictures are stored on secure servers with restricted access. We regularly update our security protocols to ensure your data remains protected.",
+      title: t("privacyPolicy.sections.dataSecurity.title"),
+      content: t("privacyPolicy.sections.dataSecurity.content"),
     },
     {
-      title: "Premium Subscriptions",
-      content:
-        "Our premium subscription is processed through Google Play Store. We do not store your credit card or payment information directly. All payment processing is handled securely by Google Play. Your subscription information (active status, purchase date) is stored to manage your premium features access.",
+      title: t("privacyPolicy.sections.premiumSubscriptions.title"),
+      content: t("privacyPolicy.sections.premiumSubscriptions.content"),
     },
     {
-      title: "Data Retention",
-      content:
-        "We retain your personal information for as long as your account is active or as needed to provide you services. You can request deletion of your account and all associated data at any time through the app settings or by contacting us. Upon deletion request, all your data including birth information, photos, and readings will be permanently removed within 30 days.",
+      title: t("privacyPolicy.sections.dataRetention.title"),
+      content: t("privacyPolicy.sections.dataRetention.content"),
     },
     {
-      title: "Your Rights",
-      content:
-        "You have the right to access, update, or delete your personal information at any time. You can download a copy of your data, request corrections, or permanently delete your account. For premium subscribers, you can cancel your subscription through Google Play Store at any time.",
+      title: t("privacyPolicy.sections.yourRights.title"),
+      content: t("privacyPolicy.sections.yourRights.content"),
     },
     {
-      title: "Third-Party Services",
-      content:
-        "We use Google Play Store for payment processing and may use analytics services to improve app performance. These services have their own privacy policies. We do not sell or share your personal information with third parties for marketing purposes.",
+      title: t("privacyPolicy.sections.thirdPartyServices.title"),
+      content: t("privacyPolicy.sections.thirdPartyServices.content"),
     },
     {
-      title: "Children's Privacy",
-      content:
-        "Our app is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.",
+      title: t("privacyPolicy.sections.childrensPrivacy.title"),
+      content: t("privacyPolicy.sections.childrensPrivacy.content"),
     },
     {
-      title: "Changes to Privacy Policy",
-      content:
-        "We may update this privacy policy from time to time. We will notify you of any significant changes through the app or via email. Continued use of the app after changes constitutes acceptance of the updated policy.",
+      title: t("privacyPolicy.sections.changesToPolicy.title"),
+      content: t("privacyPolicy.sections.changesToPolicy.content"),
     },
   ];
 
   const keyPoints = [
-    { iconLib: "AntDesign", iconName: "lock", text: "End-to-end encryption" },
-    { iconLib: "AntDesign", iconName: "eyeo", text: "No data selling" },
     {
       iconLib: "AntDesign",
-      iconName: "checkcircleo",
-      text: "Full control over your data",
+      iconName: "lock",
+      text: t("privacyPolicy.keyPoints.encryption"),
+    },
+    {
+      iconLib: "AntDesign",
+      iconName: "eye",
+      text: t("privacyPolicy.keyPoints.noDataSelling"),
+    },
+    {
+      iconLib: "AntDesign",
+      iconName: "check-circle",
+      text: t("privacyPolicy.keyPoints.fullControl"),
     },
   ];
 
   const handleContactPress = () => {
-    Linking.openURL("mailto:privacy@horoscopeapp.com");
+    Linking.openURL("mailto:ziya.d.ozgul@gmail.com");
   };
 
   const renderIcon = (
@@ -172,20 +183,18 @@ const PrivacyPolicyScreen = () => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <AntDesign name="Safety" size={40} color="#fff" />
+          <AntDesign name="safety" size={40} color="#fff" />
         </LinearGradient>
-        <Text style={styles.title}>Privacy Policy</Text>
-        <Text style={styles.date}>Last updated: October 23, 2025</Text>
-        <Text style={styles.subtitle}>
-          Your privacy is important to us. This policy explains how we collect,
-          use, and protect your personal information when you use the Horoscope
-          app.
-        </Text>
+        <Text style={styles.title}>{t("privacyPolicy.title")}</Text>
+        <Text style={styles.date}>{t("privacyPolicy.lastUpdated")}</Text>
+        <Text style={styles.subtitle}>{t("privacyPolicy.subtitle")}</Text>
       </View>
 
       {/* Data We Collect Section */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Data We Collect</Text>
+        <Text style={styles.sectionTitle}>
+          {t("privacyPolicy.dataWeCollect")}
+        </Text>
         {dataCollected.map((item, index) => (
           <View key={index} style={styles.dataCard}>
             <View style={styles.dataCardHeader}>
@@ -233,7 +242,9 @@ const PrivacyPolicyScreen = () => {
           color="#fff"
           style={styles.highlightIcon}
         />
-        <Text style={styles.highlightTitle}>Your Data is Safe With Us</Text>
+        <Text style={styles.highlightTitle}>
+          {t("privacyPolicy.keyPoints.title")}
+        </Text>
         <View style={styles.keyPointsContainer}>
           {keyPoints.map((item, i) => (
             <View key={i} style={styles.keyPoint}>
@@ -246,9 +257,11 @@ const PrivacyPolicyScreen = () => {
 
       {/* Contact Section */}
       <View style={styles.contactCard}>
-        <Text style={styles.contactTitle}>Questions About Privacy?</Text>
+        <Text style={styles.contactTitle}>
+          {t("privacyPolicy.contact.title")}
+        </Text>
         <Text style={styles.contactSubtitle}>
-          We're here to help. Contact our privacy team anytime.
+          {t("privacyPolicy.contact.subtitle")}
         </Text>
         <TouchableOpacity onPress={handleContactPress}>
           <LinearGradient
@@ -257,7 +270,9 @@ const PrivacyPolicyScreen = () => {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
           >
-            <Text style={styles.contactButtonText}>Contact Privacy Team</Text>
+            <Text style={styles.contactButtonText}>
+              {t("privacyPolicy.contact.button")}
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>
