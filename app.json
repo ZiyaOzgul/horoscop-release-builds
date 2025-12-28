@@ -21,7 +21,6 @@
       }
     },
     "android": {
-      "blockedPermissions": ["com.android.vending.BILLING"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
