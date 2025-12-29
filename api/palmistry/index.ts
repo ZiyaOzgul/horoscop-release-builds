@@ -1,6 +1,6 @@
 import { api } from "@/convex/_generated/api";
 import { ConvexHttpClient } from "convex/browser";
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 
 const convexUrl = process.env.EXPO_PUBLIC_CONVEX_URL!;
 const client = new ConvexHttpClient(convexUrl);
