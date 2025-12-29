@@ -9,11 +9,16 @@ import { useUserDataTranslation } from "@/locales/translationHelper";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setHoroscopeData, setUserData } from "@/redux/horoscopeSlicer";
 import { useUser } from "@clerk/clerk-expo";
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation, useQuery } from "convex/react";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -76,7 +81,9 @@ const getCachedHoroscope = async (date: string, isPremium: boolean) => {
         // Both date and premium status match - use cache
         const cachedData = await AsyncStorage.getItem(HOROSCOPE_CACHE_KEY);
         if (cachedData) {
-          console.log(`📦 Using cached horoscope data (platinum: ${isPremium})`);
+          console.log(
+            `📦 Using cached horoscope data (platinum: ${isPremium})`
+          );
           return JSON.parse(cachedData);
         }
       }
@@ -155,6 +162,7 @@ const PercentageBar: React.FC<{
 
 const Horoscope: React.FC = () => {
   const { t } = useTranslation();
+  const router = useRouter();
   const [selected, setSelected] = React.useState<"today" | "week" | "month">(
     "today"
   );
@@ -193,7 +201,7 @@ const Horoscope: React.FC = () => {
     userTypeFromRedux === "platinum" ||
     userTypeFromConvex === "platinum" ||
     userType === "platinum";
-  
+
   // Debug logging for platinum status
   React.useEffect(() => {
     console.log("🔍 Horoscope Platinum Status Check:", {
@@ -202,9 +210,15 @@ const Horoscope: React.FC = () => {
       userTypeFromConvex,
       userType,
       isUserPlatinum,
-      shouldBlurCards: !isUserPlatinum
+      shouldBlurCards: !isUserPlatinum,
     });
-  }, [isPlatinum, userTypeFromRedux, userTypeFromConvex, userType, isUserPlatinum]);
+  }, [
+    isPlatinum,
+    userTypeFromRedux,
+    userTypeFromConvex,
+    userType,
+    isUserPlatinum,
+  ]);
 
   const { translateZodiacSign, translateElement, translatePolarity } =
     useUserDataTranslation();
@@ -394,7 +408,10 @@ const Horoscope: React.FC = () => {
         !todaysHoroscope &&
         !loading
       ) {
-        const cachedData = await getCachedHoroscope(todayString, isUserPlatinum);
+        const cachedData = await getCachedHoroscope(
+          todayString,
+          isUserPlatinum
+        );
         if (cachedData) {
           dispatch(setHoroscopeData(cachedData));
           return;
@@ -553,7 +570,11 @@ const Horoscope: React.FC = () => {
                       end={{ x: 1, y: 1 }}
                       style={styles.blurGradientOverlay}
                     />
-                    <View style={styles.premiumPromptContainer}>
+                    <TouchableOpacity
+                      style={styles.premiumPromptContainer}
+                      onPress={() => router.push("/(auth)/(modal)/Plans")}
+                      activeOpacity={0.8}
+                    >
                       <MaterialCommunityIcons
                         name="lock"
                         size={hp(4)}
@@ -564,7 +585,7 @@ const Horoscope: React.FC = () => {
                         {t("horoscope.premium.buyPremiumForAccess") ||
                           "Buy Platinum for Access"}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   </>
                 )}
                 {/* Scroll indicator */}
@@ -626,7 +647,11 @@ const Horoscope: React.FC = () => {
                       end={{ x: 1, y: 1 }}
                       style={styles.blurGradientOverlay}
                     />
-                    <View style={styles.premiumPromptContainer}>
+                    <TouchableOpacity
+                      style={styles.premiumPromptContainer}
+                      onPress={() => router.push("/(auth)/(modal)/Plans")}
+                      activeOpacity={0.8}
+                    >
                       <MaterialCommunityIcons
                         name="lock"
                         size={hp(4)}
@@ -637,7 +662,7 @@ const Horoscope: React.FC = () => {
                         {t("horoscope.premium.buyPremiumForAccess") ||
                           "Buy Platinum for Access"}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   </>
                 )}
                 {/* Scroll indicator */}
@@ -699,7 +724,11 @@ const Horoscope: React.FC = () => {
                       end={{ x: 1, y: 1 }}
                       style={styles.blurGradientOverlay}
                     />
-                    <View style={styles.premiumPromptContainer}>
+                    <TouchableOpacity
+                      style={styles.premiumPromptContainer}
+                      onPress={() => router.push("/(auth)/(modal)/Plans")}
+                      activeOpacity={0.8}
+                    >
                       <MaterialCommunityIcons
                         name="lock"
                         size={hp(4)}
@@ -710,7 +739,7 @@ const Horoscope: React.FC = () => {
                         {t("horoscope.premium.buyPremiumForAccess") ||
                           "Buy Platinum for Access"}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   </>
                 )}
                 {/* Scroll indicator */}
@@ -768,7 +797,11 @@ const Horoscope: React.FC = () => {
                       end={{ x: 1, y: 1 }}
                       style={styles.blurGradientOverlay}
                     />
-                    <View style={styles.premiumPromptContainer}>
+                    <TouchableOpacity
+                      style={styles.premiumPromptContainer}
+                      onPress={() => router.push("/(auth)/(modal)/Plans")}
+                      activeOpacity={0.8}
+                    >
                       <MaterialCommunityIcons
                         name="lock"
                         size={hp(4)}
@@ -779,7 +812,7 @@ const Horoscope: React.FC = () => {
                         {t("horoscope.premium.buyPremiumForAccess") ||
                           "Buy Platinum for Access"}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   </>
                 )}
                 {/* Scroll indicator */}

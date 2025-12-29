@@ -256,11 +256,17 @@ const Plans = () => {
   } | null => {
     const activeEntitlements = customerInfo.entitlements.active || {};
     const activeKeys = Object.keys(activeEntitlements);
-    
+
     console.log("🔍 Checking active entitlements:", activeKeys);
-    
+
     // Check all possible Platinum identifiers (case-insensitive and with/without underscore)
-    const platinumKeys = ["Platinum", "platinum", "platinum_plan", "Platinum_Plan", "PLATINUM"];
+    const platinumKeys = [
+      "Platinum",
+      "platinum",
+      "platinum_plan",
+      "Platinum_Plan",
+      "PLATINUM",
+    ];
     for (const key of platinumKeys) {
       if (activeEntitlements[key]) {
         console.log(`✅ Found Platinum entitlement with exact key: ${key}`);
@@ -270,7 +276,7 @@ const Plans = () => {
         };
       }
     }
-    
+
     // Check all possible Gold identifiers (case-insensitive and with/without underscore)
     const goldKeys = ["Gold", "gold", "gold_plan", "Gold_Plan", "GOLD"];
     for (const key of goldKeys) {
@@ -281,9 +287,15 @@ const Plans = () => {
         };
       }
     }
-    
+
     // Fallback to Premium for backward compatibility
-    const premiumKeys = ["Premium", "premium", "premium_plan", "Premium_Plan", "PREMIUM"];
+    const premiumKeys = [
+      "Premium",
+      "premium",
+      "premium_plan",
+      "Premium_Plan",
+      "PREMIUM",
+    ];
     for (const key of premiumKeys) {
       if (activeEntitlements[key]) {
         return {
@@ -292,13 +304,15 @@ const Plans = () => {
         };
       }
     }
-    
+
     // If no exact match, check if any active entitlement contains "platinum" or "gold" in its identifier
     const allActiveKeys = Object.keys(activeEntitlements);
     for (const key of allActiveKeys) {
       const keyLower = key.toLowerCase();
       if (keyLower.includes("platinum")) {
-        console.log(`✅ Found Platinum entitlement with partial match key: ${key}`);
+        console.log(
+          `✅ Found Platinum entitlement with partial match key: ${key}`
+        );
         return {
           entitlement: activeEntitlements[key],
           userType: "platinum",
@@ -312,7 +326,7 @@ const Plans = () => {
         };
       }
     }
-    
+
     console.warn("⚠️ No matching entitlement found. Active keys:", activeKeys);
     return null;
   };
@@ -449,7 +463,12 @@ const Plans = () => {
         );
 
         // Determine subscription type for success message
-        const subscriptionType = activeEntitlement.userType === "gold" ? "gold" : activeEntitlement.userType === "premium" ? "platinum" : "platinum";
+        const subscriptionType =
+          activeEntitlement.userType === "gold"
+            ? "gold"
+            : activeEntitlement.userType === "premium"
+              ? "platinum"
+              : "platinum";
         Alert.alert(
           t(`plans.success.${subscriptionType}.title`),
           t(`plans.success.${subscriptionType}.message`),
@@ -521,7 +540,12 @@ const Plans = () => {
           await new Promise((resolve) => setTimeout(resolve, 2000));
 
           // Determine subscription type for success message
-          const subscriptionType = refreshedEntitlement.userType === "gold" ? "gold" : refreshedEntitlement.userType === "premium" ? "platinum" : "platinum";
+          const subscriptionType =
+            refreshedEntitlement.userType === "gold"
+              ? "gold"
+              : refreshedEntitlement.userType === "premium"
+                ? "platinum"
+                : "platinum";
           Alert.alert(
             t(`plans.success.${subscriptionType}.title`),
             t(`plans.success.${subscriptionType}.message`),
@@ -542,9 +566,14 @@ const Plans = () => {
             "❌ Purchase succeeded but premium entitlement still not available after retries"
           );
           // Try to determine subscription type from selected package
-          const subscriptionType = selectedPackage?.product.identifier?.toLowerCase().includes("gold") ? "gold" : "platinum";
+          const subscriptionType = selectedPackage?.product.identifier
+            ?.toLowerCase()
+            .includes("gold")
+            ? "gold"
+            : "platinum";
           Alert.alert(
-            t(`plans.success.${subscriptionType}.title`) || "Purchase Successful",
+            t(`plans.success.${subscriptionType}.title`) ||
+              "Purchase Successful",
             "Your purchase was successful! The features will be activated shortly. Please refresh the app if needed.",
             [
               {
@@ -592,10 +621,16 @@ const Plans = () => {
             await new Promise((resolve) => setTimeout(resolve, 2000));
 
             // Determine subscription type for success message
-            const subscriptionType = activeEntitlement.userType === "gold" ? "gold" : activeEntitlement.userType === "premium" ? "platinum" : "platinum";
+            const subscriptionType =
+              activeEntitlement.userType === "gold"
+                ? "gold"
+                : activeEntitlement.userType === "premium"
+                  ? "platinum"
+                  : "platinum";
             // Show success message
             Alert.alert(
-              t(`plans.success.${subscriptionType}.title`) || "Subscription Active",
+              t(`plans.success.${subscriptionType}.title`) ||
+                "Subscription Active",
               t(`plans.success.${subscriptionType}.alreadyActive`) ||
                 "You already have an active subscription!",
               [
@@ -612,9 +647,14 @@ const Plans = () => {
           } else {
             // Subscription exists but not active - show info message
             // Try to determine subscription type from package if available
-            const subscriptionType = selectedPackage?.product.identifier?.toLowerCase().includes("gold") ? "gold" : "platinum";
+            const subscriptionType = selectedPackage?.product.identifier
+              ?.toLowerCase()
+              .includes("gold")
+              ? "gold"
+              : "platinum";
             Alert.alert(
-              t(`plans.success.${subscriptionType}.title`) || "Subscription Found",
+              t(`plans.success.${subscriptionType}.title`) ||
+                "Subscription Found",
               t(`plans.success.${subscriptionType}.subscriptionFound`) ||
                 "A subscription was found but features are not active. Please try restoring purchases.",
               [{ text: t(`plans.success.${subscriptionType}.ok`) || "OK" }]
@@ -623,9 +663,14 @@ const Plans = () => {
         } catch (checkError) {
           console.error("❌ Error checking subscription:", checkError);
           // Fallback to platinum if we can't determine subscription type
-          const subscriptionType = selectedPackage?.product.identifier?.toLowerCase().includes("gold") ? "gold" : "platinum";
+          const subscriptionType = selectedPackage?.product.identifier
+            ?.toLowerCase()
+            .includes("gold")
+            ? "gold"
+            : "platinum";
           Alert.alert(
-            t(`plans.success.${subscriptionType}.title`) || "Subscription Active",
+            t(`plans.success.${subscriptionType}.title`) ||
+              "Subscription Active",
             t(`plans.success.${subscriptionType}.alreadyActive`) ||
               "You already have an active subscription!",
             [{ text: t(`plans.success.${subscriptionType}.ok`) || "OK" }]
@@ -875,9 +920,32 @@ const Plans = () => {
             )}
 
             <View style={styles.cardHeader}>
-              <Text style={styles.planName}>{plan.name}</Text>
+              {isPaidPlan && (
+                <View style={styles.discountBadgeRibbon}>
+                  <Text style={styles.discountBadgeRibbonText}>-%30</Text>
+                </View>
+              )}
+              <View style={styles.planNameRow}>
+                <Text style={styles.planName}>{plan.name}</Text>
+              </View>
               <View style={styles.priceContainer}>
-                <Text style={styles.price}>{plan.price}</Text>
+                <View style={styles.priceRow}>
+                  <Text style={styles.price}>{plan.price}</Text>
+                  {isPaidPlan && (
+                    <View
+                      style={[styles.discountBadge, styles.discountBadgeSmall]}
+                    >
+                      <Text
+                        style={[
+                          styles.discountBadgeText,
+                          styles.discountBadgeTextSmall,
+                        ]}
+                      >
+                        -%30
+                      </Text>
+                    </View>
+                  )}
+                </View>
                 <Text style={styles.period}>{plan.period}</Text>
               </View>
             </View>
@@ -1174,6 +1242,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 5,
     position: "relative",
+    overflow: "visible",
   },
   premiumCard: {
     borderWidth: 2,
@@ -1209,25 +1278,91 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   cardHeader: {
+    position: "relative",
     marginBottom: hp(2),
+  },
+  planNameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: hp(1),
+    marginBottom: hp(1),
+    flexWrap: "wrap",
   },
   planName: {
     fontSize: hp(3),
     color: Colors.purpleColorBlack || "#333",
     fontFamily: "Rubik_700Bold",
     fontWeight: "700",
-    marginBottom: hp(1),
+  },
+  discountBadgeRibbon: {
+    position: "absolute",
+    top: -hp(3.5),
+    right: -hp(1),
+    backgroundColor: Colors.purpleColorBlack || "#7b25e5",
+    paddingHorizontal: hp(2),
+    paddingVertical: hp(0.8),
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: Colors.purpleColorBlack || "#7b25e5",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex: 10,
+    transform: [{ rotate: "15deg" }],
+    borderRadius: hp(1),
+  },
+  discountBadgeRibbonText: {
+    color: "#fff",
+    fontSize: hp(1.6),
+    fontFamily: "Rubik_700Bold",
+    fontWeight: "700",
+    letterSpacing: 0.5,
   },
   priceContainer: {
-    flexDirection: "row",
-    alignItems: "baseline",
+    flexDirection: "column",
     gap: hp(0.5),
+  },
+  priceRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: hp(1),
+    flexWrap: "wrap",
   },
   price: {
     fontSize: hp(4),
     color: Colors.purpleColorBlack || "#333",
     fontFamily: "Rubik_700Bold",
     fontWeight: "700",
+  },
+  discountBadge: {
+    backgroundColor: Colors.purpleColorBlack || "#7b25e5",
+    paddingHorizontal: hp(1.2),
+    paddingVertical: hp(0.6),
+    borderRadius: hp(1),
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: Colors.purpleColorBlack || "#7b25e5",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  discountBadgeSmall: {
+    paddingHorizontal: hp(0.9),
+    paddingVertical: hp(0.4),
+    borderRadius: hp(0.7),
+  },
+  discountBadgeText: {
+    color: "#fff",
+    fontSize: hp(1.8),
+    fontFamily: "Rubik_700Bold",
+    fontWeight: "700",
+    letterSpacing: 0.5,
+  },
+  discountBadgeTextSmall: {
+    fontSize: hp(1.4),
+    letterSpacing: 0.3,
   },
   period: {
     fontSize: hp(1.8),
