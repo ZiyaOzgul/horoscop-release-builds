@@ -30,7 +30,11 @@ if (!revenueCatApiKey) {
   throw new Error("Missing Revenue cat key");
 }
 
-LogBox.ignoreLogs(["Clerk: Clerk has been loaded with development keys."]);
+LogBox.ignoreLogs([
+  "Clerk: Clerk has been loaded with development keys.",
+  "unable to activate keep awake",
+  "Error: unable to activate keep awake",
+]);
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();

@@ -90,7 +90,8 @@
       "unlimited": "無制限の閲覧",
       "tracking": "過去のデータ追跡",
       "adFree": "広告なし",
-      "detailedHoroscope": "詳細なホロスコープ分析"
+      "detailedHoroscope": "詳細なホロスコープ分析",
+      "unlimitedTarot": "無制限のタロットリーディングオプション"
     },
     "notes": {
       "ads": "広告が含まれます",
@@ -114,6 +115,7 @@
     "loveMatch": "相性占い",
     "palmistry": "手相",
     "dream": "夢占い",
+    "tarot": "タロット",
     "profile": "プロフィール"
   },
   "changePassword": {
@@ -157,6 +159,200 @@
       "minLengthNew": "パスワードは8文字以上である必要があります",
       "confirmRequired": "新しいパスワードを確認してください",
       "confirmMismatch": "パスワードが一致しません"
+    }
+  },
+  "tarot": {
+    "title": "タロット占い",
+    "description": "タロットカードはあなたの未来と内なる世界について導きます。質問を書いて、カードがあなたに何を伝えているかを発見してください。",
+    "placeholder": "ここに質問を書いてください...",
+    "button": "占いを解釈",
+    "info": "タロット占いは娯楽目的のみであり、個人的な決定のための専門的なアドバイスに代わるものではありません。",
+    "intent": {
+      "title": "意図",
+      "description": "質問や焦点を短く明確に表現してください。",
+      "placeholder": "例：「今後3ヶ月の恋愛の方向性」または「この関係を続けるべきか？」"
+    },
+    "domain": {
+      "title": "占いの領域/トピック",
+      "description": "タロット占いが焦点を当てる人生の領域を選択してください。"
+    },
+    "spread": {
+      "title": "スプレッドタイプ",
+      "description": "カードの配置方法を選択してください。各スプレッドタイプには独自の位置の意味があります。",
+      "cards": "枚"
+    },
+    "cards": {
+      "title": "引いたカード",
+      "description": "カードを引くにはボタンをクリックしてください。",
+      "position": "位置",
+      "cardNamePlaceholder": "カード名（例：死神、恋人、世界）",
+      "positionMeaningPlaceholder": "この位置の意味（例：過去、現在、未来）",
+      "upright": "正位置",
+      "reversed": "逆位置",
+      "drawCards": "カードを引く",
+      "drawnCardsTitle": "引いたカード",
+      "translations": {
+        "The Fool": "愚者",
+        "The Magician": "魔術師",
+        "The High Priestess": "女教皇",
+        "The Empress": "女帝",
+        "The Emperor": "皇帝",
+        "The Hierophant": "教皇",
+        "The Lovers": "恋人",
+        "The Chariot": "戦車",
+        "Strength": "力",
+        "The Hermit": "隠者",
+        "Wheel of Fortune": "運命の輪",
+        "Justice": "正義",
+        "The Hanged Man": "吊された男",
+        "Death": "死神",
+        "Temperance": "節制",
+        "The Devil": "悪魔",
+        "The Tower": "塔",
+        "The Star": "星",
+        "The Moon": "月",
+        "The Sun": "太陽",
+        "Judgement": "審判",
+        "The World": "世界",
+        "Ace of Wands": "ワンドのエース",
+        "Two of Wands": "ワンドの2",
+        "Three of Wands": "ワンドの3",
+        "Four of Wands": "ワンドの4",
+        "Five of Wands": "ワンドの5",
+        "Six of Wands": "ワンドの6",
+        "Seven of Wands": "ワンドの7",
+        "Eight of Wands": "ワンドの8",
+        "Nine of Wands": "ワンドの9",
+        "Ten of Wands": "ワンドの10",
+        "Page of Wands": "ワンドのページ",
+        "Knight of Wands": "ワンドのナイト",
+        "Queen of Wands": "ワンドのクイーン",
+        "King of Wands": "ワンドのキング",
+        "Ace of Cups": "カップのエース",
+        "Two of Cups": "カップの2",
+        "Three of Cups": "カップの3",
+        "Four of Cups": "カップの4",
+        "Five of Cups": "カップの5",
+        "Six of Cups": "カップの6",
+        "Seven of Cups": "カップの7",
+        "Eight of Cups": "カップの8",
+        "Nine of Cups": "カップの9",
+        "Ten of Cups": "カップの10",
+        "Page of Cups": "カップのページ",
+        "Knight of Cups": "カップのナイト",
+        "Queen of Cups": "カップのクイーン",
+        "King of Cups": "カップのキング",
+        "Ace of Swords": "ソードのエース",
+        "Two of Swords": "ソードの2",
+        "Three of Swords": "ソードの3",
+        "Four of Swords": "ソードの4",
+        "Five of Swords": "ソードの5",
+        "Six of Swords": "ソードの6",
+        "Seven of Swords": "ソードの7",
+        "Eight of Swords": "ソードの8",
+        "Nine of Swords": "ソードの9",
+        "Ten of Swords": "ソードの10",
+        "Page of Swords": "ソードのページ",
+        "Knight of Swords": "ソードのナイト",
+        "Queen of Swords": "ソードのクイーン",
+        "King of Swords": "ソードのキング",
+        "Ace of Pentacles": "ペンタクルのエース",
+        "Two of Pentacles": "ペンタクルの2",
+        "Three of Pentacles": "ペンタクルの3",
+        "Four of Pentacles": "ペンタクルの4",
+        "Five of Pentacles": "ペンタクルの5",
+        "Six of Pentacles": "ペンタクルの6",
+        "Seven of Pentacles": "ペンタクルの7",
+        "Eight of Pentacles": "ペンタクルの8",
+        "Nine of Pentacles": "ペンタクルの9",
+        "Ten of Pentacles": "ペンタクルの10",
+        "Page of Pentacles": "ペンタクルのページ",
+        "Knight of Pentacles": "ペンタクルのナイト",
+        "Queen of Pentacles": "ペンタクルのクイーン",
+        "King of Pentacles": "ペンタクルのキング"
+      }
+    },
+    "draw": {
+      "title": "カードを選択",
+      "instructions": "占いのためにカードを選択してください。カードをタップして選択します。",
+      "cardsDrawn": "枚引きました",
+      "cardsSelected": "枚選択しました",
+      "shuffling": "シャッフル中...",
+      "tapToDraw": "タップして引く",
+      "reshuffle": "再シャッフル",
+      "complete": "完了",
+      "remaining": "枚残り",
+      "selectedCards": "選択したカード"
+    },
+    "spreadTypes": [
+      {
+        "id": "three-card",
+        "name": "3枚 - 過去/現在/未来",
+        "positions": 3,
+        "defaultPositions": ["過去", "現在", "未来"]
+      },
+      {
+        "id": "celtic-cross",
+        "name": "ケルト十字",
+        "positions": 10,
+        "defaultPositions": [
+          "現在の状況",
+          "障害",
+          "遠い過去",
+          "最近の過去",
+          "可能な未来",
+          "近い未来",
+          "あなたのアプローチ",
+          "外部の影響",
+          "希望と恐れ",
+          "結果"
+        ]
+      },
+      {
+        "id": "situation-obstacle-solution",
+        "name": "状況/障害/解決策",
+        "positions": 3,
+        "defaultPositions": ["状況", "障害", "解決策"]
+      },
+      {
+        "id": "single-card",
+        "name": "単一カード",
+        "positions": 1,
+        "defaultPositions": ["全体的な概要"]
+      },
+      {
+        "id": "custom",
+        "name": "カスタムスプレッド",
+        "positions": 0
+      }
+    ],
+    "domains": [
+      "恋愛",
+      "キャリア",
+      "お金",
+      "健康",
+      "一般",
+      "精神的発展"
+    ],
+    "validation": {
+      "empty": "すべての必須項目を入力してください。",
+      "intentRequired": "意図を入力してください。",
+      "spreadRequired": "スプレッドタイプを選択してください。",
+      "domainRequired": "占いの領域を選択してください。",
+      "cardsRequired": "すべてのカード名を入力してください。"
+    },
+    "result": {
+      "title": "あなたのタロット占い",
+      "summary": {
+        "title": "全体的な要約"
+      },
+      "guidance": {
+        "title": "ガイダンスとアドバイス"
+      },
+      "loading": {
+        "title": "タロット占いを準備中...",
+        "subtitle": "カードが解釈されています。お待ちください。"
+      }
     }
   },
   "dream": {
@@ -344,6 +540,11 @@
         "title": "内なる秘密を解き明かす",
         "text": "潜在意識の隠された言語を発見してください。この夢占いの簡単なガイドは、あなたの目覚めた人生を変える洞察を提供します。",
         "buttonText": "夢を占う"
+      },
+      {
+        "title": "タロットカードで占い",
+        "text": "タロットカードの神秘的な世界に飛び込みましょう。あなたの質問への答えを見つけ、未来について深い洞察を得てください。",
+        "buttonText": "タロット占いをする"
       }
     ]
   },

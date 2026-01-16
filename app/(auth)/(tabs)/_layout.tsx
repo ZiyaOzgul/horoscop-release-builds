@@ -235,6 +235,47 @@ const Layout = () => {
       />
 
       <Tabs.Screen
+        name="tarot"
+        options={{
+          title: t("bottomBar.tarot"),
+          headerShown: false,
+          tabBarIcon: ({ color, focused, size }) => (
+            <Animated.View
+              style={[
+                {
+                  height: 1,
+                  justifyContent: "center",
+                  paddingBottom: heightPercentageToDP(2.8),
+                  alignItems: "center",
+                },
+                animatedStyle,
+              ]}
+            >
+              {focused ? (
+                <Image
+                  source={require("@/assets/images/horoscope/tarotCard.png")}
+                  style={{
+                    height: heightPercentageToDP(5),
+                    width: heightPercentageToDP(5),
+                  }}
+                  resizeMode="contain"
+                />
+              ) : (
+                <Image
+                  source={require("@/assets/images/horoscope/tarotCardUnclick.png")}
+                  style={{
+                    height: heightPercentageToDP(5),
+                    width: heightPercentageToDP(5),
+                  }}
+                  resizeMode="contain"
+                />
+              )}
+            </Animated.View>
+          ),
+        }}
+      />
+
+      <Tabs.Screen
         name="Profile"
         options={{
           title: t("bottomBar.profile"),

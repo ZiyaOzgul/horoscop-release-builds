@@ -39,6 +39,7 @@ const Opening: React.FC = () => {
       require("@/assets/images/horoscope/loveMatch.png"),
       require("@/assets/images/horoscope/handPalmitry.png"),
       require("@/assets/images/horoscope/dreamClick.png"),
+      require("@/assets/images/horoscope/tarotCard.png"),
     ],
     []
   );
@@ -74,6 +75,11 @@ const Opening: React.FC = () => {
         title: "Unlock Your Inner Secrets",
         text: "Discover the hidden language of your subconscious. This brief guide to dream interpretation offers insights that can transform your waking life.",
         buttonText: "Interpret My Dream",
+      },
+      {
+        title: "Divination with Tarot Cards",
+        text: "Dive into the mystical world of tarot cards. Find answers to your questions and gain deep insights about your future.",
+        buttonText: "Read My Tarot",
       },
     ];
   }, [t]);
@@ -113,7 +119,7 @@ const Opening: React.FC = () => {
                     <Text style={styles.titleText} numberOfLines={3}>
                       {item.title}
                     </Text>
-                    <Text style={styles.text} numberOfLines={4}>
+                    <Text style={styles.text} numberOfLines={5}>
                       {item.text}
                     </Text>
                   </View>
@@ -127,6 +133,7 @@ const Opening: React.FC = () => {
                           "/(auth)/(tabs)/loveMatch",
                           "/(auth)/(tabs)/palmistry",
                           "/(auth)/(tabs)/Dream",
+                          "/(auth)/(tabs)/tarot",
                         ];
                         const route = routes[index] ?? "/";
                         router.push(route);
@@ -225,12 +232,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingBottom: hp(2),
+    minHeight: hp(25),
   },
   titleBox: {
     width: wp(85),
     alignItems: "center",
     paddingHorizontal: wp(5),
     marginTop: hp(2),
+    flex: 1,
+    justifyContent: "center",
   },
   titleText: {
     fontSize: SCREEN_HEIGHT < 700 ? hp(3.2) : hp(4),

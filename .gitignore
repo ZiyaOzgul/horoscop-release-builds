@@ -17,7 +17,7 @@ expo-env.d.ts
 *.p12
 *.key
 *.mobileprovision
-
+*Tarot_Cards_Image_List.md
 # Metro
 .metro-health-check*
 

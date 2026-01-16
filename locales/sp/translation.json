@@ -88,7 +88,8 @@
       "unlimited": "Consultas ilimitadas",
       "tracking": "Seguimiento de datos pasados",
       "adFree": "Experiencia sin anuncios",
-      "detailedHoroscope": "Análisis Detallado de Horóscopo"
+      "detailedHoroscope": "Análisis Detallado de Horóscopo",
+      "unlimitedTarot": "Opciones Ilimitadas de Lectura de Tarot"
     },
     "notes": {
       "ads": "Incluye anuncios",
@@ -112,6 +113,7 @@
     "loveMatch": "Compatibilidad",
     "palmistry": "Quiromancia",
     "dream": "Sueño",
+    "tarot": "Tarot",
     "profile": "Perfil"
   },
   "changePassword": {
@@ -155,6 +157,200 @@
       "minLengthNew": "La contraseña debe tener al menos 8 caracteres",
       "confirmRequired": "Por favor confirma tu nueva contraseña",
       "confirmMismatch": "Las contraseñas no coinciden"
+    }
+  },
+  "tarot": {
+    "title": "Lectura de Tarot",
+    "description": "Las cartas del Tarot te guían sobre tu futuro y tu mundo interior. Escribe tu pregunta y descubre lo que las cartas te dicen.",
+    "placeholder": "Escribe tu pregunta aquí...",
+    "button": "Interpretar Lectura",
+    "info": "La lectura de Tarot es solo para entretenimiento y no reemplaza el consejo profesional para tus decisiones personales.",
+    "intent": {
+      "title": "Intención",
+      "description": "Expresa tu pregunta o enfoque de manera breve y clara.",
+      "placeholder": "Ej: 'La dirección de mi vida amorosa en los próximos 3 meses' o '¿Debo continuar esta relación?'"
+    },
+    "domain": {
+      "title": "Dominio de Lectura / Tema",
+      "description": "Selecciona en qué área de la vida se enfocará la lectura de Tarot."
+    },
+    "spread": {
+      "title": "Tipo de Tirada",
+      "description": "Elige cómo se organizarán las cartas. Cada tipo de tirada tiene sus propios significados de posición.",
+      "cards": "cartas"
+    },
+    "cards": {
+      "title": "Cartas Extraídas",
+      "description": "Haz clic en el botón para extraer tus cartas.",
+      "position": "Posición",
+      "cardNamePlaceholder": "Nombre de la carta (ej: La Muerte, Los Enamorados, El Mundo)",
+      "positionMeaningPlaceholder": "Significado de esta posición (ej: Pasado, Presente, Futuro)",
+      "upright": "Derecha",
+      "reversed": "Invertida",
+      "drawCards": "Extrae Tus Cartas",
+      "drawnCardsTitle": "Tus Cartas Extraídas",
+      "translations": {
+        "The Fool": "El Loco",
+        "The Magician": "El Mago",
+        "The High Priestess": "La Sacerdotisa",
+        "The Empress": "La Emperatriz",
+        "The Emperor": "El Emperador",
+        "The Hierophant": "El Hierofante",
+        "The Lovers": "Los Enamorados",
+        "The Chariot": "El Carro",
+        "Strength": "La Fuerza",
+        "The Hermit": "El Ermitaño",
+        "Wheel of Fortune": "La Rueda de la Fortuna",
+        "Justice": "La Justicia",
+        "The Hanged Man": "El Colgado",
+        "Death": "La Muerte",
+        "Temperance": "La Templanza",
+        "The Devil": "El Diablo",
+        "The Tower": "La Torre",
+        "The Star": "La Estrella",
+        "The Moon": "La Luna",
+        "The Sun": "El Sol",
+        "Judgement": "El Juicio",
+        "The World": "El Mundo",
+        "Ace of Wands": "As de Bastos",
+        "Two of Wands": "Dos de Bastos",
+        "Three of Wands": "Tres de Bastos",
+        "Four of Wands": "Cuatro de Bastos",
+        "Five of Wands": "Cinco de Bastos",
+        "Six of Wands": "Seis de Bastos",
+        "Seven of Wands": "Siete de Bastos",
+        "Eight of Wands": "Ocho de Bastos",
+        "Nine of Wands": "Nueve de Bastos",
+        "Ten of Wands": "Diez de Bastos",
+        "Page of Wands": "Paje de Bastos",
+        "Knight of Wands": "Caballero de Bastos",
+        "Queen of Wands": "Reina de Bastos",
+        "King of Wands": "Rey de Bastos",
+        "Ace of Cups": "As de Copas",
+        "Two of Cups": "Dos de Copas",
+        "Three of Cups": "Tres de Copas",
+        "Four of Cups": "Cuatro de Copas",
+        "Five of Cups": "Cinco de Copas",
+        "Six of Cups": "Seis de Copas",
+        "Seven of Cups": "Siete de Copas",
+        "Eight of Cups": "Ocho de Copas",
+        "Nine of Cups": "Nueve de Copas",
+        "Ten of Cups": "Diez de Copas",
+        "Page of Cups": "Paje de Copas",
+        "Knight of Cups": "Caballero de Copas",
+        "Queen of Cups": "Reina de Copas",
+        "King of Cups": "Rey de Copas",
+        "Ace of Swords": "As de Espadas",
+        "Two of Swords": "Dos de Espadas",
+        "Three of Swords": "Tres de Espadas",
+        "Four of Swords": "Cuatro de Espadas",
+        "Five of Swords": "Cinco de Espadas",
+        "Six of Swords": "Seis de Espadas",
+        "Seven of Swords": "Siete de Espadas",
+        "Eight of Swords": "Ocho de Espadas",
+        "Nine of Swords": "Nueve de Espadas",
+        "Ten of Swords": "Diez de Espadas",
+        "Page of Swords": "Paje de Espadas",
+        "Knight of Swords": "Caballero de Espadas",
+        "Queen of Swords": "Reina de Espadas",
+        "King of Swords": "Rey de Espadas",
+        "Ace of Pentacles": "As de Pentáculos",
+        "Two of Pentacles": "Dos de Pentáculos",
+        "Three of Pentacles": "Tres de Pentáculos",
+        "Four of Pentacles": "Cuatro de Pentáculos",
+        "Five of Pentacles": "Cinco de Pentáculos",
+        "Six of Pentacles": "Seis de Pentáculos",
+        "Seven of Pentacles": "Siete de Pentáculos",
+        "Eight of Pentacles": "Ocho de Pentáculos",
+        "Nine of Pentacles": "Nueve de Pentáculos",
+        "Ten of Pentacles": "Diez de Pentáculos",
+        "Page of Pentacles": "Paje de Pentáculos",
+        "Knight of Pentacles": "Caballero de Pentáculos",
+        "Queen of Pentacles": "Reina de Pentáculos",
+        "King of Pentacles": "Rey de Pentáculos"
+      }
+    },
+    "draw": {
+      "title": "Selecciona Tus Cartas",
+      "instructions": "Selecciona cartas para tu lectura. Toca las cartas para seleccionarlas.",
+      "cardsDrawn": "cartas extraídas",
+      "cardsSelected": "cartas seleccionadas",
+      "shuffling": "Barajando...",
+      "tapToDraw": "Toca para Extraer",
+      "reshuffle": "Barajar de Nuevo",
+      "complete": "Completar",
+      "remaining": "cartas restantes",
+      "selectedCards": "Cartas Seleccionadas"
+    },
+    "spreadTypes": [
+      {
+        "id": "three-card",
+        "name": "3 Cartas - Pasado/Presente/Futuro",
+        "positions": 3,
+        "defaultPositions": ["Pasado", "Presente", "Futuro"]
+      },
+      {
+        "id": "celtic-cross",
+        "name": "Cruz Celta",
+        "positions": 10,
+        "defaultPositions": [
+          "Situación Actual",
+          "Obstáculo",
+          "Pasado Distante",
+          "Pasado Reciente",
+          "Futuro Posible",
+          "Futuro Cercano",
+          "Tu Enfoque",
+          "Influencias Externas",
+          "Esperanzas y Miedos",
+          "Resultado"
+        ]
+      },
+      {
+        "id": "situation-obstacle-solution",
+        "name": "Situación/Obstáculo/Solución",
+        "positions": 3,
+        "defaultPositions": ["Situación", "Obstáculo", "Solución"]
+      },
+      {
+        "id": "single-card",
+        "name": "Carta Única",
+        "positions": 1,
+        "defaultPositions": ["Visión General"]
+      },
+      {
+        "id": "custom",
+        "name": "Tirada Personalizada",
+        "positions": 0
+      }
+    ],
+    "domains": [
+      "Amor",
+      "Carrera",
+      "Dinero",
+      "Salud",
+      "General",
+      "Desarrollo Espiritual"
+    ],
+    "validation": {
+      "empty": "Por favor completa todos los campos requeridos.",
+      "intentRequired": "Por favor ingresa tu intención.",
+      "spreadRequired": "Por favor selecciona un tipo de tirada.",
+      "domainRequired": "Por favor selecciona un dominio de lectura.",
+      "cardsRequired": "Por favor ingresa todos los nombres de las cartas."
+    },
+    "result": {
+      "title": "Tu Lectura de Tarot",
+      "summary": {
+        "title": "Resumen General"
+      },
+      "guidance": {
+        "title": "Guía y Consejos"
+      },
+      "loading": {
+        "title": "Preparando Tu Lectura de Tarot...",
+        "subtitle": "Tus cartas están siendo interpretadas, por favor espera."
+      }
     }
   },
   "dream": {
@@ -342,6 +538,11 @@
         "title": "Desbloquea tus secretos interiores",
         "text": "Descubre el lenguaje oculto de tu subconsciente. Esta breve guía de interpretación de sueños ofrece conocimientos que pueden transformar tu vida consciente.",
         "buttonText": "Interpretar mi sueño"
+      },
+      {
+        "title": "Adivinación con Cartas de Tarot",
+        "text": "Sumérgete en el mundo místico de las cartas del tarot. Encuentra respuestas a tus preguntas y obtén profundas perspectivas sobre tu futuro.",
+        "buttonText": "Leer mi Tarot"
       }
     ]
   },

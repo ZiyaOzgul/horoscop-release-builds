@@ -88,7 +88,8 @@
       "unlimited": "Unlimited Lookups",
       "tracking": "Past Data Tracking",
       "adFree": "Ad-Free Experience",
-      "detailedHoroscope": "Detailed Horoscope Analysis"
+      "detailedHoroscope": "Detailed Horoscope Analysis",
+      "unlimitedTarot": "Unlimited Tarot Reading Options"
     },
     "notes": {
       "ads": "Includes ads",
@@ -113,6 +114,7 @@
     "loveMatch": "Love Match",
     "palmistry": "Palmistry",
     "dream": "Dream",
+    "tarot": "Tarot",
     "profile": "Profile"
   },
   "changePassword": {
@@ -156,6 +158,204 @@
       "minLengthNew": "Password must be at least 8 characters long",
       "confirmRequired": "Please confirm your new password",
       "confirmMismatch": "Passwords do not match"
+    }
+  },
+  "tarot": {
+    "title": "Tarot Reading",
+    "description": "Tarot cards guide you about your future and inner world. Write your question and discover what the cards tell you.",
+    "placeholder": "Write your question here...",
+    "button": "Interpret Reading",
+    "info": "Tarot reading is for entertainment purposes only and does not replace professional advice for your personal decisions.",
+    "intent": {
+      "title": "Intent",
+      "description": "Express your question or focus in a short and clear way.",
+      "placeholder": "E.g: 'The direction of my love life in the next 3 months' or 'Should I continue this relationship?'"
+    },
+    "domain": {
+      "title": "Reading Domain / Topic",
+      "description": "Select which life area the tarot reading will focus on."
+    },
+    "spread": {
+      "title": "Spread Type",
+      "description": "Choose how the cards will be arranged. Each spread type has its own position meanings.",
+      "cards": "cards"
+    },
+    "cards": {
+      "title": "Drawn Cards",
+      "description": "Click the button to draw your cards.",
+      "position": "Position",
+      "cardNamePlaceholder": "Card name (e.g: Death, The Lovers, The World)",
+      "positionMeaningPlaceholder": "Meaning of this position (e.g: Past, Present, Future)",
+      "upright": "Upright",
+      "reversed": "Reversed",
+      "drawCards": "Draw Your Cards",
+      "drawnCardsTitle": "Your Drawn Cards",
+      "translations": {
+        "The Fool": "The Fool",
+        "The Magician": "The Magician",
+        "The High Priestess": "The High Priestess",
+        "The Empress": "The Empress",
+        "The Emperor": "The Emperor",
+        "The Hierophant": "The Hierophant",
+        "The Lovers": "The Lovers",
+        "The Chariot": "The Chariot",
+        "Strength": "Strength",
+        "The Hermit": "The Hermit",
+        "Wheel of Fortune": "Wheel of Fortune",
+        "Justice": "Justice",
+        "The Hanged Man": "The Hanged Man",
+        "Death": "Death",
+        "Temperance": "Temperance",
+        "The Devil": "The Devil",
+        "The Tower": "The Tower",
+        "The Star": "The Star",
+        "The Moon": "The Moon",
+        "The Sun": "The Sun",
+        "Judgement": "Judgement",
+        "The World": "The World",
+        "Ace of Wands": "Ace of Wands",
+        "Two of Wands": "Two of Wands",
+        "Three of Wands": "Three of Wands",
+        "Four of Wands": "Four of Wands",
+        "Five of Wands": "Five of Wands",
+        "Six of Wands": "Six of Wands",
+        "Seven of Wands": "Seven of Wands",
+        "Eight of Wands": "Eight of Wands",
+        "Nine of Wands": "Nine of Wands",
+        "Ten of Wands": "Ten of Wands",
+        "Page of Wands": "Page of Wands",
+        "Knight of Wands": "Knight of Wands",
+        "Queen of Wands": "Queen of Wands",
+        "King of Wands": "King of Wands",
+        "Ace of Cups": "Ace of Cups",
+        "Two of Cups": "Two of Cups",
+        "Three of Cups": "Three of Cups",
+        "Four of Cups": "Four of Cups",
+        "Five of Cups": "Five of Cups",
+        "Six of Cups": "Six of Cups",
+        "Seven of Cups": "Seven of Cups",
+        "Eight of Cups": "Eight of Cups",
+        "Nine of Cups": "Nine of Cups",
+        "Ten of Cups": "Ten of Cups",
+        "Page of Cups": "Page of Cups",
+        "Knight of Cups": "Knight of Cups",
+        "Queen of Cups": "Queen of Cups",
+        "King of Cups": "King of Cups",
+        "Ace of Swords": "Ace of Swords",
+        "Two of Swords": "Two of Swords",
+        "Three of Swords": "Three of Swords",
+        "Four of Swords": "Four of Swords",
+        "Five of Swords": "Five of Swords",
+        "Six of Swords": "Six of Swords",
+        "Seven of Swords": "Seven of Swords",
+        "Eight of Swords": "Eight of Swords",
+        "Nine of Swords": "Nine of Swords",
+        "Ten of Swords": "Ten of Swords",
+        "Page of Swords": "Page of Swords",
+        "Knight of Swords": "Knight of Swords",
+        "Queen of Swords": "Queen of Swords",
+        "King of Swords": "King of Swords",
+        "Ace of Pentacles": "Ace of Pentacles",
+        "Two of Pentacles": "Two of Pentacles",
+        "Three of Pentacles": "Three of Pentacles",
+        "Four of Pentacles": "Four of Pentacles",
+        "Five of Pentacles": "Five of Pentacles",
+        "Six of Pentacles": "Six of Pentacles",
+        "Seven of Pentacles": "Seven of Pentacles",
+        "Eight of Pentacles": "Eight of Pentacles",
+        "Nine of Pentacles": "Nine of Pentacles",
+        "Ten of Pentacles": "Ten of Pentacles",
+        "Page of Pentacles": "Page of Pentacles",
+        "Knight of Pentacles": "Knight of Pentacles",
+        "Queen of Pentacles": "Queen of Pentacles",
+        "King of Pentacles": "King of Pentacles"
+      }
+    },
+    "draw": {
+      "title": "Select Your Cards",
+      "instructions": "Select cards for your reading. Tap cards to select them.",
+      "cardsDrawn": "cards drawn",
+      "cardsSelected": "cards selected",
+      "shuffling": "Shuffling...",
+      "tapToDraw": "Tap to Draw",
+      "reshuffle": "Reshuffle",
+      "complete": "Complete",
+      "remaining": "cards remaining",
+      "selectedCards": "Selected Cards",
+      "yourCards": "Your Cards"
+    },
+    "spreadTypes": [
+      {
+        "id": "three-card",
+        "name": "3 Card - Past/Present/Future",
+        "positions": 3,
+        "defaultPositions": ["Past", "Present", "Future"]
+      },
+      {
+        "id": "celtic-cross",
+        "name": "Celtic Cross",
+        "positions": 10,
+        "defaultPositions": [
+          "Current Situation",
+          "Obstacle",
+          "Distant Past",
+          "Recent Past",
+          "Possible Future",
+          "Near Future",
+          "Your Approach",
+          "External Influences",
+          "Hopes and Fears",
+          "Outcome"
+        ]
+      },
+      {
+        "id": "situation-obstacle-solution",
+        "name": "Situation/Obstacle/Solution",
+        "positions": 3,
+        "defaultPositions": ["Situation", "Obstacle", "Solution"]
+      },
+      {
+        "id": "single-card",
+        "name": "Single Card",
+        "positions": 1,
+        "defaultPositions": ["General Overview"]
+      },
+      {
+        "id": "custom",
+        "name": "Custom Spread",
+        "positions": 0
+      }
+    ],
+    "domains": [
+      "Love",
+      "Career",
+      "Money",
+      "Health",
+      "General",
+      "Spiritual Development"
+    ],
+    "validation": {
+      "empty": "Please fill in all required fields.",
+      "intentRequired": "Please enter your intent.",
+      "spreadRequired": "Please select a spread type.",
+      "domainRequired": "Please select a reading domain.",
+      "cardsRequired": "Please enter all card names."
+    },
+    "result": {
+      "title": "Your Tarot Reading",
+      "interpretation": {
+        "title": "Interpretation"
+      },
+      "summary": {
+        "title": "Overall Summary"
+      },
+      "guidance": {
+        "title": "Guidance & Advice"
+      },
+      "loading": {
+        "title": "Preparing Your Tarot Reading...",
+        "subtitle": "Your cards are being interpreted, please wait."
+      }
     }
   },
   "dream": {
@@ -343,6 +543,11 @@
         "title": "Unlock Your Inner Secrets",
         "text": "Discover the hidden language of your subconscious. This brief guide to dream interpretation offers insights that can transform your waking life.",
         "buttonText": "Interpret My Dream"
+      },
+      {
+        "title": "Divination with Tarot Cards",
+        "text": "Dive into the mystical world of tarot cards. Find answers to your questions and gain deep insights about your future.",
+        "buttonText": "Read My Tarot"
       }
     ]
   },

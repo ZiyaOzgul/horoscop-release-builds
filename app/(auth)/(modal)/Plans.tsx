@@ -841,6 +841,11 @@ const Plans = () => {
           text: t("plans.features.adFree"),
           available: true,
         },
+        {
+          icon: "albums",
+          text: t("plans.features.unlimitedTarot"),
+          available: true,
+        },
       ],
       note: t("plans.notes.cancel"),
       current: activeUserType === "platinum",

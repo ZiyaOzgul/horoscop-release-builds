@@ -88,7 +88,8 @@
       "unlimited": "Limitsiz Sorgulama",
       "tracking": "Geçmiş Veri Takibi",
       "adFree": "Reklamsız Deneyim",
-      "detailedHoroscope": "Detaylı Burç Analizi"
+      "detailedHoroscope": "Detaylı Burç Analizi",
+      "unlimitedTarot": "Sonsuz Tarot Bakım Seçenekleri"
     },
     "notes": {
       "ads": "Reklamlar dahildir",
@@ -219,11 +220,203 @@
       }
     ]
   },
+  "tarot": {
+    "title": "Tarot Falı",
+    "description": "Tarot kartları size geleceğiniz ve iç dünyanız hakkında rehberlik eder. Sorunuzu yazın ve kartların size ne söylediğini keşfedin.",
+    "placeholder": "Sorunuzu buraya yazın...",
+    "button": "Falı Yorumla",
+    "info": "Tarot okuması sadece eğlence amaçlıdır ve kişisel kararlarınız için profesyonel tavsiye yerine geçmez.",
+    "intent": {
+      "title": "Niyet (Intent)",
+      "description": "Sorunuzu veya odağınızı kısa ve net bir şekilde ifade edin.",
+      "placeholder": "Örn: 'Önümüzdeki 3 ayda aşk hayatımın yönü' veya 'Bu ilişkiye devam etmeli miyim?'"
+    },
+    "domain": {
+      "title": "Okuma Alanı / Konu",
+      "description": "Tarot okumasının hangi yaşam alanına odaklanacağını seçin."
+    },
+    "spread": {
+      "title": "Açılım Türü",
+      "description": "Kartların nasıl düzenleneceğini seçin. Her açılım türünün kendine özgü pozisyon anlamları vardır.",
+      "cards": "kart"
+    },
+    "cards": {
+      "title": "Çekilen Kartlar",
+      "description": "Kartlarınızı çekmek için butona tıklayın.",
+      "position": "Pozisyon",
+      "cardNamePlaceholder": "Kart adı (örn: Death, The Lovers, The World)",
+      "positionMeaningPlaceholder": "Bu pozisyonun anlamı (örn: Geçmiş, Şu An, Gelecek)",
+      "upright": "Düz",
+      "reversed": "Ters",
+      "drawCards": "Kartlarınızı Çekin",
+      "drawnCardsTitle": "Çekilen Kartlarınız",
+      "translations": {
+        "The Fool": "Aptal",
+        "The Magician": "Büyücü",
+        "The High Priestess": "Yüksek Rahibe",
+        "The Empress": "İmparatoriçe",
+        "The Emperor": "İmparator",
+        "The Hierophant": "Hierofant",
+        "The Lovers": "Aşıklar",
+        "The Chariot": "Savaş Arabası",
+        "Strength": "Güç",
+        "The Hermit": "Ermiş",
+        "Wheel of Fortune": "Kader Çarkı",
+        "Justice": "Adalet",
+        "The Hanged Man": "Asılı Adam",
+        "Death": "Ölüm",
+        "Temperance": "Ölçülülük",
+        "The Devil": "Şeytan",
+        "The Tower": "Kule",
+        "The Star": "Yıldız",
+        "The Moon": "Ay",
+        "The Sun": "Güneş",
+        "Judgement": "Yargı",
+        "The World": "Dünya",
+        "Ace of Wands": "Asanın Ası",
+        "Two of Wands": "Asanın İkisi",
+        "Three of Wands": "Asanın Üçü",
+        "Four of Wands": "Asanın Dördü",
+        "Five of Wands": "Asanın Beşi",
+        "Six of Wands": "Asanın Altısı",
+        "Seven of Wands": "Asanın Yedisi",
+        "Eight of Wands": "Asanın Sekizi",
+        "Nine of Wands": "Asanın Dokuzu",
+        "Ten of Wands": "Asanın Onu",
+        "Page of Wands": "Asanın Uşağı",
+        "Knight of Wands": "Asanın Şövalyesi",
+        "Queen of Wands": "Asanın Kraliçesi",
+        "King of Wands": "Asanın Kralı",
+        "Ace of Cups": "Kupanın Ası",
+        "Two of Cups": "Kupanın İkisi",
+        "Three of Cups": "Kupanın Üçü",
+        "Four of Cups": "Kupanın Dördü",
+        "Five of Cups": "Kupanın Beşi",
+        "Six of Cups": "Kupanın Altısı",
+        "Seven of Cups": "Kupanın Yedisi",
+        "Eight of Cups": "Kupanın Sekizi",
+        "Nine of Cups": "Kupanın Dokuzu",
+        "Ten of Cups": "Kupanın Onu",
+        "Page of Cups": "Kupanın Uşağı",
+        "Knight of Cups": "Kupanın Şövalyesi",
+        "Queen of Cups": "Kupanın Kraliçesi",
+        "King of Cups": "Kupanın Kralı",
+        "Ace of Swords": "Kılıcın Ası",
+        "Two of Swords": "Kılıçların İkisi",
+        "Three of Swords": "Kılıçların Üçü",
+        "Four of Swords": "Kılıçların Dördü",
+        "Five of Swords": "Kılıçların Beşi",
+        "Six of Swords": "Kılıçların Altısı",
+        "Seven of Swords": "Kılıçların Yedisi",
+        "Eight of Swords": "Kılıçların Sekizi",
+        "Nine of Swords": "Kılıçların Dokuzu",
+        "Ten of Swords": "Kılıçların Onu",
+        "Page of Swords": "Kılıcın Uşağı",
+        "Knight of Swords": "Kılıçların Şövalyesi",
+        "Queen of Swords": "Kılıçların Kraliçesi",
+        "King of Swords": "Kılıçların Kralı",
+        "Ace of Pentacles": "Altının Ası",
+        "Two of Pentacles": "Altının İkisi",
+        "Three of Pentacles": "Altının Üçü",
+        "Four of Pentacles": "Altının Dördü",
+        "Five of Pentacles": "Altının Beşi",
+        "Six of Pentacles": "Altının Altısı",
+        "Seven of Pentacles": "Altının Yedisi",
+        "Eight of Pentacles": "Altının Sekizi",
+        "Nine of Pentacles": "Altının Dokuzu",
+        "Ten of Pentacles": "Altının Onu",
+        "Page of Pentacles": "Altının Uşağı",
+        "Knight of Pentacles": "Altının Şövalyesi",
+        "Queen of Pentacles": "Altının Kraliçesi",
+        "King of Pentacles": "Altının Kralı"
+      }
+    },
+    "draw": {
+      "title": "Kartlarınızı Seçin",
+      "instructions": "Okumanız için kartları seçin. Kartlara dokunarak seçim yapın.",
+      "cardsDrawn": "kart çekildi",
+      "cardsSelected": "kart seçildi",
+      "shuffling": "Karıştırılıyor...",
+      "tapToDraw": "Çekmek için dokunun",
+      "reshuffle": "Yeniden Karıştır",
+      "complete": "Tamamla",
+      "remaining": "kart kaldı",
+      "selectedCards": "Seçilen Kartlar",
+      "yourCards": "Kartlarınız"
+    },
+    "spreadTypes": [
+      {
+        "id": "three-card",
+        "name": "3 Kart - Geçmiş/Şu An/Gelecek",
+        "positions": 3,
+        "defaultPositions": ["Geçmiş", "Şu An", "Gelecek"]
+      },
+      {
+        "id": "celtic-cross",
+        "name": "Celtic Cross",
+        "positions": 10,
+        "defaultPositions": [
+          "Mevcut Durum",
+          "Engel",
+          "Uzak Geçmiş",
+          "Yakın Geçmiş",
+          "Olası Gelecek",
+          "Yakın Gelecek",
+          "Sizin Yaklaşımınız",
+          "Dış Etkiler",
+          "Umutlar ve Korkular",
+          "Sonuç"
+        ]
+      },
+      {
+        "id": "situation-obstacle-solution",
+        "name": "Durum/Engel/Çözüm",
+        "positions": 3,
+        "defaultPositions": ["Durum", "Engel", "Çözüm"]
+      },
+      {
+        "id": "single-card",
+        "name": "Tek Kart",
+        "positions": 1,
+        "defaultPositions": ["Genel Bakış"]
+      },
+      {
+        "id": "custom",
+        "name": "Özel Açılım",
+        "positions": 0
+      }
+    ],
+    "domains": ["Aşk", "Kariyer", "Para", "Sağlık", "Genel", "Ruhsal Gelişim"],
+    "validation": {
+      "empty": "Lütfen tüm gerekli alanları doldurun.",
+      "intentRequired": "Lütfen niyetinizi girin.",
+      "spreadRequired": "Lütfen bir açılım türü seçin.",
+      "domainRequired": "Lütfen bir okuma alanı seçin.",
+      "cardsRequired": "Lütfen tüm kartların adlarını girin."
+    },
+    "result": {
+      "title": "Tarot Okumanız",
+      "interpretation": {
+        "title": "Yorum"
+      },
+      "summary": {
+        "title": "Genel Özet"
+      },
+      "guidance": {
+        "title": "Rehberlik ve Tavsiyeler"
+      },
+      "loading": {
+        "title": "Tarot Okunuz Hazırlanıyor...",
+        "subtitle": "Kartlarınız yorumlanıyor, lütfen bekleyin."
+      }
+    }
+  },
   "bottomBar": {
     "horoscope": "Horoscope",
     "loveMatch": "Aşk Uyumu",
     "palmistry": "El Falı",
     "dream": "Rüya Yorumu",
+    "tarot": "Tarot",
     "profile": "Profil"
   },
   "settings": {
@@ -343,6 +536,11 @@
         "title": "İçinizdeki Sırları Açığa Çıkarın",
         "text": "Bilinçaltınızın gizli dilini keşfedin. Rüya yorumlama rehberi, uyanık hayatınızı dönüştürebilecek içgörüler sunar.",
         "buttonText": "Rüyamı Yorumla"
+      },
+      {
+        "title": "Tarot Kartları ile Kehanet",
+        "text": "Tarot kartlarının gizemli dünyasına dalın. Sorularınıza cevap bulun ve geleceğiniz hakkında derin içgörüler edinin.",
+        "buttonText": "Tarot Falı Bak"
       }
     ]
   },

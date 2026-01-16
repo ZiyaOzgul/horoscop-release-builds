@@ -2,6 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
+  Dimensions,
   Image,
   ImageBackground,
   StatusBar,
@@ -24,6 +25,7 @@ import LinearGradient from "react-native-linear-gradient";
 const Index = () => {
   const { t } = useTranslation();
   const { startSSOFlow } = useSSO();
+  const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
   const handleFacebookLogin = async () => {
     try {
@@ -193,7 +195,16 @@ const Index = () => {
           end={{ x: 1, y: 0 }}
           style={styles.gradient}
         >
-          <Text style={styles.buttonText}>{t("authIndex.buttons.login")}</Text>
+          <Text
+            style={[
+              styles.buttonText,
+              {
+                fontSize: SCREEN_HEIGHT < 700 ? hp(1.8) : hp(2),
+              },
+            ]}
+          >
+            {t("authIndex.buttons.login")}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
 
@@ -258,9 +269,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     overflow: "hidden",
     width: wp(85),
-    minWidth: wp(85),
-    paddingTop: 20,
+    maxWidth: 400,
+    minWidth: 280,
+    paddingTop: hp(2.5),
     borderRadius: 16,
+    alignSelf: "center",
   },
   gradient: {
     borderRadius: 16,
@@ -271,16 +284,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     minHeight: hp(6),
+    maxHeight: hp(8),
   },
   buttonText: {
     color: "white",
     fontSize: hp(2),
     fontWeight: "600",
     fontFamily: "Rubik_600SemiBold",
-    flexShrink: 0,
+    flexShrink: 1,
     textAlign: "center",
     includeFontPadding: false,
     textAlignVertical: "center",
+    paddingHorizontal: wp(2),
   },
   separatorRow: {
     flexDirection: "row",

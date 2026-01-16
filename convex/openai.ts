@@ -544,3 +544,479 @@ export const deleteClerkUser = action({
     }
   },
 });
+
+export const interpretTarot = action({
+  args: {
+    intent: v.string(),
+    spread: v.string(),
+    domain: v.string(),
+    cards: v.array(
+      v.object({
+        position: v.number(),
+        cardName: v.string(),
+        direction: v.union(v.literal("upright"), v.literal("reversed")),
+        positionMeaning: v.string(),
+      })
+    ),
+    selectedLang: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error("OPENAI_API_KEY not configured in Convex dashboard");
+    }
+
+    const openai = new OpenAI({ apiKey });
+
+    try {
+      // Language-specific prompts
+      const getLanguagePrompts = (lang: string) => {
+        // Normalize language code (ja/jp -> jp)
+        const normalizedLang = lang === "ja" ? "jp" : lang;
+        
+        const langMap: { [key: string]: { system: string; user: (intent: string, domain: string, spread: string, cards: string) => string; cardDesc: (card: any) => string } } = {
+          tr: {
+            system: `Sen derin tarot kartı anlamları, sembolizmi ve yorumlama bilgisine sahip uzman bir tarot okuyucususun. Kartların anlamlarını soran kişinin sorusu ve yaşam durumuyla bağlantılandıran detaylı, içgörülü tarot okumaları sağla.
+
+Dikkate al:
+- Her kartın geleneksel anlamı (hem düz hem ters)
+- Açılımdaki pozisyonun önemi
+- Kartların birbirleriyle nasıl etkileşime girdiği
+- Soran kişinin niyeti ve sorgu alanı
+- Pratik rehberlik ve uygulanabilir içgörüler
+
+SADECE geçerli JSON döndür, markdown kullanma:
+{
+  "status": 200,
+  "reading": {
+    "overall_summary": "Tüm kartları sentezleyen ve soran kişinin niyetini ele alan kapsamlı yorum (en az 5-6 cümle)",
+    "cards": [
+      {
+        "position": 1,
+        "cardName": "kart adı",
+        "direction": "düz veya ters",
+        "positionMeaning": "pozisyon anlamı",
+        "interpretation": "Bu kartın anlamını ve pozisyonun önemini göz önünde bulundurarak bu pozisyondaki bu özel kart için detaylı yorum (en az 3-4 cümle)"
+      }
+    ],
+    "guidance": "Okumaya dayalı pratik tavsiye ve sonraki adımlar (en az 3-4 cümle)"
+  }
+}
+
+Tüm içerik için sadece Türkçe kullan.
+
+ÖNEMLİ - Kart İsimleri Formatı:
+Minor Arcana kartları için Türkçe formatı şu şekilde olmalı:
+- "Kılıçların Yedisi" (Seven of Swords için)
+- "Kılıçların Üçü" (Three of Swords için)
+- "Kupanın Beşi" (Five of Cups için)
+- "Asanın Altısı" (Six of Wands için)
+- "Altının Onu" (Ten of Pentacles için)
+
+YANLIŞ formatlar: "yedili devir", "üçüncü kılıç", "yedili kılıç", "yedili kılıçlar"
+DOĞRU format: "Kılıçların Yedisi", "Kılıçların Üçü", "Kupanın Beşi"
+
+Kart isimlerini yorumlarken bu formatı kullan.`,
+            user: (intent: string, domain: string, spread: string, cards: string) => `Bu tarot okumasını yorumla:
+
+Niyet/Soru: ${intent}
+Alan: ${domain}
+Açılım Türü: ${spread}
+
+Kartlar:
+${cards}
+
+Şunları içeren detaylı bir yorum sağla:
+1. Soran kişinin niyetini ve sorusunu ele al
+2. Her kartı pozisyonunda yorumla
+3. Kartların birbirleriyle nasıl ilişkili olduğunu göster
+4. ${domain} alanı için pratik rehberlik sağla
+5. Uygulanabilir olduğunda hem düz hem ters anlamları dikkate al
+
+ÖNEMLİ: Kart isimlerini yorumlarken Türkçe formatını kullan:
+- Minor Arcana kartları için: "Kılıçların Yedisi", "Kupanın Üçü", "Asanın Beşi", "Altının Onu" formatını kullan
+- "yedili devir", "üçüncü kılıç", "yedili kılıç" gibi yanlış formatlar kullanma
+- Doğru format: "Kılıçların Yedisi", "Kılıçların Üçü", "Kupanın Beşi" şeklinde olmalı
+
+SADECE JSON nesnesini döndür.`,
+            cardDesc: (card: any) => `Pozisyon ${card.position} (${card.positionMeaning}): ${card.cardName} - ${card.direction === "upright" ? "Düz" : "Ters"}`
+          },
+          en: {
+            system: `You are an expert tarot reader with deep knowledge of tarot card meanings, symbolism, and interpretation. Provide detailed, insightful tarot readings that connect the cards' meanings to the querent's question and life situation.
+
+Consider:
+- Each card's traditional meaning (both upright and reversed)
+- The position's significance in the spread
+- How cards interact with each other
+- The querent's intent and domain of inquiry
+- Practical guidance and actionable insights
+
+Return ONLY valid JSON without markdown:
+{
+  "status": 200,
+  "reading": {
+    "overall_summary": "Comprehensive interpretation (minimum 5-6 sentences) that synthesizes all cards and addresses the querent's intent",
+    "cards": [
+      {
+        "position": 1,
+        "cardName": "card name",
+        "direction": "upright or reversed",
+        "positionMeaning": "position meaning",
+        "interpretation": "Detailed interpretation for this specific card in this position (minimum 3-4 sentences), considering both the card's meaning and the position's significance"
+      }
+    ],
+    "guidance": "Practical advice and next steps (minimum 3-4 sentences) based on the reading"
+  }
+}
+
+Use only English for all content.`,
+            user: (intent: string, domain: string, spread: string, cards: string) => `Interpret this tarot reading:
+
+Intent/Question: ${intent}
+Domain: ${domain}
+Spread Type: ${spread}
+
+Cards:
+${cards}
+
+Provide a detailed interpretation that:
+1. Addresses the querent's intent and question
+2. Interprets each card in its position
+3. Shows how cards relate to each other
+4. Provides practical guidance for the ${domain} domain
+5. Considers both upright and reversed meanings where applicable
+
+Return ONLY the JSON object.`,
+            cardDesc: (card: any) => `Position ${card.position} (${card.positionMeaning}): ${card.cardName} - ${card.direction === "upright" ? "Upright" : "Reversed"}`
+          },
+          jp: {
+            system: `あなたはタロットカードの意味、象徴性、解釈について深い知識を持つ専門のタロットリーダーです。カードの意味を質問者の質問と人生の状況に結びつける詳細で洞察に富んだタロットリーディングを提供してください。
+
+考慮事項：
+- 各カードの伝統的な意味（正位置と逆位置の両方）
+- スプレッド内の位置の重要性
+- カードが互いにどのように相互作用するか
+- 質問者の意図と質問の領域
+- 実践的なガイダンスと実行可能な洞察
+
+マークダウンなしで有効なJSONのみを返してください：
+{
+  "status": 200,
+  "reading": {
+    "overall_summary": "すべてのカードを統合し、質問者の意図に対処する包括的な解釈（最低5-6文）",
+    "cards": [
+      {
+        "position": 1,
+        "cardName": "カード名",
+        "direction": "正位置または逆位置",
+        "positionMeaning": "位置の意味",
+        "interpretation": "カードの意味と位置の重要性の両方を考慮して、この位置にあるこの特定のカードの詳細な解釈（最低3-4文）"
+      }
+    ],
+    "guidance": "リーディングに基づく実践的なアドバイスと次のステップ（最低3-4文）"
+  }
+}
+
+すべてのコンテンツに日本語のみを使用してください。`,
+            user: (intent: string, domain: string, spread: string, cards: string) => `このタロットリーディングを解釈してください：
+
+意図/質問：${intent}
+領域：${domain}
+スプレッドタイプ：${spread}
+
+カード：
+${cards}
+
+以下の詳細な解釈を提供してください：
+1. 質問者の意図と質問に対処する
+2. 各カードをその位置で解釈する
+3. カードが互いにどのように関連しているかを示す
+4. ${domain}領域の実践的なガイダンスを提供する
+5. 該当する場合は正位置と逆位置の両方の意味を考慮する
+
+JSONオブジェクトのみを返してください。`,
+            cardDesc: (card: any) => `位置${card.position}（${card.positionMeaning}）：${card.cardName} - ${card.direction === "upright" ? "正位置" : "逆位置"}`
+          },
+          ru: {
+            system: `Вы эксперт-таролог с глубокими знаниями значений карт Таро, символизма и интерпретации. Предоставляйте подробные, содержательные гадания на Таро, которые связывают значения карт с вопросом и жизненной ситуацией вопрошающего.
+
+Учитывайте:
+- Традиционное значение каждой карты (как прямой, так и перевернутой)
+- Значение позиции в раскладе
+- Как карты взаимодействуют друг с другом
+- Намерение вопрошающего и область запроса
+- Практические советы и действенные рекомендации
+
+Возвращайте ТОЛЬКО валидный JSON без markdown:
+{
+  "status": 200,
+  "reading": {
+    "overall_summary": "Комплексная интерпретация (минимум 5-6 предложений), которая синтезирует все карты и обращается к намерению вопрошающего",
+    "cards": [
+      {
+        "position": 1,
+        "cardName": "название карты",
+        "direction": "прямая или перевернутая",
+        "positionMeaning": "значение позиции",
+        "interpretation": "Подробная интерпретация для этой конкретной карты в этой позиции (минимум 3-4 предложения), учитывая как значение карты, так и важность позиции"
+      }
+    ],
+    "guidance": "Практические советы и следующие шаги (минимум 3-4 предложения) на основе гадания"
+  }
+}
+
+Используйте только русский язык для всего контента.`,
+            user: (intent: string, domain: string, spread: string, cards: string) => `Интерпретируйте это гадание на Таро:
+
+Намерение/Вопрос: ${intent}
+Область: ${domain}
+Тип расклада: ${spread}
+
+Карты:
+${cards}
+
+Предоставьте подробную интерпретацию, которая:
+1. Обращается к намерению и вопросу вопрошающего
+2. Интерпретирует каждую карту в её позиции
+3. Показывает, как карты связаны друг с другом
+4. Предоставляет практические советы для области ${domain}
+5. Учитывает как прямые, так и перевернутые значения, где применимо
+
+Возвращайте ТОЛЬКО JSON объект.`,
+            cardDesc: (card: any) => `Позиция ${card.position} (${card.positionMeaning}): ${card.cardName} - ${card.direction === "upright" ? "Прямая" : "Перевернутая"}`
+          },
+          sp: {
+            system: `Eres un lector de tarot experto con un profundo conocimiento de los significados de las cartas del tarot, el simbolismo y la interpretación. Proporciona lecturas de tarot detalladas e intuitivas que conecten los significados de las cartas con la pregunta y la situación de vida del consultante.
+
+Considera:
+- El significado tradicional de cada carta (tanto derecha como invertida)
+- La importancia de la posición en la tirada
+- Cómo las cartas interactúan entre sí
+- La intención del consultante y el dominio de la consulta
+- Orientación práctica e ideas accionables
+
+Devuelve SOLO JSON válido sin markdown:
+{
+  "status": 200,
+  "reading": {
+    "overall_summary": "Interpretación integral (mínimo 5-6 oraciones) que sintetiza todas las cartas y aborda la intención del consultante",
+    "cards": [
+      {
+        "position": 1,
+        "cardName": "nombre de la carta",
+        "direction": "derecha o invertida",
+        "positionMeaning": "significado de la posición",
+        "interpretation": "Interpretación detallada para esta carta específica en esta posición (mínimo 3-4 oraciones), considerando tanto el significado de la carta como la importancia de la posición"
+      }
+    ],
+    "guidance": "Consejos prácticos y próximos pasos (mínimo 3-4 oraciones) basados en la lectura"
+  }
+}
+
+Usa solo español para todo el contenido.`,
+            user: (intent: string, domain: string, spread: string, cards: string) => `Interpreta esta lectura de tarot:
+
+Intención/Pregunta: ${intent}
+Dominio: ${domain}
+Tipo de Tirada: ${spread}
+
+Cartas:
+${cards}
+
+Proporciona una interpretación detallada que:
+1. Aborde la intención y pregunta del consultante
+2. Interprete cada carta en su posición
+3. Muestre cómo las cartas se relacionan entre sí
+4. Proporcione orientación práctica para el dominio ${domain}
+5. Considere tanto los significados derechos como invertidos cuando sea aplicable
+
+Devuelve SOLO el objeto JSON.`,
+            cardDesc: (card: any) => `Posición ${card.position} (${card.positionMeaning}): ${card.cardName} - ${card.direction === "upright" ? "Derecha" : "Invertida"}`
+          }
+        };
+
+        // Default to English if language not found
+        return langMap[normalizedLang] || langMap.en;
+      };
+
+      // Get language-specific prompts
+      const prompts = getLanguagePrompts(args.selectedLang);
+
+      // Build cards description using language-specific format
+      const cardsDescription = args.cards
+        .map((card) => prompts.cardDesc(card))
+        .join("\n");
+
+      const systemContent = prompts.system;
+      const userContent = prompts.user(args.intent, args.domain, args.spread, cardsDescription);
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: systemContent,
+          },
+          {
+            role: "user",
+            content: userContent,
+          },
+        ],
+        temperature: 0.8,
+        max_tokens: 3000,
+        top_p: 0.95,
+        response_format: { type: "json_object" },
+      });
+
+      const messageContent = response.choices[0].message.content;
+      if (!messageContent) {
+        throw new Error("Message content is null");
+      }
+
+      // Clean the content more thoroughly
+      let cleanedContent = messageContent
+        .replace(/```json\n?/g, "")
+        .replace(/```\n?/g, "")
+        .replace(/^json\s*/i, "")
+        .trim();
+
+      // Try to extract JSON if it's wrapped in other text
+      const jsonMatch = cleanedContent.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        cleanedContent = jsonMatch[0];
+      }
+
+      // More aggressive JSON cleaning function
+      const fixJSON = (content: string): string => {
+        // Remove trailing commas before closing braces/brackets (multiple passes)
+        let fixed = content;
+        for (let i = 0; i < 5; i++) {
+          fixed = fixed.replace(/,(\s*[}\]])/g, "$1");
+        }
+        
+        // Fix unescaped newlines and carriage returns in string values
+        // Process string values more carefully to avoid breaking valid JSON
+        let result = "";
+        let inString = false;
+        let escapeNext = false;
+        
+        for (let i = 0; i < fixed.length; i++) {
+          const char = fixed[i];
+          
+          if (escapeNext) {
+            result += char;
+            escapeNext = false;
+            continue;
+          }
+          
+          if (char === '\\') {
+            result += char;
+            escapeNext = true;
+            continue;
+          }
+          
+          if (char === '"') {
+            inString = !inString;
+            result += char;
+            continue;
+          }
+          
+          if (inString) {
+            // Inside a string, escape newlines, tabs, and carriage returns
+            if (char === '\n') {
+              result += '\\n';
+            } else if (char === '\r') {
+              result += '\\r';
+            } else if (char === '\t') {
+              result += '\\t';
+            } else if (char === '"' && !escapeNext) {
+              result += '\\"';
+            } else {
+              result += char;
+            }
+          } else {
+            result += char;
+          }
+        }
+        
+        fixed = result;
+        
+        // Remove any control characters that might break JSON (outside strings)
+        // This is a simpler approach - just remove problematic control chars
+        fixed = fixed.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+        
+        return fixed;
+      };
+
+      // Remove any trailing commas before closing braces/brackets
+      cleanedContent = cleanedContent.replace(/,(\s*[}\]])/g, "$1");
+
+      let message;
+      try {
+        message = JSON.parse(cleanedContent);
+      } catch (parseError: any) {
+        console.error("JSON Parse Error:", parseError);
+        console.error("Parse error position:", parseError.message);
+        console.error("Cleaned content length:", cleanedContent.length);
+        console.error("Cleaned content (first 500 chars):", cleanedContent.substring(0, 500));
+        
+        // Try to fix common JSON issues
+        try {
+          // Apply aggressive JSON fixing
+          cleanedContent = fixJSON(cleanedContent);
+          
+          // Try parsing again
+          message = JSON.parse(cleanedContent);
+          console.log("✅ Successfully parsed after fixing JSON issues");
+        } catch (secondError: any) {
+          console.error("Second parse attempt failed:", secondError);
+          
+          // Try one more time with even more aggressive fixes
+          try {
+            // Extract just the JSON object more carefully
+            const deepJsonMatch = cleanedContent.match(/\{[\s\S]*\}/);
+            if (deepJsonMatch) {
+              let deepFixed = fixJSON(deepJsonMatch[0]);
+              // Remove any remaining problematic characters
+              deepFixed = deepFixed
+                .replace(/,\s*}/g, "}")
+                .replace(/,\s*]/g, "]")
+                .replace(/([^\\])\n/g, "$1\\n")
+                .replace(/([^\\])\r/g, "$1\\r");
+              
+              message = JSON.parse(deepFixed);
+              console.log("✅ Successfully parsed after deep fixing");
+            } else {
+              throw secondError;
+            }
+          } catch (thirdError: any) {
+            console.error("Third parse attempt failed:", thirdError);
+            console.error("Problematic content around position 2739:", 
+              cleanedContent.substring(Math.max(0, 2700), Math.min(cleanedContent.length, 2800)));
+            
+            throw new Error(
+              `Failed to parse JSON response from OpenAI. ` +
+              `First error: ${parseError.message}. ` +
+              `Second error: ${secondError.message}. ` +
+              `Third error: ${thirdError.message}. ` +
+              `Content length: ${cleanedContent.length} chars. ` +
+              `Preview: ${cleanedContent.substring(0, 200)}...`
+            );
+          }
+        }
+      }
+
+      if (!message.reading || !message.reading.cards) {
+        throw new Error("Invalid response structure from GPT");
+      }
+
+      return {
+        status: message.status || 200,
+        reading: message.reading,
+      };
+    } catch (error) {
+      console.error("Error interpreting tarot:", error);
+      throw error;
+    }
+  },
+});
