@@ -146,38 +146,24 @@ const DrawTarotCards = () => {
     card2TranslateY.value = hp(0.4);
     card3TranslateX.value = wp(4);
     card3TranslateY.value = hp(0.8);
-    card4TranslateX.value = wp(6);
-    card4TranslateY.value = hp(1.2);
-    card5TranslateX.value = wp(8);
-    card5TranslateY.value = hp(1.6);
   }, []);
 
   // Animation values for realistic card shuffling
-  // Multiple cards for overlapping effect
-  const card1Rotation = useSharedValue(0);
+  // 3 cards for shuffle animation - all cards will move
   const card1TranslateX = useSharedValue(0);
   const card1TranslateY = useSharedValue(0);
   const card1Scale = useSharedValue(1);
+  const card1ZIndex = useSharedValue(1);
 
-  const card2Rotation = useSharedValue(0);
   const card2TranslateX = useSharedValue(0);
   const card2TranslateY = useSharedValue(0);
   const card2Scale = useSharedValue(1);
+  const card2ZIndex = useSharedValue(2);
 
-  const card3Rotation = useSharedValue(0);
   const card3TranslateX = useSharedValue(0);
   const card3TranslateY = useSharedValue(0);
   const card3Scale = useSharedValue(1);
-
-  const card4Rotation = useSharedValue(0);
-  const card4TranslateX = useSharedValue(0);
-  const card4TranslateY = useSharedValue(0);
-  const card4Scale = useSharedValue(1);
-
-  const card5Rotation = useSharedValue(0);
-  const card5TranslateX = useSharedValue(0);
-  const card5TranslateY = useSharedValue(0);
-  const card5Scale = useSharedValue(1);
+  const card3ZIndex = useSharedValue(3);
 
   // Shuffle deck function (Fisher-Yates algorithm)
   const shuffleDeck = () => {
@@ -201,6 +187,7 @@ const DrawTarotCards = () => {
       card.translateX.value = wp(30) + index * wp(2); // Start from right
       card.translateY.value = index * hp(0.4); // Stack vertically
       card.scale.value = 1;
+      card.zIndex.value = index + 1; // Initial z-index based on position
     };
 
     const cards = [
@@ -208,40 +195,38 @@ const DrawTarotCards = () => {
         translateX: card1TranslateX,
         translateY: card1TranslateY,
         scale: card1Scale,
+        zIndex: card1ZIndex,
       },
       {
         translateX: card2TranslateX,
         translateY: card2TranslateY,
         scale: card2Scale,
+        zIndex: card2ZIndex,
       },
       {
         translateX: card3TranslateX,
         translateY: card3TranslateY,
         scale: card3Scale,
-      },
-      {
-        translateX: card4TranslateX,
-        translateY: card4TranslateY,
-        scale: card4Scale,
-      },
-      {
-        translateX: card5TranslateX,
-        translateY: card5TranslateY,
-        scale: card5Scale,
+        zIndex: card3ZIndex,
       },
     ];
 
     cards.forEach((card, index) => resetCard(card, index));
 
-    // Realistic shuffle: cards move from right to left, stacking on top
-    // Each card represents a layer in the deck
+    // Realistic shuffle: 3 cards shuffle - all cards move, one picks up and places on top
     const shuffleSequence = () => {
       // Store current positions
       const currentXPositions = cards.map((card) => card.translateX.value);
       const currentYPositions = cards.map((card) => card.translateY.value);
 
-      // Card 5 (rightmost) moves to left and stacks on top
-      cards[4].translateX.value = withSequence(
+      // Card 3 (rightmost) picks up and moves to left (on top of others)
+      cards[2].zIndex.value = withSequence(
+        withTiming(10, { duration: 0 }), // Immediately bring to top when starting to move
+        withTiming(10, { duration: 300 }), // Stay on top during movement
+        withTiming(10, { duration: 100 }), // Brief pause
+        withTiming(1, { duration: 300 }) // Return to bottom when placed
+      );
+      cards[2].translateX.value = withSequence(
         // Move from right to center-left
         withTiming(-wp(15), {
           duration: 300,
@@ -251,119 +236,94 @@ const DrawTarotCards = () => {
         withTiming(-wp(15), {
           duration: 100,
         }),
-        // Move to left position (now visually on top)
+        // Move to left position (on top)
         withTiming(0, {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
-      cards[4].translateY.value = withSequence(
-        withTiming(0, {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(0, {
-          duration: 100,
-        }),
-        withTiming(0, {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
-
-      // Card 4 moves left and stacks
-      cards[3].translateX.value = withSequence(
-        withTiming(currentXPositions[3] - wp(10), {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(currentXPositions[3] - wp(10), {
-          duration: 100,
-        }),
-        withTiming(currentXPositions[3] - wp(5), {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
-      cards[3].translateY.value = withSequence(
-        withTiming(currentYPositions[3] - hp(0.2), {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(currentYPositions[3] - hp(0.2), {
-          duration: 100,
-        }),
-        withTiming(currentYPositions[3] - hp(0.1), {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
-
-      // Card 3 moves left
-      cards[2].translateX.value = withSequence(
-        withTiming(currentXPositions[2] - wp(8), {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(currentXPositions[2] - wp(8), {
-          duration: 100,
-        }),
-        withTiming(currentXPositions[2] - wp(4), {
           duration: 300,
           easing: Easing.in(Easing.ease),
         })
       );
       cards[2].translateY.value = withSequence(
-        withTiming(currentYPositions[2] - hp(0.15), {
+        withTiming(0, {
           duration: 300,
           easing: Easing.out(Easing.ease),
         }),
-        withTiming(currentYPositions[2] - hp(0.15), {
+        withTiming(0, {
           duration: 100,
         }),
-        withTiming(currentYPositions[2] - hp(0.05), {
+        withTiming(0, {
           duration: 300,
           easing: Easing.in(Easing.ease),
         })
       );
 
-      // Card 2 moves slightly
+      // Card 2 moves left to make room
+      cards[1].zIndex.value = withSequence(
+        withTiming(0, { duration: 0 }), // Lower z-index when other card moves
+        withTiming(0, { duration: 300 }),
+        withTiming(10, { duration: 100 }), // Bring to top for its turn
+        withTiming(2, { duration: 300 }) // Return to position
+      );
       cards[1].translateX.value = withSequence(
-        withTiming(currentXPositions[1] - wp(5), {
+        withTiming(currentXPositions[1] - wp(8), {
           duration: 300,
           easing: Easing.out(Easing.ease),
         }),
-        withTiming(currentXPositions[1] - wp(5), {
+        withTiming(currentXPositions[1] - wp(8), {
           duration: 100,
         }),
-        withTiming(currentXPositions[1] - wp(2), {
+        // Move to left (on top of card 1)
+        withTiming(currentXPositions[1] - wp(5), {
           duration: 300,
           easing: Easing.in(Easing.ease),
         })
       );
       cards[1].translateY.value = withSequence(
-        withTiming(currentYPositions[1] - hp(0.1), {
+        withTiming(currentYPositions[1] - hp(0.2), {
           duration: 300,
           easing: Easing.out(Easing.ease),
         }),
-        withTiming(currentYPositions[1] - hp(0.1), {
+        withTiming(currentYPositions[1] - hp(0.2), {
           duration: 100,
         }),
-        withTiming(currentYPositions[1], {
+        withTiming(currentYPositions[1] - hp(0.1), {
           duration: 300,
           easing: Easing.in(Easing.ease),
         })
       );
 
-      // Card 1 (leftmost) stays relatively still
+      // Card 1 (leftmost) - also moves and can come to top
+      cards[0].zIndex.value = withSequence(
+        withTiming(0, { duration: 0 }), // Lower z-index when other cards move
+        withTiming(0, { duration: 300 }),
+        withTiming(0, { duration: 100 }),
+        withTiming(10, { duration: 300 }) // Can come to top later
+      );
       cards[0].translateX.value = withSequence(
-        withTiming(currentXPositions[0], {
-          duration: 700,
+        // Move slightly to the right
+        withTiming(currentXPositions[0] + wp(3), {
+          duration: 300,
+          easing: Easing.out(Easing.ease),
+        }),
+        withTiming(currentXPositions[0] + wp(3), {
+          duration: 100,
+        }),
+        // Then move back left, potentially on top
+        withTiming(currentXPositions[0] - wp(2), {
+          duration: 300,
+          easing: Easing.in(Easing.ease),
         })
       );
       cards[0].translateY.value = withSequence(
-        withTiming(currentYPositions[0], {
-          duration: 700,
+        withTiming(currentYPositions[0] + hp(0.1), {
+          duration: 300,
+          easing: Easing.out(Easing.ease),
+        }),
+        withTiming(currentYPositions[0] + hp(0.1), {
+          duration: 100,
+        }),
+        withTiming(currentYPositions[0] - hp(0.05), {
+          duration: 300,
+          easing: Easing.in(Easing.ease),
         })
       );
     };
@@ -394,6 +354,10 @@ const DrawTarotCards = () => {
                   easing: Easing.out(Easing.ease),
                 });
                 card.scale.value = withTiming(1, {
+                  duration: 400,
+                  easing: Easing.out(Easing.ease),
+                });
+                card.zIndex.value = withTiming(index + 1, {
                   duration: 400,
                   easing: Easing.out(Easing.ease),
                 });
@@ -506,6 +470,8 @@ const DrawTarotCards = () => {
         { translateX: card1TranslateX.value },
         { translateY: card1TranslateY.value },
       ],
+      zIndex: Math.round(card1ZIndex.value),
+      elevation: Math.round(card1ZIndex.value),
     };
   });
 
@@ -516,6 +482,8 @@ const DrawTarotCards = () => {
         { translateX: card2TranslateX.value },
         { translateY: card2TranslateY.value },
       ],
+      zIndex: Math.round(card2ZIndex.value),
+      elevation: Math.round(card2ZIndex.value),
     };
   });
 
@@ -526,26 +494,8 @@ const DrawTarotCards = () => {
         { translateX: card3TranslateX.value },
         { translateY: card3TranslateY.value },
       ],
-    };
-  });
-
-  const card4AnimatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { scale: card4Scale.value },
-        { translateX: card4TranslateX.value },
-        { translateY: card4TranslateY.value },
-      ],
-    };
-  });
-
-  const card5AnimatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { scale: card5Scale.value },
-        { translateX: card5TranslateX.value },
-        { translateY: card5TranslateY.value },
-      ],
+      zIndex: Math.round(card3ZIndex.value),
+      elevation: Math.round(card3ZIndex.value),
     };
   });
 
@@ -987,47 +937,18 @@ const DrawTarotCards = () => {
           </Text>
         </View>
 
-        {/* Central Deck (Realistic Shuffling with Multiple Cards) - Visible during shuffle */}
+        {/* Central Deck (Realistic Shuffling with 3 Cards) - Visible during shuffle */}
         {isShuffling && (
           <View style={styles.centralDeckContainer}>
-            {/* Multiple overlapping cards for realistic shuffle effect */}
+            {/* 3 overlapping cards for realistic shuffle effect */}
             <View style={styles.shuffleCardsContainer}>
-              {/* Card 5 (backmost) */}
+              {/* Render cards in order - z-index will control visual order */}
+              {/* Card 1 - Render first so it can be behind when z-index is low */}
               <Animated.View
                 style={[
                   styles.shuffleCard,
-                  card5AnimatedStyle,
-                  styles.shuffleCard5,
-                ]}
-              >
-                <Image
-                  source={require("@/assets/images/horoscope/tarotDeck/tarot_back.png")}
-                  style={styles.shuffleCardImage}
-                  resizeMode="stretch"
-                />
-              </Animated.View>
-
-              {/* Card 4 */}
-              <Animated.View
-                style={[
-                  styles.shuffleCard,
-                  card4AnimatedStyle,
-                  styles.shuffleCard4,
-                ]}
-              >
-                <Image
-                  source={require("@/assets/images/horoscope/tarotDeck/tarot_back.png")}
-                  style={styles.shuffleCardImage}
-                  resizeMode="stretch"
-                />
-              </Animated.View>
-
-              {/* Card 3 (middle) */}
-              <Animated.View
-                style={[
-                  styles.shuffleCard,
-                  card3AnimatedStyle,
-                  styles.shuffleCard3,
+                  card1AnimatedStyle,
+                  styles.shuffleCard1,
                 ]}
               >
                 <Image
@@ -1052,12 +973,12 @@ const DrawTarotCards = () => {
                 />
               </Animated.View>
 
-              {/* Card 1 (frontmost) */}
+              {/* Card 3 - Render last so it can come to top when z-index is high */}
               <Animated.View
                 style={[
                   styles.shuffleCard,
-                  card1AnimatedStyle,
-                  styles.shuffleCard1,
+                  card3AnimatedStyle,
+                  styles.shuffleCard3,
                 ]}
               >
                 <Image
@@ -1267,24 +1188,13 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   shuffleCard1: {
-    zIndex: 5,
-    elevation: 10,
+    // zIndex and elevation are now animated via useAnimatedStyle
   },
   shuffleCard2: {
-    zIndex: 4,
-    elevation: 9,
+    // zIndex and elevation are now animated via useAnimatedStyle
   },
   shuffleCard3: {
-    zIndex: 3,
-    elevation: 8,
-  },
-  shuffleCard4: {
-    zIndex: 2,
-    elevation: 7,
-  },
-  shuffleCard5: {
-    zIndex: 1,
-    elevation: 6,
+    // zIndex and elevation are now animated via useAnimatedStyle
   },
   shuffleCardHidden: {
     opacity: 0,
