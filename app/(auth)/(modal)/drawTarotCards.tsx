@@ -176,201 +176,141 @@ const DrawTarotCards = () => {
   };
 
   // Realistic card shuffling animation - cards from right to left, stacking on top
-  const startShuffleAnimation = () => {
-    setIsShuffling(true);
-    setShowCards(false);
-    setSelectedCards([]);
+ // Realistic card shuffling animation - cards shuffle in center and spread to sides
+// Realistic card shuffling animation - pick from bottom, place on top
+const startShuffleAnimation = () => {
+  setIsShuffling(true);
+  setShowCards(false);
+  setSelectedCards([]);
 
-    // Reset all card values - cards start at right side, stacked vertically
-    const resetCard = (card: any, index: number) => {
-      // Cards start at right side, stacked vertically (2-3 cards visible)
-      card.translateX.value = wp(30) + index * wp(2); // Start from right
-      card.translateY.value = index * hp(0.4); // Stack vertically
-      card.scale.value = 1;
-      card.zIndex.value = index + 1; // Initial z-index based on position
-    };
+  const cards = [
+    {
+      translateX: card1TranslateX,
+      translateY: card1TranslateY,
+      scale: card1Scale,
+      zIndex: card1ZIndex,
+    },
+    {
+      translateX: card2TranslateX,
+      translateY: card2TranslateY,
+      scale: card2Scale,
+      zIndex: card2ZIndex,
+    },
+    {
+      translateX: card3TranslateX,
+      translateY: card3TranslateY,
+      scale: card3Scale,
+      zIndex: card3ZIndex,
+    },
+  ];
 
-    const cards = [
-      {
-        translateX: card1TranslateX,
-        translateY: card1TranslateY,
-        scale: card1Scale,
-        zIndex: card1ZIndex,
-      },
-      {
-        translateX: card2TranslateX,
-        translateY: card2TranslateY,
-        scale: card2Scale,
-        zIndex: card2ZIndex,
-      },
-      {
-        translateX: card3TranslateX,
-        translateY: card3TranslateY,
-        scale: card3Scale,
-        zIndex: card3ZIndex,
-      },
-    ];
+  // Reset to center stacked position - card 0 is at bottom (z-index 1)
+  cards.forEach((card, index) => {
+    card.translateX.value = 0;
+    card.translateY.value = index * hp(0.3);
+    card.scale.value = 1;
+    card.zIndex.value = index + 1; // 1, 2, 3
+  });
 
-    cards.forEach((card, index) => resetCard(card, index));
+  // Track current stacking order (bottom to top)
+  let stackOrder = [0, 1, 2]; // indices in order from bottom to top
 
-    // Realistic shuffle: 3 cards shuffle - all cards move, one picks up and places on top
-    const shuffleSequence = () => {
-      // Store current positions
-      const currentXPositions = cards.map((card) => card.translateX.value);
-      const currentYPositions = cards.map((card) => card.translateY.value);
+  // Shuffle sequence - pick card from bottom and place on top
+  const shuffleSequence = () => {
+    // Get the bottom card (first in stackOrder)
+    const bottomCardIndex = stackOrder[0];
+    const card = cards[bottomCardIndex];
 
-      // Card 3 (rightmost) picks up and moves to left (on top of others)
-      cards[2].zIndex.value = withSequence(
-        withTiming(10, { duration: 0 }), // Immediately bring to top when starting to move
-        withTiming(10, { duration: 300 }), // Stay on top during movement
-        withTiming(10, { duration: 100 }), // Brief pause
-        withTiming(1, { duration: 300 }) // Return to bottom when placed
-      );
-      cards[2].translateX.value = withSequence(
-        // Move from right to center-left
-        withTiming(-wp(15), {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        // Brief pause
-        withTiming(-wp(15), {
-          duration: 100,
-        }),
-        // Move to left position (on top)
-        withTiming(0, {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
-      cards[2].translateY.value = withSequence(
-        withTiming(0, {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(0, {
-          duration: 100,
-        }),
-        withTiming(0, {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
+    // Bring card to front for animation
+    card.zIndex.value = withTiming(10, { duration: 0 });
+    
+    // Scale up slightly while picking
+    card.scale.value = withSequence(
+      withTiming(1.15, { duration: 200, easing: Easing.out(Easing.ease) }),
+      withTiming(1.15, { duration: 300 }),
+      withTiming(1, { duration: 200, easing: Easing.in(Easing.ease) })
+    );
 
-      // Card 2 moves left to make room
-      cards[1].zIndex.value = withSequence(
-        withTiming(0, { duration: 0 }), // Lower z-index when other card moves
-        withTiming(0, { duration: 300 }),
-        withTiming(10, { duration: 100 }), // Bring to top for its turn
-        withTiming(2, { duration: 300 }) // Return to position
-      );
-      cards[1].translateX.value = withSequence(
-        withTiming(currentXPositions[1] - wp(8), {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(currentXPositions[1] - wp(8), {
-          duration: 100,
-        }),
-        // Move to left (on top of card 1)
-        withTiming(currentXPositions[1] - wp(5), {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
-      cards[1].translateY.value = withSequence(
-        withTiming(currentYPositions[1] - hp(0.2), {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(currentYPositions[1] - hp(0.2), {
-          duration: 100,
-        }),
-        withTiming(currentYPositions[1] - hp(0.1), {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
+    // Move card: slide to right, lift up, then return
+    card.translateX.value = withSequence(
+      withTiming(wp(20), { duration: 300, easing: Easing.out(Easing.ease) }),
+      withTiming(wp(20), { duration: 100 }),
+      withTiming(0, { duration: 300, easing: Easing.in(Easing.ease) })
+    );
 
-      // Card 1 (leftmost) - also moves and can come to top
-      cards[0].zIndex.value = withSequence(
-        withTiming(0, { duration: 0 }), // Lower z-index when other cards move
-        withTiming(0, { duration: 300 }),
-        withTiming(0, { duration: 100 }),
-        withTiming(10, { duration: 300 }) // Can come to top later
-      );
-      cards[0].translateX.value = withSequence(
-        // Move slightly to the right
-        withTiming(currentXPositions[0] + wp(3), {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(currentXPositions[0] + wp(3), {
-          duration: 100,
-        }),
-        // Then move back left, potentially on top
-        withTiming(currentXPositions[0] - wp(2), {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
-      cards[0].translateY.value = withSequence(
-        withTiming(currentYPositions[0] + hp(0.1), {
-          duration: 300,
-          easing: Easing.out(Easing.ease),
-        }),
-        withTiming(currentYPositions[0] + hp(0.1), {
-          duration: 100,
-        }),
-        withTiming(currentYPositions[0] - hp(0.05), {
-          duration: 300,
-          easing: Easing.in(Easing.ease),
-        })
-      );
-    };
+    // Lift card up and bring it to top position
+    card.translateY.value = withSequence(
+      withTiming(-hp(3), { duration: 200, easing: Easing.out(Easing.ease) }),
+      withTiming(-hp(3), { duration: 200 }),
+      // Place on top (highest y position)
+      withTiming(hp(0.6), { duration: 200, easing: Easing.in(Easing.ease) })
+    );
 
-    // Repeat shuffle sequence multiple times
-    shuffleSequence();
+    // After animation completes, update stacking order
     setTimeout(() => {
-      shuffleSequence();
-      setTimeout(() => {
-        shuffleSequence();
-        setTimeout(() => {
-          shuffleSequence();
-          setTimeout(() => {
-            shuffleSequence();
-            setTimeout(() => {
-              // Final shuffle and return to center
-              const shuffled = shuffleDeck();
-              setShuffledDeck(shuffled);
-
-              // Smooth return to center for all cards
-              cards.forEach((card, index) => {
-                card.translateX.value = withTiming(0, {
-                  duration: 400,
-                  easing: Easing.out(Easing.ease),
-                });
-                card.translateY.value = withTiming(index * hp(0.3), {
-                  duration: 400,
-                  easing: Easing.out(Easing.ease),
-                });
-                card.scale.value = withTiming(1, {
-                  duration: 400,
-                  easing: Easing.out(Easing.ease),
-                });
-                card.zIndex.value = withTiming(index + 1, {
-                  duration: 400,
-                  easing: Easing.out(Easing.ease),
-                });
-              });
-
-              setIsShuffling(false);
-              setShowCards(true);
-            }, 700);
-          }, 700);
-        }, 700);
-      }, 700);
+      // Remove from bottom, add to top
+      stackOrder = [...stackOrder.slice(1), bottomCardIndex];
+      
+      // Update all cards' z-index and y positions based on new order
+      stackOrder.forEach((cardIdx, orderIdx) => {
+        cards[cardIdx].zIndex.value = withTiming(orderIdx + 1, { duration: 100 });
+        cards[cardIdx].translateY.value = withTiming(orderIdx * hp(0.3), { 
+          duration: 300,
+          easing: Easing.out(Easing.ease)
+        });
+      });
     }, 700);
   };
+
+  // Execute multiple shuffle sequences
+  const performShuffles = () => {
+    shuffleSequence();
+    
+    setTimeout(() => {
+      shuffleSequence();
+      
+      setTimeout(() => {
+        shuffleSequence();
+        
+        setTimeout(() => {
+          shuffleSequence();
+          
+          setTimeout(() => {
+            shuffleSequence();
+            
+            setTimeout(() => {
+              shuffleSequence();
+              
+              setTimeout(() => {
+                // Complete shuffle
+                const shuffled = shuffleDeck();
+                setShuffledDeck(shuffled);
+
+                // Return all cards to final stacked position
+                cards.forEach((card, index) => {
+                  card.translateX.value = withTiming(0, {
+                    duration: 400,
+                    easing: Easing.out(Easing.ease),
+                  });
+                  card.scale.value = withTiming(1, {
+                    duration: 400,
+                    easing: Easing.out(Easing.ease),
+                  });
+                });
+
+                setIsShuffling(false);
+                setShowCards(true);
+              }, 800);
+            }, 800);
+          }, 800);
+        }, 800);
+      }, 800);
+    }, 800);
+  };
+
+  // Start the shuffle sequence
+  setTimeout(performShuffles, 300);
+};
 
   // Handle card selection - once selected, cannot be changed
   const handleCardSelect = (cardName: string) => {

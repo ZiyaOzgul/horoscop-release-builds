@@ -20,7 +20,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import PagerView from "react-native-pager-view";
@@ -34,6 +34,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { Toast } from "toastify-react-native";
 import LoadingProfile from "../LoadingProfile";
 
 import { usePlatinumStatus } from "@/hooks/usePremiumCheck";
@@ -200,7 +201,7 @@ const Profile: React.FC = () => {
       }
 
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ["images"],
         allowsEditing: true,
         aspect: [1, 1],
         quality: 0.8,
@@ -239,15 +240,13 @@ const Profile: React.FC = () => {
         console.log("Could not update Clerk profile:", clerkError);
       }
 
-      Alert.alert(
-        t("profile.alerts.successTitle"),
-        t("profile.alerts.successMessage")
+      Toast.success(
+        t("profile.alerts.successMessage") || "Profile picture updated successfully!"
       );
     } catch (error) {
       console.error("Error uploading image:", error);
-      Alert.alert(
-        t("profile.alerts.errorTitle"),
-        t("profile.alerts.errorUpload")
+      Toast.error(
+        t("profile.alerts.errorUpload") || "Failed to upload profile picture."
       );
       setLocalImageUri(null);
     } finally {
@@ -1075,6 +1074,112 @@ const styles = StyleSheet.create({
   emptyText: {
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: hp(2),
+    fontFamily: "Rubik_400Regular",
+    textAlign: "center",
+  },
+  editorFullScreen: {
+    flex: 1,
+    backgroundColor: "#000",
+  },
+  editorHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: hp(6),
+    paddingHorizontal: wp(5),
+    paddingBottom: hp(2),
+    backgroundColor: "#000",
+  },
+  editorHeaderTitle: {
+    color: "#fff",
+    fontSize: hp(2.2),
+    fontFamily: "Rubik_600SemiBold",
+    fontWeight: "600",
+  },
+  editorHeaderButton: {
+    minWidth: wp(20),
+    paddingVertical: hp(1),
+  },
+  editorHeaderButtonText: {
+    color: "#999",
+    fontSize: hp(1.9),
+    fontFamily: "Rubik_500Medium",
+  },
+  editorHeaderButtonTextActive: {
+    color: Colors.purpleColorBlack,
+  },
+  editorCropContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000",
+  },
+  cropOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+  },
+  cropOverlayTop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.7)",
+  },
+  cropOverlayMiddle: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cropOverlayLeft: {
+    backgroundColor: "rgba(0,0,0,0.7)",
+    flex: 1,
+  },
+  cropOverlayRight: {
+    backgroundColor: "rgba(0,0,0,0.7)",
+    flex: 1,
+  },
+  cropAreaFrame: {
+    borderWidth: 2,
+    borderColor: "#fff",
+    borderRadius: 2,
+  },
+  cropOverlayBottom: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.7)",
+  },
+  editorCropImage: {
+    position: "absolute",
+    zIndex: 0,
+  },
+  editorLoadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  editorBottomControls: {
+    paddingHorizontal: wp(5),
+    paddingVertical: hp(2),
+    backgroundColor: "#000",
+    alignItems: "center",
+  },
+  editorControlButton: {
+    alignItems: "center",
+    paddingVertical: hp(1),
+    marginBottom: hp(1),
+  },
+  editorControlButtonText: {
+    color: "#fff",
+    fontSize: hp(1.6),
+    fontFamily: "Rubik_500Medium",
+    marginTop: hp(0.5),
+  },
+  editorInstructions: {
+    paddingTop: hp(1),
+  },
+  editorInstructionText: {
+    color: "#666",
+    fontSize: hp(1.5),
     fontFamily: "Rubik_400Regular",
     textAlign: "center",
   },

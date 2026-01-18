@@ -455,7 +455,7 @@
       "changeSuccess": "Şifre başarıyla değiştirildi!",
       "changeFailed": "Şifre değiştirilemedi",
       "currentIncorrect": "Mevcut şifre yanlış",
-      "pwned": "Bu şifre ele geçirilmiş. Lütfen farklı bir şifre seçin",
+      "pwned": "Eski şifrenizi kullanamazsınız. Lütfen farklı bir şifre seçin.",
       "validationFailed": "Şifre gereksinimleri karşılanmıyor"
     },
     "requirements": {
@@ -823,7 +823,7 @@
       "passwordsDoNotMatch": "Şifreler eşleşmiyor.",
       "passwordTooShort": "Şifre en az 8 karakter olmalıdır.",
       "resetFailed": "Şifre sıfırlanamadı. Lütfen tekrar deneyin.",
-      "passwordPwned": "Bu şifre ele geçirilmiş. Lütfen farklı bir şifre seçin.",
+      "passwordPwned": "Eski şifrenizi kullanamazsınız. Lütfen farklı bir şifre seçin.",
       "passwordValidationFailed": "Şifre gereksinimleri karşılanmıyor."
     }
   },

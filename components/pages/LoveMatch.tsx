@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  FlatList,
   Image,
   ImageSourcePropType,
   StatusBar,
@@ -17,10 +18,9 @@ import {
 import LinearGradient from "react-native-linear-gradient";
 import Animated, {
   Easing,
-  FadeInDown,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 import {
   heightPercentageToDP as hp,
@@ -89,29 +89,62 @@ const LoveMatch: React.FC = () => {
     }));
   }, [zodiacImages, zodiacNames]);
 
-  const [selectedFirstZodiac, setSelectedFirstZodiac] =
-    useState<ZodiacItem | null>(null);
-  const [selectedSecondZodiac, setSelectedSecondZodiac] =
-    useState<ZodiacItem | null>(null);
+  // DEĞİŞTİRİLDİ: Tek state objesi ile her iki seçim
+  const [selectedZodiacs, setSelectedZodiacs] = useState<{
+    first: ZodiacItem | null;
+    second: ZodiacItem | null;
+  }>({
+    first: null,
+    second: null,
+  });
 
-  const handleZodiacPress = (item: ZodiacItem) => {
-    // Now we allow same zodiac to be selected twice
-    // Just fill first slot, then second slot
-    if (!selectedFirstZodiac) {
-      // Add unique identifier for first selection
-      setSelectedFirstZodiac({ ...item, id: `${item.zodiacName}_first` });
-    } else if (!selectedSecondZodiac) {
-      // Add unique identifier for second selection
-      setSelectedSecondZodiac({ ...item, id: `${item.zodiacName}_second` });
-    } else {
-      // Both slots filled - optionally replace the first one or do nothing
-      // Option 1: Replace first slot (cycling behavior)
-      setSelectedFirstZodiac({ ...item, id: `${item.zodiacName}_first` });
-      setSelectedSecondZodiac(null);
+  const listKey = useMemo(() => {
+    const firstKey = selectedZodiacs.first?.id ?? "none";
+    const secondKey = selectedZodiacs.second?.id ?? "none";
+    return `${firstKey}|${secondKey}`;
+  }, [selectedZodiacs.first?.id, selectedZodiacs.second?.id]);
 
-      // Option 2: Do nothing (uncomment this and comment above 2 lines)
-      // return;
+  const normalizeSelectedZodiacs = (next: {
+    first: ZodiacItem | null;
+    second: ZodiacItem | null;
+  }) => {
+    if (!next.first && next.second) {
+      return { first: next.second, second: null };
     }
+    return next;
+  };
+
+  // DEĞİŞTİRİLDİ: State güncellemesi tek seferde yapılıyor
+  const handleZodiacPress = (item: ZodiacItem) => {
+    setSelectedZodiacs((prev) => {
+      const isSameAsFirst = prev.first?.zodiacName === item.zodiacName;
+      const isSameAsSecond = prev.second?.zodiacName === item.zodiacName;
+
+      if (!prev.first) {
+        return normalizeSelectedZodiacs({
+          ...prev,
+          first: { ...item, id: `${item.zodiacName}_first` },
+        });
+      }
+
+      if (!prev.second) {
+        return normalizeSelectedZodiacs({
+          ...prev,
+          second: { ...item, id: `${item.zodiacName}_second` },
+        });
+      }
+
+      // Both slots filled: ignore taps on already-selected zodiac(s)
+      if (isSameAsFirst || isSameAsSecond) {
+        return prev;
+      }
+
+      // Replace first and clear second for a new zodiac
+      return normalizeSelectedZodiacs({
+        first: { ...item, id: `${item.zodiacName}_first` },
+        second: null,
+      });
+    });
   };
 
   // reanimated entrance
@@ -135,10 +168,9 @@ const LoveMatch: React.FC = () => {
   }));
 
   const renderZodiacItem = ({ item }: { item: ZodiacItem }) => {
-    // Check if this zodiac is selected in either slot
-    const isSelectedFirst = selectedFirstZodiac?.zodiacName === item.zodiacName;
-    const isSelectedSecond =
-      selectedSecondZodiac?.zodiacName === item.zodiacName;
+    // DEĞİŞTİRİLDİ: Yeni state yapısına göre kontrol
+    const isSelectedFirst = selectedZodiacs.first?.zodiacName === item.zodiacName;
+    const isSelectedSecond = selectedZodiacs.second?.zodiacName === item.zodiacName;
 
     // Show different visual feedback based on selection
     const selectionCount =
@@ -150,7 +182,7 @@ const LoveMatch: React.FC = () => {
           style={[
             styles.zodiacView,
             selectionCount > 0 && styles.selectedItem,
-            selectionCount === 2 && styles.doubleSelected, // Both slots use this zodiac
+            selectionCount === 2 && styles.doubleSelected,
           ]}
         >
           <Image
@@ -188,8 +220,8 @@ const LoveMatch: React.FC = () => {
       <Text style={styles.title}>{t("loveMatch.title")}</Text>
 
       <Animated.View style={[styles.selectedContainer, animatedStyle]}>
-        {/* First slot */}
-        {selectedFirstZodiac == null ? (
+        {/* First slot - DEĞİŞTİRİLDİ */}
+        {selectedZodiacs.first == null ? (
           <View style={styles.emptySlot}>
             <Image
               source={require("@/assets/images/horoscope/signs/heart.png")}
@@ -203,7 +235,11 @@ const LoveMatch: React.FC = () => {
             style={{ flexDirection: "column", gap: 6, position: "relative" }}
           >
             <TouchableOpacity
-              onPress={() => setSelectedFirstZodiac(null)}
+              onPress={() => {
+                setSelectedZodiacs((prev) =>
+                  normalizeSelectedZodiacs({ ...prev, first: null })
+                );
+              }}
               style={{
                 backgroundColor: "#7b25e5",
                 alignItems: "center",
@@ -221,16 +257,16 @@ const LoveMatch: React.FC = () => {
             <Image
               style={styles.selectedZodiacImage}
               resizeMode="cover"
-              source={selectedFirstZodiac.photoData}
+              source={selectedZodiacs.first.photoData}
             />
             <Text style={styles.selectedZodiacName}>
-              {selectedFirstZodiac.zodiacName}
+              {selectedZodiacs.first.zodiacName}
             </Text>
           </View>
         )}
 
-        {/* heart between if both selected */}
-        {selectedFirstZodiac !== null && selectedSecondZodiac !== null ? (
+        {/* heart between if both selected - DEĞİŞTİRİLDİ */}
+        {selectedZodiacs.first !== null && selectedZodiacs.second !== null ? (
           <Image
             style={{ height: hp(4), width: hp(4) }}
             resizeMode="cover"
@@ -240,8 +276,8 @@ const LoveMatch: React.FC = () => {
           <Ionicons name="heart" size={hp(4)} color="#ddd" />
         )}
 
-        {/* Second slot */}
-        {selectedSecondZodiac == null ? (
+        {/* Second slot - DEĞİŞTİRİLDİ */}
+        {selectedZodiacs.second == null ? (
           <View style={styles.emptySlot}>
             <Image
               source={require("@/assets/images/horoscope/signs/heart.png")}
@@ -255,7 +291,11 @@ const LoveMatch: React.FC = () => {
             style={{ flexDirection: "column", gap: 6, position: "relative" }}
           >
             <TouchableOpacity
-              onPress={() => setSelectedSecondZodiac(null)}
+              onPress={() => {
+                setSelectedZodiacs((prev) =>
+                  normalizeSelectedZodiacs({ ...prev, second: null })
+                );
+              }}
               style={{
                 backgroundColor: "#7b25e5",
                 alignItems: "center",
@@ -273,20 +313,21 @@ const LoveMatch: React.FC = () => {
             <Image
               style={styles.selectedZodiacImage}
               resizeMode="cover"
-              source={selectedSecondZodiac.photoData}
+              source={selectedZodiacs.second.photoData}
             />
             <Text style={styles.selectedZodiacName}>
-              {selectedSecondZodiac.zodiacName}
+              {selectedZodiacs.second.zodiacName}
             </Text>
           </View>
         )}
       </Animated.View>
 
-      {selectedFirstZodiac !== null && selectedSecondZodiac !== null ? (
+      {/* DEĞİŞTİRİLDİ */}
+      {selectedZodiacs.first !== null && selectedZodiacs.second !== null ? (
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() =>
-            handleSubmit([selectedFirstZodiac, selectedSecondZodiac])
+            handleSubmit([selectedZodiacs.first!, selectedZodiacs.second!])
           }
         >
           <LinearGradient
@@ -308,10 +349,11 @@ const LoveMatch: React.FC = () => {
           style={styles.backgroundImage}
           resizeMode="cover"
         />
-        <Animated.FlatList
-          entering={FadeInDown.delay(100).springify()}
+        <FlatList
+          key={listKey}
           data={zodiacData}
-          keyExtractor={(item) => item.zodiacName}
+          extraData={selectedZodiacs}
+          keyExtractor={(item, index) => `${item.zodiacName}-${index}`}
           numColumns={3}
           contentContainerStyle={{
             paddingVertical: hp(2),

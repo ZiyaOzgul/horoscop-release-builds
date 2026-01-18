@@ -927,7 +927,9 @@ const Plans = () => {
             <View style={styles.cardHeader}>
               {isPaidPlan && (
                 <View style={styles.discountBadgeRibbon}>
-                  <Text style={styles.discountBadgeRibbonText}>-%30</Text>
+                  <Text style={styles.discountBadgeRibbonText}>
+                    {isPlatinum ? "-%40" : "-%30"}
+                  </Text>
                 </View>
               )}
               <View style={styles.planNameRow}>
@@ -946,7 +948,7 @@ const Plans = () => {
                           styles.discountBadgeTextSmall,
                         ]}
                       >
-                        -%30
+                        {isPlatinum ? "-%40" : "-%30"}
                       </Text>
                     </View>
                   )}
@@ -1255,7 +1257,7 @@ const styles = StyleSheet.create({
   },
   currentBadge: {
     position: "absolute",
-    top: hp(2),
+    top: hp(4),
     right: wp(5),
     backgroundColor: "#4CAF50",
     paddingHorizontal: hp(1.5),
@@ -1301,10 +1303,11 @@ const styles = StyleSheet.create({
   },
   discountBadgeRibbon: {
     position: "absolute",
-    top: -hp(3.5),
-    right: -hp(1),
+    top: -hp(6),
+    right: -hp(4.8),
     backgroundColor: Colors.purpleColorBlack || "#7b25e5",
-    paddingHorizontal: hp(2),
+    width:wp(30),
+    paddingHorizontal: hp(3),
     paddingVertical: hp(0.8),
     justifyContent: "center",
     alignItems: "center",

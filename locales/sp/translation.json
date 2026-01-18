@@ -140,7 +140,7 @@
       "changeSuccess": "¡Contraseña cambiada con éxito!",
       "changeFailed": "No se pudo cambiar la contraseña",
       "currentIncorrect": "La contraseña actual es incorrecta",
-      "pwned": "Esta contraseña ha sido comprometida. Elige otra diferente",
+      "pwned": "No puedes usar tu contraseña anterior. Por favor, elige una diferente.",
       "validationFailed": "La contraseña no cumple los requisitos"
     },
     "requirements": {
@@ -828,7 +828,7 @@
       "passwordsDoNotMatch": "Las contraseñas no coinciden.",
       "passwordTooShort": "La contraseña debe tener al menos 8 caracteres.",
       "resetFailed": "No se pudo restablecer la contraseña. Por favor, inténtalo de nuevo.",
-      "passwordPwned": "Esta contraseña ha sido comprometida. Por favor, elige una diferente.",
+      "passwordPwned": "No puedes usar tu contraseña anterior. Por favor, elige una diferente.",
       "passwordValidationFailed": "La contraseña no cumple con los requisitos."
     }
   },

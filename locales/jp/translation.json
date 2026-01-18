@@ -142,7 +142,7 @@
       "changeSuccess": "パスワードが正常に変更されました！",
       "changeFailed": "パスワードの変更に失敗しました",
       "currentIncorrect": "現在のパスワードが正しくありません",
-      "pwned": "このパスワードは侵害されています。別のパスワードを選択してください",
+      "pwned": "以前のパスワードは使用できません。別のパスワードを選択してください。",
       "validationFailed": "パスワードが要件を満たしていません"
     },
     "requirements": {
@@ -834,7 +834,7 @@
       "passwordsDoNotMatch": "パスワードが一致しません。",
       "passwordTooShort": "パスワードは8文字以上である必要があります。",
       "resetFailed": "パスワードのリセットに失敗しました。もう一度お試しください。",
-      "passwordPwned": "このパスワードは侵害されています。別のパスワードを選択してください。",
+      "passwordPwned": "以前のパスワードは使用できません。別のパスワードを選択してください。",
       "passwordValidationFailed": "パスワードが要件を満たしていません。"
     }
   },

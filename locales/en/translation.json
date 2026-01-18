@@ -141,7 +141,7 @@
       "changeSuccess": "Password changed successfully!",
       "changeFailed": "Failed to change password",
       "currentIncorrect": "Current password is incorrect",
-      "pwned": "This password has been compromised. Please choose a different one",
+      "pwned": "You cannot use your old password. Please choose a different one.",
       "validationFailed": "Password does not meet requirements"
     },
     "requirements": {
@@ -837,7 +837,7 @@
       "passwordsDoNotMatch": "Passwords do not match.",
       "passwordTooShort": "Password must be at least 8 characters long.",
       "resetFailed": "Failed to reset password. Please try again.",
-      "passwordPwned": "This password has been compromised. Please choose a different one.",
+      "passwordPwned": "You cannot use your old password. Please choose a different one.",
       "passwordValidationFailed": "Password does not meet requirements."
     }
   },
