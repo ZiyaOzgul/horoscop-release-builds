@@ -6,41 +6,43 @@ import { setUserData } from "@/redux/horoscopeSlicer";
 import { useUser } from "@clerk/clerk-expo";
 import { Entypo, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
+import * as FileSystem from "expo-file-system/legacy";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
-  Alert,
-  Animated as anim,
-  Image,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Alert,
+    Animated as anim,
+    Image,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import PagerView from "react-native-pager-view";
 import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeInLeft,
-  FadeInRight,
+    FadeIn,
+    FadeInDown,
+    FadeInLeft,
+    FadeInRight,
 } from "react-native-reanimated";
 import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { Toast } from "toastify-react-native";
 import LoadingProfile from "../LoadingProfile";
+import ImageCropRotate from "../util/ImageCropRotate";
 
 import { usePlatinumStatus } from "@/hooks/usePremiumCheck";
 import {
-  RewardedAd,
-  RewardedAdEventType,
+    RewardedAd,
+    RewardedAdEventType,
 } from "react-native-google-mobile-ads";
 
 const Profile: React.FC = () => {
@@ -92,6 +94,10 @@ const Profile: React.FC = () => {
 
   const [uploading, setUploading] = useState(false);
   const [localImageUri, setLocalImageUri] = useState<string | null>(null);
+  
+  // Add state for crop modal
+  const [showCropModal, setShowCropModal] = useState(false);
+  const [selectedImageForCrop, setSelectedImageForCrop] = useState<string | null>(null);
 
   // Ad unlock states - only platinum users have automatic access (gold users need to watch ads)
   const [isPalmitryUnlocked, setIsPalmitryUnlocked] = useState(isUserPlatinum);
@@ -200,21 +206,49 @@ const Profile: React.FC = () => {
         return;
       }
 
+      // Launch image picker WITHOUT editing
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ["images"],
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.8,
+        allowsEditing: false, // Disable built-in editing
+        quality: 1.0,
       });
 
       if (result.canceled || !result.assets[0]) return;
 
-      const imageUri = result.assets[0].uri;
-      setLocalImageUri(imageUri);
-      setUploading(true);
+      // Show our custom crop modal instead
+      setSelectedImageForCrop(result.assets[0].uri);
+      setShowCropModal(true);
+    } catch (error) {
+      console.error("Error selecting image:", error);
+      Toast.error(
+        t("profile.alerts.errorUpload") || "Failed to select image."
+      );
+    }
+  };
 
+  // Helper function to convert image URI to base64
+  const uriToBase64 = async (uri: string): Promise<string> => {
+    try {
+      // Use expo-file-system to read the file as base64
+      const base64 = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      return base64;
+    } catch (error) {
+      console.error("Error converting URI to base64:", error);
+      throw error;
+    }
+  };
+
+  // Handle cropped image save
+  const handleCroppedImageSave = async (croppedUri: string) => {
+    setShowCropModal(false);
+    setLocalImageUri(croppedUri);
+    setUploading(true);
+
+    try {
       const uploadUrl = await generateUploadUrl();
-      const response = await fetch(imageUri);
+      const response = await fetch(croppedUri);
       const blob = await response.blob();
 
       const uploadResponse = await fetch(uploadUrl, {
@@ -234,8 +268,10 @@ const Profile: React.FC = () => {
         profilePictureId: storageId,
       });
 
+      // Convert image URI to base64 for Clerk
       try {
-        await user?.setProfileImage({ file: imageUri });
+        const base64Image = await uriToBase64(croppedUri);
+        await user?.setProfileImage({ file: base64Image });
       } catch (clerkError) {
         console.log("Could not update Clerk profile:", clerkError);
       }
@@ -251,7 +287,14 @@ const Profile: React.FC = () => {
       setLocalImageUri(null);
     } finally {
       setUploading(false);
+      setSelectedImageForCrop(null);
     }
+  };
+
+  // Handle crop cancel
+  const handleCropCancel = () => {
+    setShowCropModal(false);
+    setSelectedImageForCrop(null);
   };
 
   if (!userDetails) {
@@ -738,6 +781,17 @@ const Profile: React.FC = () => {
         </View>
       </Animated.View>
 
+      {/* Custom Crop Modal */}
+      {showCropModal && selectedImageForCrop && (
+        <View style={styles.cropModalContainer}>
+          <ImageCropRotate
+            imageUri={selectedImageForCrop}
+            onSave={handleCroppedImageSave}
+            onCancel={handleCropCancel}
+          />
+        </View>
+      )}
+
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -1182,5 +1236,13 @@ const styles = StyleSheet.create({
     fontSize: hp(1.5),
     fontFamily: "Rubik_400Regular",
     textAlign: "center",
+  },
+  cropModalContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9999,
   },
 });

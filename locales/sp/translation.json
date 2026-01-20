@@ -1005,5 +1005,29 @@
     "yourZodiacSign": "Tu signo zodiacal es {{sign}}",
     "letsSeeDailyHoroscope": "Veamos tu HORÓSCOPO",
     "next": "Siguiente"
+  },
+  "imageCrop": {
+    "title": "Editar foto",
+    "instructions": "Pellizcar para acercar • Arrastrar para mover",
+    "buttons": {
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "saving": "Guardando..."
+    },
+    "controls": {
+      "rotate": "Rotar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar",
+      "reset": "Restablecer"
+    },
+    "stats": {
+      "scale": "Escala",
+      "rotation": "Rotación"
+    },
+    "processing": "Procesando imagen...",
+    "errors": {
+      "viewNotReady": "Error: Vista no lista",
+      "processFailed": "No se pudo procesar la imagen. Por favor, inténtalo de nuevo."
+    }
   }
 }

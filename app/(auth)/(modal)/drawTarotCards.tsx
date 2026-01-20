@@ -175,13 +175,12 @@ const DrawTarotCards = () => {
     return shuffled;
   };
 
-  // Realistic card shuffling animation - cards from right to left, stacking on top
- // Realistic card shuffling animation - cards shuffle in center and spread to sides
-// Realistic card shuffling animation - pick from bottom, place on top
+
 const startShuffleAnimation = () => {
   setIsShuffling(true);
   setShowCards(false);
   setSelectedCards([]);
+  setCardsFlipped(false);
 
   const cards = [
     {
@@ -204,7 +203,7 @@ const startShuffleAnimation = () => {
     },
   ];
 
-  // Reset to center stacked position - card 0 is at bottom (z-index 1)
+  
   cards.forEach((card, index) => {
     card.translateX.value = 0;
     card.translateY.value = index * hp(0.3);
@@ -212,10 +211,10 @@ const startShuffleAnimation = () => {
     card.zIndex.value = index + 1; // 1, 2, 3
   });
 
-  // Track current stacking order (bottom to top)
-  let stackOrder = [0, 1, 2]; // indices in order from bottom to top
+ 
+  let stackOrder = [0, 1, 2]; 
 
-  // Shuffle sequence - pick card from bottom and place on top
+  
   const shuffleSequence = () => {
     // Get the bottom card (first in stackOrder)
     const bottomCardIndex = stackOrder[0];
@@ -226,24 +225,24 @@ const startShuffleAnimation = () => {
     
     // Scale up slightly while picking
     card.scale.value = withSequence(
-      withTiming(1.15, { duration: 200, easing: Easing.out(Easing.ease) }),
-      withTiming(1.15, { duration: 300 }),
-      withTiming(1, { duration: 200, easing: Easing.in(Easing.ease) })
+      withTiming(1.15, { duration: 120, easing: Easing.out(Easing.ease) }),
+      withTiming(1.15, { duration: 180 }),
+      withTiming(1, { duration: 120, easing: Easing.in(Easing.ease) })
     );
 
     // Move card: slide to right, lift up, then return
     card.translateX.value = withSequence(
-      withTiming(wp(20), { duration: 300, easing: Easing.out(Easing.ease) }),
-      withTiming(wp(20), { duration: 100 }),
-      withTiming(0, { duration: 300, easing: Easing.in(Easing.ease) })
+      withTiming(wp(20), { duration: 180, easing: Easing.out(Easing.ease) }),
+      withTiming(wp(20), { duration: 60 }),
+      withTiming(0, { duration: 180, easing: Easing.in(Easing.ease) })
     );
 
     // Lift card up and bring it to top position
     card.translateY.value = withSequence(
-      withTiming(-hp(3), { duration: 200, easing: Easing.out(Easing.ease) }),
-      withTiming(-hp(3), { duration: 200 }),
+      withTiming(-hp(3), { duration: 120, easing: Easing.out(Easing.ease) }),
+      withTiming(-hp(3), { duration: 120 }),
       // Place on top (highest y position)
-      withTiming(hp(0.6), { duration: 200, easing: Easing.in(Easing.ease) })
+      withTiming(hp(0.6), { duration: 120, easing: Easing.in(Easing.ease) })
     );
 
     // After animation completes, update stacking order
@@ -253,13 +252,13 @@ const startShuffleAnimation = () => {
       
       // Update all cards' z-index and y positions based on new order
       stackOrder.forEach((cardIdx, orderIdx) => {
-        cards[cardIdx].zIndex.value = withTiming(orderIdx + 1, { duration: 100 });
+        cards[cardIdx].zIndex.value = withTiming(orderIdx + 1, { duration: 60 });
         cards[cardIdx].translateY.value = withTiming(orderIdx * hp(0.3), { 
-          duration: 300,
+          duration: 180,
           easing: Easing.out(Easing.ease)
         });
       });
-    }, 700);
+    }, 420);
   };
 
   // Execute multiple shuffle sequences
@@ -289,27 +288,27 @@ const startShuffleAnimation = () => {
                 // Return all cards to final stacked position
                 cards.forEach((card, index) => {
                   card.translateX.value = withTiming(0, {
-                    duration: 400,
+                    duration: 250,
                     easing: Easing.out(Easing.ease),
                   });
                   card.scale.value = withTiming(1, {
-                    duration: 400,
+                    duration: 250,
                     easing: Easing.out(Easing.ease),
                   });
                 });
 
                 setIsShuffling(false);
                 setShowCards(true);
-              }, 800);
-            }, 800);
-          }, 800);
-        }, 800);
-      }, 800);
-    }, 800);
+              }, 500);
+            }, 500);
+          }, 500);
+        }, 500);
+      }, 500);
+    }, 500);
   };
 
   // Start the shuffle sequence
-  setTimeout(performShuffles, 300);
+  setTimeout(performShuffles, 200);
 };
 
   // Handle card selection - once selected, cannot be changed

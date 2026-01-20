@@ -374,7 +374,7 @@ const ResultLoveMatch = () => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.shareButtonContainer}
+          style={[styles.shareButtonContainer, { display: "none" }]}
           onPress={() => router.dismiss()}
         >
           <Entypo color={Colors.purpleColorBlack} size={hp(3.4)} name="share" />

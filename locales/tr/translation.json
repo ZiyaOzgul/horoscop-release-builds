@@ -406,7 +406,7 @@
         "title": "Rehberlik ve Tavsiyeler"
       },
       "loading": {
-        "title": "Tarot Okunuz Hazırlanıyor...",
+        "title": "Tarot Okumanız Hazırlanıyor...",
         "subtitle": "Kartlarınız yorumlanıyor, lütfen bekleyin."
       }
     }
@@ -1017,5 +1017,29 @@
     "cardinal": "Öncü",
     "fixed": "Sabit",
     "mutable": "Değişken"
+  },
+  "imageCrop": {
+    "title": "Fotoğrafı Düzenle",
+    "instructions": "Yakınlaştırmak için sıkıştırın • Hareket ettirmek için sürükleyin",
+    "buttons": {
+      "cancel": "İptal",
+      "save": "Kaydet",
+      "saving": "Kaydediliyor..."
+    },
+    "controls": {
+      "rotate": "Döndür",
+      "zoomIn": "Yakınlaştır",
+      "zoomOut": "Uzaklaştır",
+      "reset": "Sıfırla"
+    },
+    "stats": {
+      "scale": "Ölçek",
+      "rotation": "Döndürme"
+    },
+    "processing": "Görüntü işleniyor...",
+    "errors": {
+      "viewNotReady": "Hata: Görünüm hazır değil",
+      "processFailed": "Görüntü işlenemedi. Lütfen tekrar deneyin."
+    }
   }
 }

@@ -1027,5 +1027,29 @@
     "cardinal": "活動宮",
     "fixed": "不動宮",
     "mutable": "柔軟宮"
+  },
+  "imageCrop": {
+    "title": "写真を編集",
+    "instructions": "ピンチしてズーム • ドラッグして移動",
+    "buttons": {
+      "cancel": "キャンセル",
+      "save": "保存",
+      "saving": "保存中..."
+    },
+    "controls": {
+      "rotate": "回転",
+      "zoomIn": "ズームイン",
+      "zoomOut": "ズームアウト",
+      "reset": "リセット"
+    },
+    "stats": {
+      "scale": "スケール",
+      "rotation": "回転"
+    },
+    "processing": "画像を処理中...",
+    "errors": {
+      "viewNotReady": "エラー: ビューが準備できていません",
+      "processFailed": "画像の処理に失敗しました。もう一度お試しください。"
+    }
   }
 }

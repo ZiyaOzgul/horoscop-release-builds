@@ -365,7 +365,7 @@ const ResultDream = () => {
             name="chevron-back"
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity style={{ display: "none" }}>
           <Entypo color={Colors.purpleColorBlack} size={hp(3.4)} name="share" />
         </TouchableOpacity>
       </View>

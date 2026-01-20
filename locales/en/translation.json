@@ -1030,5 +1030,29 @@
     "cardinal": "Cardinal",
     "fixed": "Fixed",
     "mutable": "Mutable"
+  },
+  "imageCrop": {
+    "title": "Edit Photo",
+    "instructions": "Pinch to zoom • Drag to move",
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+    "controls": {
+      "rotate": "Rotate",
+      "zoomIn": "Zoom In",
+      "zoomOut": "Zoom Out",
+      "reset": "Reset"
+    },
+    "stats": {
+      "scale": "Scale",
+      "rotation": "Rotation"
+    },
+    "processing": "Processing image...",
+    "errors": {
+      "viewNotReady": "Error: View not ready",
+      "processFailed": "Failed to process image. Please try again."
+    }
   }
 }
